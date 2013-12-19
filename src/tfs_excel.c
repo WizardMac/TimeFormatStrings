@@ -5,6 +5,33 @@
  * was an hour.
  */
 
+tfs_token_lookup_t excel_tokens[] = {
+    { .text = "yy"     .token = { .time_unit = TFS_YEAR,  .style = TFS_2DIGIT } },
+    { .text = "yyyy"   .token = { .time_unit = TFS_YEAR,  .style = TFS_NUMBER } },
+
+    { .text = "m",     .token = { .time_unit = TFS_MONTH, .style = TFS_NUMBER } },
+    { .text = "mm",    .token = { .time_unit = TFS_MONTH, .style = TFS_2DIGIT } },
+    { .text = "mmm",   .token = { .time_unit = TFS_MONTH, .style = TFS_ABBREV } },
+    { .text = "mmmm",  .token = { .time_unit = TFS_MONTH, .style = TFS_FULL } },
+    { .text = "mmmmm", .token = { .time_unit = TFS_MONTH, .style = TFS_NARROW } },
+
+    { .text = "d",     .token = { .time_unit = TFS_DAY, .relative_to = TFS_MONTH, .style = TFS_NUMBER } },
+    { .text = "dd",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_MONTH, .style = TFS_2DIGIT } },
+    { .text = "ddd",   .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK,  .style = TFS_ABBREV } },
+    { .text = "dddd",  .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK,  .style = TFS_FULL } },
+
+    { .text = "AM/PM", .token = { .time_unit = TFS_PERIOD, .style = TFS_ABBREV, .uppercase = 1 } },
+    { .text = "am/pm", .token = { .time_unit = TFS_PERIOD, .style = TFS_ABBREV, .lowercase = 1 } },
+    { .text = "A/P",   .token = { .time_unit = TFS_PERIOD, .style = TFS_NARROW, .uppercase = 1 } },
+    { .text = "a/p",   .token = { .time_unit = TFS_PERIOD, .style = TFS_NARROW, .lowercase = 1 } },
+
+    { .text = "h",     .token = { .time_unit = TFS_HOUR, .relative_to = TFS_DAY, .style = TFS_NUMBER } },
+    { .text = "hh",    .token = { .time_unit = TFS_HOUR, .realtive_to = TFS_DAY, .style = TFS_2DIGIT } },
+
+    { .text = "s",     .token = { .time_unit = TFS_MINUTE, .style = TFS_NUMBER } },
+    { .text = "ss",    .token = { .time_unit = TFS_MINUTE, .style = TFS_2DIGIT } }
+};
+
 typedef struct excel_ctx_s {
     int                        has_ampm;
     unsigned int               previous_field_symbol; 
@@ -63,68 +90,5 @@ int tfs_parse_excel_format_string(const u_char *bytes, size_t len,
 
     return tfs_parse_excel_format_string_internal(bytes, len,
         handle_literal_cb, &process_code, &excel_ctx);
-}
-
-static unsigned int code2field_symbol(const char *code, size_t len, 
-        unsigned int *display_options, excel_ctx_t *excel_ctx) {
-    unsigned int fsym = 0;
-    unsigned int disp = 0;
-
-    if (code[0] == 'y' || code[0] == 'Y') {
-        fsym = TFS_YEAR;
-        if (len == 2) {
-            disp = TFS_ABBREVIATED;
-        }
-    } else if (code[0] == 'D' || code[0] == 'd') {
-        if (len == 1) {
-            fsym = TFS_DAY_OF_MONTH;
-        } else if (len == 2) {
-            fsym = TFS_DAY_OF_MONTH;
-            disp = TFS_PAD_2;
-        } else if (len == 3) {
-            fsym = TFS_WEEK_DAY;
-            disp = TFS_ABBREVIATED;
-        } else if (len == 4) {
-            fsym = TFS_WEEK_DAY;
-            disp = TFS_FULL;
-        }
-    } else if (code[0] == 'H' || code[0] == 'h') {
-        if (excel_ctx->has_ampm) {
-            fsym = TFS_HOUR_1_12;
-        } else {
-            fsym = TFS_HOUR_0_23;
-        }
-        if (len == 2) {
-            disp = TFS_PAD_2;
-        }
-    } else if (code[0] == 'M' || code[0] == 'm') {
-        if ((excel_ctx->previous_field_symbol & TFS_HOUR)) {
-            fsym = TFS_MINUTE;
-            if (len == 2) {
-                disp = TFS_PAD_2;
-            }
-        } else {
-            fsym = TFS_MONTH;
-            if (len == 2) {
-                disp = TFS_PAD_2;
-            }
-        }
-    } else if (code[0] == 's') {
-        /* TODO fractional seconds */
-        fsym = TFS_SECOND;
-        if (len > 1 && code[1] == 's') {
-            disp = TFS_PAD_2;
-        }
-    } else if (code[0] == 'A' || code[0] == 'a' || code[0] == 'P' || code[0] == 'p') {
-        fsym = TFS_PERIOD;
-        if (code[0] == 'A' || code[0] == 'P') {
-            disp |= TFS_UPPERCASE;
-        } else {
-            disp |= TFS_LOWERCASE;
-        }
-        if (code[1] == '/') {
-            disp |= TFS_NARROW;
-        }
-    }
 }
 
