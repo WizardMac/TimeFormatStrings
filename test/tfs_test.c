@@ -6,6 +6,9 @@
 
 #include "tfs.h"
 
+tfs_format_e test_input_formats[] = { TFS_EXCEL, TFS_STATA };
+tfs_format_e test_output_formats[] = { TFS_EXCEL, TFS_STATA };
+
 typedef struct tfs_test_s {
     char            name[50];
 
@@ -261,6 +264,16 @@ tfs_test_t all_tests[] = {
         .stata = "a.m.",
         .mask = TFS_PERIOD
     },
+    {
+        .name = "A or P",
+        .excel = "A/P",
+        .mask = TFS_PERIOD
+    },
+    {
+        .name = "a or p",
+        .excel = "a/p",
+        .mask = TFS_PERIOD
+    },
 
     {
         .name = "Hour [1-12]",
@@ -345,51 +358,59 @@ int main(int argc, char *argv[]) {
     int error = 0;
     unsigned short mask;
     char *buf1 = NULL, *buf2 = NULL;
+    tfs_format_e input_format, output_format;
     char tmp[100];
     for (i=0; i<sizeof(all_tests)/sizeof(all_tests[0]); i++) {
         tfs_test_t *test = &all_tests[i];
         printf("Testing %s... ", test->name);
         test_failures = 0;
-        for (j=TFS_EXCEL; j<=TFS_UTS35; j++) {
+        for (j=0; j<sizeof(test_input_formats)/sizeof(test_input_formats[0]); j++) {
             mask = 0;
-            if (j == TFS_EXCEL) {
+            input_format = test_input_formats[j];
+            if (input_format == TFS_EXCEL) {
                 buf1 = test->excel;
-            } else if (j == TFS_STATA) {
+            } else if (input_format == TFS_STATA) {
                 buf1 = test->stata;
             } else {
                 buf1 = test->uts35;
             }
-            if (buf1[0]) {
-                error = tfs_field_mask(buf1, j, &mask);
-                if (error) {
-                    printf("Error parsing %s: %d", buf1, error);
-                    test_failures++;
-                } else if (mask != test->mask) {
-                    printf("Bad mask for '%s'. Expected: %xh Got: %xh", buf1, test->mask, mask);
-                    test_failures++;
-                }
-                total_tests++;
+            if (!buf1[0])
+                continue;
+
+            error = tfs_field_mask(buf1, input_format, &mask);
+            if (error) {
+                printf("Error parsing %s: %d\n", buf1, error);
+                test_failures++;
+            } else if (mask != test->mask) {
+                printf("Bad mask for '%s'. Expected: %xh Got: %xh\n", buf1, test->mask, mask);
+                test_failures++;
             }
-            for (k=TFS_EXCEL; k<=TFS_UTS35; k++) {
-                if (k == TFS_EXCEL) {
+            total_tests++;
+
+            for (k=0; k<sizeof(test_output_formats)/sizeof(test_output_formats[0]); k++) {
+                output_format = test_output_formats[k];
+                if (output_format == TFS_EXCEL) {
                     buf2 = test->excel;
-                } else if (k == TFS_STATA) {
+                } else if (output_format == TFS_STATA) {
                     buf2 = test->stata;
                 } else {
                     buf2 = test->uts35;
                 }
+                if (!buf2[0])
+                    continue;
+
                 memset(tmp, 0, sizeof(tmp));
-                if (buf2[0]) {
-                    error = tfs_convert(buf1, j, tmp, k);
-                    if (error) {
-                        printf("Error converting %s: %d", buf1, error);
-                        test_failures++;
-                    } else if (strcmp(buf2, tmp) != 0) {
-                        printf("Bad conversion for '%s'. Expected: '%s' Got: '%s'", buf1, buf2, tmp);
-                        test_failures++;
-                    }
-                    total_tests++;
+
+                error = tfs_convert(buf1, input_format, tmp, output_format);
+
+                if (error) {
+                    printf("Error converting %s: %d\n", buf1, error);
+                    test_failures++;
+                } else if (strcmp(buf2, tmp) != 0) {
+                    printf("Bad conversion for '%s'. Expected: '%s' Got: '%s'\n", buf1, buf2, tmp);
+                    test_failures++;
                 }
+                total_tests++;
             }
             if (test_failures) {
                 printf("%d failed\n", test_failures);

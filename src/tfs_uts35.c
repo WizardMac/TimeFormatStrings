@@ -71,7 +71,7 @@ tfs_token_lookup_t uts35_tokens[] = {
     { .text = "dd",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_MONTH, .style = TFS_2DIGIT } },
 
     { .text = "D",     .token = { .time_unit = TFS_DAY, .relative_to = TFS_YEAR, .style = TFS_NUMBER } },
-    { .text = "DD",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_YEAR, .style = TFS_2DIGIT } },
+    { .text = "DD",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_YEAR, .style = TFS_NUMBER, .pad_len = 2, .pad_char = '0' } },
     { .text = "DDD",   .token = { .time_unit = TFS_DAY, .relative_to = TFS_YEAR, .style = TFS_NUMBER, .pad_len = 3, .pad_char = '0' } },
 
     { .text = "F",     .token = { .time_unit = TFS_DAY, .relative_to = TFS_MONTH, .style = TFS_NUMBER, .modifier = TFS_DAY_OF_WEEK_IN_MONTH } },

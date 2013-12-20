@@ -63,3 +63,4 @@ typedef struct tfs_token_lookup_s {
 tfs_token_array_t *tfs_init_token_array(int count);
 tfs_token_t *tfs_append_token(tfs_token_array_t *token_array);
 void tfs_free_token_array(tfs_token_array_t *token_array);
+char *tfs_match_token(tfs_token_lookup_t *token_table, size_t count, tfs_token_t *key);

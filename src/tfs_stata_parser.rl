@@ -65,7 +65,8 @@ int tfs_parse_stata_format_string_internal(const u_char *bytes, size_t len,
        am_pm = "am" | "a.m." | "AM" | "A.M.";
 
        code = (century | year | day_of_year | month | day_of_month | day_of_week | 
-               half | quarter | week hour | minute | second | am_pm) >start_string %handle_code;
+                # half | 
+                quarter | week | hour | minute | second | am_pm) >start_string %handle_code;
 
        display_character = ( "." | "," | ":" | "-" | "/" | "\\" ) >start_string %handle_literal;
 
@@ -78,8 +79,8 @@ int tfs_parse_stata_format_string_internal(const u_char *bytes, size_t len,
     }%%
 
     if (cs < %%{ write first_final; }%%) {
-        printf("Error parsing Stata format string around col #%ld (%c)", 
-                (long)(p + 1), *p);
+        printf("Error parsing Stata format string '%s' around col #%ld (%c)", 
+                p, (long)(p - bytes + 1), *p);
         return 1;
     }
 

@@ -1,12 +1,14 @@
 
 #include <sys/types.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "tfs.h"
 #include "tfs_token.h"
 #include "tfs_stata.h"
+#include "tfs_stata_parser.h"
 
-tfs_token_lookup_t stata_lookup[] = {
+tfs_token_lookup_t stata_tokens[] = {
     { .text = "CC",    .token = { .time_unit = TFS_CENTURY, .style = TFS_2DIGIT } },
     { .text = "cc",    .token = { .time_unit = TFS_CENTURY, .style = TFS_NUMBER } },
 
@@ -58,10 +60,122 @@ tfs_token_lookup_t stata_lookup[] = {
     { .text = "A.M.",  .token = { .time_unit = TFS_PERIOD, .style = TFS_ABBREV, .uppercase = 1, .add_dots = 1 } }
 };
 
-tfs_token_array_t *tfs_stata_parse(const char *bytes, int *outError) {
-    return NULL;
+static int handle_code(const char *code, size_t len, void *ctx) {
+    tfs_token_array_t *tokens = (void *)ctx;
+
+    int i;
+    tfs_token_t *new_token = NULL;
+    for (i=0; i<sizeof(stata_tokens)/sizeof(stata_tokens[0]); i++) {
+        if (len == strlen(stata_tokens[i].text) && strncmp(stata_tokens[i].text, code, len) == 0) {
+            new_token = tfs_append_token(tokens);
+            memcpy(new_token, &stata_tokens[i].token, sizeof(tfs_token_t));
+            break;
+        }
+    }
+
+    return 0;
 }
 
-int tfs_stata_generate(char *format, tfs_token_array_t *tokens) {
+static int handle_literal(const char *literal, size_t len, void *ctx) {
+    tfs_token_array_t *tokens = (void *)ctx;
+    int in_i = 0, out_i = 0;
+    tfs_token_t *new_token = tfs_append_token(tokens);
+    new_token->is_literal = 1;
+    char *out_text = new_token->text;
+
+    while (in_i < len) {
+        out_text[out_i++] = literal[in_i++];
+    }
+    out_text[out_i] = '\0';
+
     return 0;
+}
+
+tfs_token_array_t *tfs_stata_parse(const char *bytes, int *outError) {
+    tfs_token_array_t *token_array = tfs_init_token_array(10);
+    int error = 0;
+    size_t len = strlen(bytes);
+    int i;
+
+    error = tfs_parse_stata_format_string_internal((const u_char *)bytes, len,
+        &handle_literal, &handle_code, token_array);
+
+    if (error) {
+        *outError = error;
+        tfs_free_token_array(token_array);
+        return NULL;
+    }
+
+    for (i=0; i<token_array->count-1; i++) {
+        if (token_array->tokens[i].time_unit == TFS_CENTURY &&
+                (token_array->tokens[i+1].time_unit == TFS_YEAR &&
+                 token_array->tokens[i+1].relative_to == TFS_CENTURY &&
+                 token_array->tokens[i+1].style == TFS_2DIGIT)) {
+            token_array->tokens[i].time_unit = 0;
+            token_array->tokens[i+1].relative_to = TFS_ERA;
+            token_array->tokens[i+1].style = TFS_NUMBER;
+        }
+    }
+
+    return token_array;
+}
+
+static char *format_token(char *outbuf, tfs_token_t *token) {
+    char *p = outbuf;
+    if (token->time_unit == TFS_YEAR) {
+        if (token->relative_to == TFS_CENTURY) {
+            if (token->style == TFS_NUMBER) {
+                p = stpcpy(p, "yy");
+            } else if (token->style == TFS_2DIGIT) {
+                p = stpcpy(p, "YY");
+            } else {
+                p = NULL;
+            }
+        } else if (token->style == TFS_NUMBER) {
+            p = stpcpy(p, "ccYY");
+        } else {
+            p = NULL;
+        }
+    } else if (token->time_unit) {
+        char *match = tfs_match_token(stata_tokens, sizeof(stata_tokens)/sizeof(stata_tokens[0]), token);
+        if (match) {
+            p = stpcpy(p, match);
+        } else {
+            p = NULL;
+        }
+    }
+
+    return p;
+}
+
+int tfs_stata_generate(char *format, tfs_token_array_t *token_array) {
+    int i;
+    int error = 0;
+    char *out = format;
+    const char *display_chars = ".,:-/\\";
+    for (i=0; i<token_array->count; i++) {
+        tfs_token_t *token = &token_array->tokens[i];
+        if (token->is_literal) {
+            char *in = token->text;
+            while (*in) {
+                if (*in == ' ') {
+                    *out++ = '_';
+                } else if (strchr(display_chars, *in) != NULL) {
+                    *out++ = *in;
+                } else {
+                    *out++ = '!';
+                    *out++ = *in;
+                }
+                in++;
+            }
+        } else {
+            out = format_token(out, token);
+            if (out == NULL) {
+                error = TFS_CANT_REPRESENT;
+                break;
+            }
+        }
+    }
+    *out++ = '\0';
+    return error;
 }

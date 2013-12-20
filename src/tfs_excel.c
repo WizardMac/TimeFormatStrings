@@ -37,8 +37,8 @@ tfs_token_lookup_t excel_tokens[] = {
     { .text = "h",     .token = { .time_unit = TFS_HOUR, .relative_to = TFS_DAY, .style = TFS_NUMBER } },
     { .text = "hh",    .token = { .time_unit = TFS_HOUR, .relative_to = TFS_DAY, .style = TFS_2DIGIT } },
 
-    { .text = "s",     .token = { .time_unit = TFS_MINUTE, .style = TFS_NUMBER } },
-    { .text = "ss",    .token = { .time_unit = TFS_MINUTE, .style = TFS_2DIGIT } }
+    { .text = "s",     .token = { .time_unit = TFS_SECOND, .style = TFS_NUMBER } },
+    { .text = "ss",    .token = { .time_unit = TFS_SECOND, .style = TFS_2DIGIT } }
 };
 
 static int handle_code(const char *code, size_t len, void *ctx) {
@@ -53,8 +53,6 @@ static int handle_code(const char *code, size_t len, void *ctx) {
             break;
         }
     }
-
-    /* TODO handle fractional seconds */
 
     return 0;
 }
@@ -147,6 +145,62 @@ tfs_token_array_t *tfs_excel_parse(const char *bytes, int *outError) {
     return token_array;
 }
 
-int tfs_excel_generate(char *format, tfs_token_array_t *tokens) {
-    return 0;
+static char *format_token(char *outbuf, tfs_token_t *token) {
+    char *p = outbuf;
+    char *match = tfs_match_token(excel_tokens, sizeof(excel_tokens)/sizeof(excel_tokens[0]), token);
+    if (match) {
+        p = stpcpy(p, match);
+    } else {
+        p = NULL;
+    }
+    return p;
+}
+
+int tfs_excel_generate(char *format, tfs_token_array_t *token_array) {
+    int i;
+    char *out = format;
+    const char *display_chars = "$-+/():!^&'~{}<>= ";
+    int is_quoting = 0;
+    int error = 0;
+    for (i=0; i<token_array->count; i++) {
+        tfs_token_t *token = &token_array->tokens[i];
+        if (token->is_literal) {
+            char *in = token->text;
+            while (*in) {
+                if (is_quoting) {
+                    if (*in == '"') {
+                        *out++ = '\\';
+                    } else if (strchr(display_chars, *in) != NULL) {
+                        *out++ = '"';
+                        is_quoting = 0;
+                    }
+                    *out++ = *in;
+                } else {
+                    if (strchr(display_chars, *in) == NULL) {
+                        *out++ = '"';
+                        if (*in == '"') {
+                            *out++ = '\\';
+                        }
+                        is_quoting = 1;
+                    }
+                    *out++ = *in;
+                }
+                in++;
+            }
+        } else if (token->time_unit) {
+            if (is_quoting) {
+                *out++ = '"';
+                is_quoting = 0;
+            }
+            out = format_token(out, token);
+            if (out == NULL) {
+                error = TFS_CANT_REPRESENT;
+                break;
+            }
+        }
+    }
+    if (is_quoting) {
+        *out++ = '"';
+    }
+    return error;
 }

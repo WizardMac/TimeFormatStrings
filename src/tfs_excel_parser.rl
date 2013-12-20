@@ -37,7 +37,7 @@ int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
            }
        }
 
-       display_character = ( "$" | "-" | "+" | "/" | "(" | ")" | ":" | "!" "^" | "&" | "'" | "~" | "{" | "}" | "<" | ">" | "=" | " " ) >start_string %handle_literal;
+       display_character = ( "$" | "-" | "+" | "/" | "(" | ")" | ":" | "!" | "^" | "&" | "'" | "~" | "{" | "}" | "<" | ">" | "=" | " " ) >start_string %handle_literal;
 
        escaped_character = "\\" any >start_string %handle_literal;
 
