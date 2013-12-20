@@ -45,19 +45,25 @@ char *tfs_match_token(tfs_token_lookup_t *token_table, size_t count, tfs_token_t
         if (candidate->style == key->style ||
            ((candidate->style == TFS_FULL || candidate->style == TFS_LONG) &&
             (key->style == TFS_FULL || key->style == TFS_LONG))) {
-            if (candidate->lowercase && !key->lowercase)
+            if (candidate->lowercase != key->lowercase)
                 continue;
 
-            if (candidate->start_at_one && !key->start_at_one)
+            if (candidate->start_at_one != key->start_at_one)
                 continue;
 
-            if (candidate->uppercase && !key->uppercase)
+            if (candidate->uppercase != key->uppercase)
                 continue;
 
-            if (candidate->add_dots && !key->add_dots)
+            if (candidate->add_dots != key->add_dots)
                 continue;
 
             if (candidate->pad_len && candidate->pad_len != key->pad_len)
+                continue;
+
+            if (candidate->truncate_len && candidate->truncate_len != key->truncate_len)
+                continue;
+
+            if (candidate->modifier && candidate->modifier != key->modifier)
                 continue;
 
             return token_table[i].text;

@@ -14,7 +14,7 @@
  * was an hour.
  */
 
-tfs_token_lookup_t excel_tokens[] = {
+static tfs_token_lookup_t excel_tokens[] = {
     { .text = "yy",    .token = { .time_unit = TFS_YEAR,  .style = TFS_2DIGIT } },
     { .text = "yyyy",  .token = { .time_unit = TFS_YEAR,  .style = TFS_NUMBER } },
 

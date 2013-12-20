@@ -2,11 +2,13 @@
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "tfs.h"
 #include "tfs_token.h"
+#include "tfs_uts35_parser.h"
 
-tfs_token_lookup_t uts35_tokens[] = {
+static tfs_token_lookup_t uts35_tokens[] = {
     { .text = "G",     .token = { .time_unit = TFS_ERA, .style = TFS_ABBREV } },
     { .text = "GG",    .token = { .time_unit = TFS_ERA, .style = TFS_ABBREV } },
     { .text = "GGG",   .token = { .time_unit = TFS_ERA, .style = TFS_ABBREV } },
@@ -154,10 +156,125 @@ tfs_token_lookup_t uts35_tokens[] = {
     /* TODO timezones */
 };
 
-tfs_token_array_t *tfs_uts35_parse(const char *bytes, int *outError) {
-    return NULL;
+static int handle_code(const char *code, size_t len, void *ctx) {
+    tfs_token_array_t *tokens = (void *)ctx;
+
+    int i;
+    tfs_token_t *new_token = NULL;
+    for (i=0; i<sizeof(uts35_tokens)/sizeof(uts35_tokens[0]); i++) {
+        if (len == strlen(uts35_tokens[i].text) && strncmp(uts35_tokens[i].text, code, len) == 0) {
+            new_token = tfs_append_token(tokens);
+            memcpy(new_token, &uts35_tokens[i].token, sizeof(tfs_token_t));
+            break;
+        }
+    }
+
+    return 0;
 }
 
-int tfs_uts35_generate(char *format, tfs_token_array_t *tokens) {
+static int handle_literal(const char *literal, size_t len, void *ctx) {
+    tfs_token_array_t *tokens = (void *)ctx;
+
+    int in_i = 0, out_i = 0;
+    int was_quote = 0;
+    tfs_token_t *new_token = tfs_append_token(tokens);
+    new_token->is_literal = 1;
+    char *out_text = new_token->text;
+
+    if (literal[0] == '\'') {
+        in_i = 1;
+        len--;
+    }
+
+    /* TODO bounds check */
+    while (in_i < len) {
+        if (literal[in_i] == '\'') {
+            if (was_quote) {
+                out_text[out_i++] = literal[in_i];
+                was_quote = 0;
+            } else {
+                was_quote = 1;
+            }
+        } else {
+            out_text[out_i++] = literal[in_i];
+            was_quote = 0;
+        }
+        in_i++;
+    }
+    out_text[out_i] = '\0';
+
     return 0;
+}
+
+tfs_token_array_t *tfs_uts35_parse(const char *bytes, int *outError) {
+    tfs_token_array_t *token_array = tfs_init_token_array(10);
+    int error = 0;
+    size_t len = strlen(bytes);
+
+    error = tfs_parse_uts35_format_string_internal((const u_char *)bytes, len,
+        &handle_literal, &handle_code, token_array);
+
+    if (error) {
+        *outError = error;
+        tfs_free_token_array(token_array);
+        return NULL;
+    }
+
+    return token_array;
+}
+
+static char *format_token(char *outbuf, tfs_token_t *token) {
+    char *p = outbuf;
+    char *match = tfs_match_token(uts35_tokens, sizeof(uts35_tokens)/sizeof(uts35_tokens[0]), token);
+    if (match) {
+        p = stpcpy(p, match);
+    } else {
+        p = NULL;
+    }
+    return p;
+}
+
+int tfs_uts35_generate(char *format, tfs_token_array_t *token_array) {
+    int i;
+    char *out = format;
+    int is_quoting = 0;
+    int error = 0;
+    for (i=0; i<token_array->count; i++) {
+        tfs_token_t *token = &token_array->tokens[i];
+        if (token->is_literal) {
+            char *in = token->text;
+            while (*in) {
+                if (is_quoting) {
+                    if (*in == '\'') {
+                        *out++ = '\'';
+                    } else if ((*in < 'a' || *in > 'z') && (*in < 'A' || *in > 'Z')) {
+                        *out++ = '\'';
+                        is_quoting = 0;
+                    }
+                    *out++ = *in;
+                } else {
+                    if ((*in >= 'a' && *in <= 'z') || (*in >= 'A' && *in <= 'Z')) {
+                        *out++ = '\'';
+                        is_quoting = 1;
+                    }
+                    *out++ = *in;
+                }
+                in++;
+            }
+        } else if (token->time_unit) {
+            if (is_quoting) {
+                *out++ = '\'';
+                is_quoting = 0;
+            }
+            out = format_token(out, token);
+            if (out == NULL) {
+                error = TFS_CANT_REPRESENT;
+                break;
+            }
+        }
+    }
+    if (is_quoting) {
+        *out++ = '\'';
+    }
+    return error;
 }

@@ -6,8 +6,8 @@
 
 #include "tfs.h"
 
-tfs_format_e test_input_formats[] = { TFS_EXCEL, TFS_STATA };
-tfs_format_e test_output_formats[] = { TFS_EXCEL, TFS_STATA };
+tfs_format_e test_input_formats[] = { TFS_EXCEL, TFS_STATA, TFS_UTS35 };
+tfs_format_e test_output_formats[] = { TFS_EXCEL, TFS_STATA, TFS_UTS35 };
 
 typedef struct tfs_test_s {
     char            name[50];
@@ -88,6 +88,12 @@ tfs_test_t all_tests[] = {
     },
 
     {
+        .name = "Half-year number",
+        .stata = "h",
+        .mask = TFS_HALF_YEAR
+    },
+
+    {
         .name = "Quarter number",
         .stata = "q",
         .uts35 = "Q",
@@ -152,17 +158,17 @@ tfs_test_t all_tests[] = {
     {
         .name = "Week of year",
         .uts35 = "w",
-        .mask = TFS_MONTH
+        .mask = TFS_WEEK
     },
     {
         .name = "Week of year (zero-padded)",
         .uts35 = "ww",
-        .mask = TFS_MONTH
+        .mask = TFS_WEEK
     },
     {
         .name = "Week of month",
         .uts35 = "W",
-        .mask = TFS_MONTH
+        .mask = TFS_WEEK
     },
 
     {
