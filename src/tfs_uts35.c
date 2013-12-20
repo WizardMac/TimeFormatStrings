@@ -1,4 +1,11 @@
 
+#include <sys/types.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "tfs.h"
+#include "tfs_token.h"
+
 tfs_token_lookup_t uts35_tokens[] = {
     { .text = "G",     .token = { .time_unit = TFS_ERA, .style = TFS_ABBREV } },
     { .text = "GG",    .token = { .time_unit = TFS_ERA, .style = TFS_ABBREV } },
@@ -63,9 +70,9 @@ tfs_token_lookup_t uts35_tokens[] = {
     { .text = "d",     .token = { .time_unit = TFS_DAY, .relative_to = TFS_MONTH, .style = TFS_NUMBER } },
     { .text = "dd",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_MONTH, .style = TFS_2DIGIT } },
 
-    { .text = "D"      .token = { .time_unit = TFS_DAY, .relative_to = TFS_YEAR, .style = TFS_NUMBER } },
-    { .text = "DD"     .token = { .time_unit = TFS_DAY, .relative_to = TFS_YEAR, .style = TFS_2DIGIT } },
-    { .text = "DDD"    .token = { .time_unit = TFS_DAY, .relative_to = TFS_YEAR, .style = TFS_NUMBER, .pad_len = 3, .pad_char = '0' } },
+    { .text = "D",     .token = { .time_unit = TFS_DAY, .relative_to = TFS_YEAR, .style = TFS_NUMBER } },
+    { .text = "DD",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_YEAR, .style = TFS_2DIGIT } },
+    { .text = "DDD",   .token = { .time_unit = TFS_DAY, .relative_to = TFS_YEAR, .style = TFS_NUMBER, .pad_len = 3, .pad_char = '0' } },
 
     { .text = "F",     .token = { .time_unit = TFS_DAY, .relative_to = TFS_MONTH, .style = TFS_NUMBER, .modifier = TFS_DAY_OF_WEEK_IN_MONTH } },
 
@@ -84,25 +91,25 @@ tfs_token_lookup_t uts35_tokens[] = {
                                 .pad_len = 7, .pad_char = '0' } },
 
     { .text = "E",     .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_ABBREV } },
-    { .text = "EE"     .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_ABBREV } },
-    { .text = "EEE"    .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_ABBREV } },
-    { .text = "EEEE"   .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_FULL } },
-    { .text = "EEEEE"  .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NARROW } },
-    { .text = "EEEEEE" .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_SHORT } },
+    { .text = "EE",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_ABBREV } },
+    { .text = "EEE",   .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_ABBREV } },
+    { .text = "EEEE",  .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_FULL } },
+    { .text = "EEEEE", .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NARROW } },
+    { .text = "EEEEEE",.token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_SHORT } },
 
     { .text = "e",     .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NUMBER } },
-    { .text = "ee"     .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NUMBER } },
-    { .text = "eee"    .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_ABBREV } },
-    { .text = "eeee"   .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_FULL } },
-    { .text = "eeeee"  .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NARROW } },
-    { .text = "eeeeee" .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_SHORT } },
+    { .text = "ee",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NUMBER } },
+    { .text = "eee",   .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_ABBREV } },
+    { .text = "eeee",  .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_FULL } },
+    { .text = "eeeee", .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NARROW } },
+    { .text = "eeeeee",.token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_SHORT } },
 
     { .text = "c",     .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NUMBER, .is_standalone = 1 } },
-    { .text = "cc"     .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NUMBER, .is_standalone = 1 } },
-    { .text = "ccc"    .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_ABBREV, .is_standalone = 1 } },
-    { .text = "cccc"   .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_FULL, .is_standalone = 1 } },
-    { .text = "ccccc"  .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NARROW, .is_standalone = 1 } },
-    { .text = "cccccc" .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_SHORT, .is_standalone = 1 } },
+    { .text = "cc",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NUMBER, .is_standalone = 1 } },
+    { .text = "ccc",   .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_ABBREV, .is_standalone = 1 } },
+    { .text = "cccc",  .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_FULL, .is_standalone = 1 } },
+    { .text = "ccccc", .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NARROW, .is_standalone = 1 } },
+    { .text = "cccccc",.token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_SHORT, .is_standalone = 1 } },
 
     { .text = "a",     .token = { .time_unit = TFS_PERIOD, .style = TFS_ABBREV, .uppercase = 1 } },
 
@@ -119,7 +126,7 @@ tfs_token_lookup_t uts35_tokens[] = {
     { .text = "mm",    .token = { .time_unit = TFS_MINUTE, .style = TFS_2DIGIT } },
 
     { .text = "s",     .token = { .time_unit = TFS_SECOND, .style = TFS_NUMBER } },
-    { .text = "ss"     .token = { .time_unit = TFS_SECOND, .style = TFS_2DIGIT } },
+    { .text = "ss",    .token = { .time_unit = TFS_SECOND, .style = TFS_2DIGIT } },
 
     { .text = "S",     .token = { .time_unit = TFS_FRACTIONAL_SECOND, .style = TFS_NUMBER, .truncate_len = 1 } },
     { .text = "SS",    .token = { .time_unit = TFS_FRACTIONAL_SECOND, .style = TFS_NUMBER, .truncate_len = 2 } },
@@ -146,3 +153,11 @@ tfs_token_lookup_t uts35_tokens[] = {
 
     /* TODO timezones */
 };
+
+tfs_token_array_t *tfs_uts35_parse(const char *bytes, int *outError) {
+    return NULL;
+}
+
+int tfs_uts35_generate(char *format, tfs_token_array_t *tokens) {
+    return 0;
+}

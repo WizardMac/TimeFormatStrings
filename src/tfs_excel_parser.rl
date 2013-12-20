@@ -1,4 +1,7 @@
 
+#include <sys/types.h>
+#include <stdio.h>
+#include "tfs.h"
 #include "tfs_excel_parser.h"
 
 %%{
@@ -6,7 +9,7 @@
     write data;
 }%%
 
-static int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
+int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
         tfs_handle_string_callback handle_literal_cb,
         tfs_handle_string_callback handle_code_cb, void *user_ctx) {
     u_char *p = (u_char *)bytes;
@@ -17,8 +20,6 @@ static int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t le
 
     int cs;
 
-    int did_see_hour = 0;
-    
    %%{
        action start_string {
            str_start = fpc;

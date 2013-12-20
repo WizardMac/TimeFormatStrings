@@ -1,4 +1,11 @@
 
+#include <sys/types.h>
+#include <stdio.h>
+
+#include "tfs.h"
+#include "tfs_token.h"
+#include "tfs_stata.h"
+
 tfs_token_lookup_t stata_lookup[] = {
     { .text = "CC",    .token = { .time_unit = TFS_CENTURY, .style = TFS_2DIGIT } },
     { .text = "cc",    .token = { .time_unit = TFS_CENTURY, .style = TFS_NUMBER } },
@@ -50,3 +57,11 @@ tfs_token_lookup_t stata_lookup[] = {
     { .text = "AM",    .token = { .time_unit = TFS_PERIOD, .style = TFS_ABBREV, .uppercase = 1 } },
     { .text = "A.M.",  .token = { .time_unit = TFS_PERIOD, .style = TFS_ABBREV, .uppercase = 1, .add_dots = 1 } }
 };
+
+tfs_token_array_t *tfs_stata_parse(const char *bytes, int *outError) {
+    return NULL;
+}
+
+int tfs_stata_generate(char *format, tfs_token_array_t *tokens) {
+    return 0;
+}

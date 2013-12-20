@@ -9,7 +9,7 @@ typedef enum {
     TFS_FULL
 } tfs_style_e;
 
-typedef {
+typedef enum {
     TFS_ISO_WEEK_NUMBERING_YEAR = 1,
     TFS_DAY_OF_WEEK_IN_MONTH,
     TFS_CYCLIC_YEAR,
@@ -41,7 +41,7 @@ typedef struct tfs_token_s {
     int              uppercase:1;
     int              add_dots:1;
 
-    int              start_at_zero:1;
+    int              start_at_one:1;
     int              is_standalone:1;
     int              is_local:1;
 
@@ -59,7 +59,6 @@ typedef struct tfs_token_lookup_s {
     char        text[16];
     tfs_token_t token;
 } tfs_token_lookup_t;
-
 
 tfs_token_array_t *tfs_init_token_array(int count);
 tfs_token_t *tfs_append_token(tfs_token_array_t *token_array);

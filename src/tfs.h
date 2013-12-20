@@ -7,6 +7,13 @@ typedef enum {
     TFS_STRFTIME
 } tfs_format_e;
 
+enum {
+    TFS_UNKNOWN_FORMAT = 1,
+    TFS_PARSE_ERROR,
+    TFS_MORE_BUFFER_PLEASE,
+    TFS_CANT_REPRESENT
+};
+
 typedef enum {
     TFS_FRACTIONAL_SECOND = 0x0001,
     TFS_MILLISECOND       = 0x0002,
@@ -26,12 +33,6 @@ typedef enum {
 
 
 typedef int (*tfs_handle_string_callback)(const char *str, size_t len, void *ctx);
-typedef int (*tfs_handle_field_symbol_callback)(unsigned int field_symbol, 
-        unsigned int display_options, void *ctx);
-
-int tfs_parse(const char *inbuf, tsf_format_e infmt, 
-        tfs_handle_string_callback literal_cb, 
-        tfs_handle_field_symbol_callback code_cb);
 
 int tfs_field_mask(const char *inbuf, tfs_format_e infmt, unsigned short *mask);
 int tfs_convert(const char *inbuf, tfs_format_e infmt, char *outbuf, tfs_format_e outfmt);
