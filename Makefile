@@ -4,6 +4,8 @@ PREFIX=/usr/local
 RAGEL=/usr/local/bin/ragel
 DYLIB=obj/libtfs.dylib
 
+.PHONY: test
+
 all:
 	@mkdir -p obj
 	[ -x $(RAGEL) ] && $(RAGEL) src/tfs_excel_parser.rl -G2
@@ -16,6 +18,10 @@ install: all
 	@cp $(DYLIB) $(PREFIX)/lib/
 	@mkdir -p $(PREFIX)/include
 	@cp src/tfs.h $(PREFIX)/include/
+
+test:
+	$(CC) test/tfs_test.c -o obj/tfs_test -Isrc -Lobj -ltfs -Wall -Werror
+	./obj/tfs_test
 
 clean:
 	rm -rf obj
