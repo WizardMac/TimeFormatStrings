@@ -99,12 +99,12 @@ static tfs_token_lookup_t uts35_tokens[] = {
     { .text = "EEEEE", .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NARROW } },
     { .text = "EEEEEE",.token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_SHORT } },
 
-    { .text = "e",     .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NUMBER } },
-    { .text = "ee",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NUMBER } },
-    { .text = "eee",   .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_ABBREV } },
-    { .text = "eeee",  .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_FULL } },
-    { .text = "eeeee", .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NARROW } },
-    { .text = "eeeeee",.token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_SHORT } },
+    { .text = "e",     .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NUMBER, .is_local = 1 } },
+    { .text = "ee",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NUMBER, .is_local = 1 } },
+    { .text = "eee",   .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_ABBREV, .is_local = 1 } },
+    { .text = "eeee",  .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_FULL, .is_local = 1 } },
+    { .text = "eeeee", .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NARROW, .is_local = 1 } },
+    { .text = "eeeeee",.token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_SHORT, .is_local = 1 } },
 
     { .text = "c",     .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NUMBER, .is_standalone = 1 } },
     { .text = "cc",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NUMBER, .is_standalone = 1 } },

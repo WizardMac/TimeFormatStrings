@@ -15,8 +15,8 @@
  */
 
 static tfs_token_lookup_t excel_tokens[] = {
-    { .text = "yy",    .token = { .time_unit = TFS_YEAR,  .style = TFS_2DIGIT } },
-    { .text = "yyyy",  .token = { .time_unit = TFS_YEAR,  .style = TFS_NUMBER } },
+    { .text = "yy",    .token = { .time_unit = TFS_YEAR, .relative_to = TFS_CENTURY, .style = TFS_2DIGIT } },
+    { .text = "yyyy",  .token = { .time_unit = TFS_YEAR, .relative_to = TFS_ERA, .style = TFS_NUMBER } },
 
     { .text = "m",     .token = { .time_unit = TFS_MONTH, .style = TFS_NUMBER } },
     { .text = "mm",    .token = { .time_unit = TFS_MONTH, .style = TFS_2DIGIT } },

@@ -25,6 +25,10 @@ int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
            str_start = fpc;
        }
 
+       action start_code {
+           str_start = fpc;
+       }
+
        action handle_code {
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, fpc - str_start, user_ctx);
@@ -57,7 +61,7 @@ int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
 
        day = "D"+ | "d"+;
 
-       year = "yy"+;
+       year = "y"+;
 
        hour = "H"+ | "h"+;
 
@@ -65,7 +69,7 @@ int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
 
        am_pm = "AM/PM" | "am/pm" | "A/P" | "a/p";
 
-       date_time = ( year | month | day | hour | second | am_pm ) >start_string %handle_code;
+       date_time = ( year | month | day | hour | second | am_pm ) >start_code %handle_code;
 
        color = "[" alpha+ "]";
 
@@ -87,7 +91,7 @@ int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
                exponent | 
                date_time | 
                condition 
-               )*;
+               )**;
 
        main := section ( ";" section ( ";" section ( ";" section )? )? )?;
 

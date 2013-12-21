@@ -28,7 +28,7 @@ tfs_token_lookup_t stata_tokens[] = {
     { .text = "DD",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_MONTH, .style = TFS_2DIGIT } },
     { .text = "dd",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_MONTH, .style = TFS_NUMBER } },
 
-    { .text = "DAYNAME",.token= { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_FULL } },
+    { .text = "DAYNAME",.token= { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_FULL, .is_aligned = 1 } },
     { .text = "Dayname",.token= { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_FULL } },
 
     { .text = "Day",   .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_ABBREV } },
@@ -114,6 +114,10 @@ tfs_token_array_t *tfs_stata_parse(const char *bytes, int *outError) {
             token_array->tokens[i].time_unit = 0;
             token_array->tokens[i+1].relative_to = TFS_ERA;
             token_array->tokens[i+1].style = TFS_NUMBER;
+            if (token_array->tokens[i].style == TFS_2DIGIT) {
+                token_array->tokens[i+1].pad_len = 4;
+                token_array->tokens[i+1].pad_char = '0';
+            }
         }
     }
 
@@ -132,7 +136,11 @@ static char *format_token(char *outbuf, tfs_token_t *token) {
                 p = NULL;
             }
         } else if (token->style == TFS_NUMBER) {
-            p = stpcpy(p, "ccYY");
+            if (token->pad_len == 4 && token->pad_char == '0') {
+                p = stpcpy(p, "CCYY");
+            } else {
+                p = stpcpy(p, "ccYY");
+            }
         } else {
             p = NULL;
         }

@@ -65,14 +65,14 @@ int tfs_parse_stata_format_string_internal(const u_char *bytes, size_t len,
        am_pm = "am" | "a.m." | "AM" | "A.M.";
 
        code = (century | year | day_of_year | month | day_of_month | day_of_week | 
-                # half | 
+                half | 
                 quarter | week | hour | minute | second | am_pm) >start_string %handle_code;
 
        display_character = ( "." | "," | ":" | "-" | "/" | "\\" ) >start_string %handle_literal;
 
        underscore = "_" %handle_space;
 
-       main := (code | "!" ascii >start_string %handle_literal | display_character | underscore | "+")+;
+       main := (code | "!" ascii >start_string %handle_literal | display_character | underscore | "+")**;
 
         write init;
         write exec;

@@ -34,12 +34,12 @@ void tfs_free_token_array(tfs_token_array_t *token_array) {
 
 char *tfs_match_token(tfs_token_lookup_t *token_table, size_t count, tfs_token_t *key) {
     int i;
-    for (i=0; i<count; i++) {
+    for (i=count-1; i>=0; i--) {
         tfs_token_t *candidate = &token_table[i].token;
         if (candidate->time_unit != key->time_unit)
             continue;
 
-        if (candidate->relative_to && candidate->relative_to != key->relative_to)
+        if (candidate->relative_to != key->relative_to)
             continue;
 
         if (candidate->style == key->style ||
@@ -56,14 +56,23 @@ char *tfs_match_token(tfs_token_lookup_t *token_table, size_t count, tfs_token_t
 
             if (candidate->add_dots != key->add_dots)
                 continue;
-
-            if (candidate->pad_len && candidate->pad_len != key->pad_len)
+            
+            if (candidate->is_aligned != key->is_aligned)
                 continue;
 
-            if (candidate->truncate_len && candidate->truncate_len != key->truncate_len)
+            if (candidate->is_standalone != key->is_standalone)
                 continue;
 
-            if (candidate->modifier && candidate->modifier != key->modifier)
+            if (candidate->is_local != key->is_local)
+                continue;
+
+            if (candidate->pad_len != key->pad_len)
+                continue;
+
+            if (candidate->truncate_len != key->truncate_len)
+                continue;
+
+            if (candidate->modifier != key->modifier)
                 continue;
 
             return token_table[i].text;

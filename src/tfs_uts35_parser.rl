@@ -72,7 +72,7 @@ int tfs_parse_uts35_format_string_internal(const u_char *bytes, size_t len,
 
        quoted_string = ("'" ( "''" | [^'] )*  "'") >start_string %handle_literal;
 
-       main := (code | display_characters | quoted_string | time_zone )+;
+       main := (code | display_characters | quoted_string | time_zone )**;
 
         write init;
         write exec;

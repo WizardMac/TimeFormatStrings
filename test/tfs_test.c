@@ -354,6 +354,14 @@ tfs_test_t all_tests[] = {
         .stata = "SS",
         .uts35 = "ss",
         .mask = TFS_SECOND
+    },
+
+    {
+        .name = "MM/DD/YY",
+        .excel = "mm/dd/yy",
+        .stata = "NN/DD/YY",
+        .uts35 = "MM/dd/yy",
+        .mask = TFS_MONTH | TFS_DAY | TFS_YEAR
     }
 };
 
@@ -418,11 +426,11 @@ int main(int argc, char *argv[]) {
                 }
                 total_tests++;
             }
-            if (test_failures) {
-                printf("%d failed\n", test_failures);
-            } else {
-                printf("ok\n");
-            }
+        }
+        if (test_failures) {
+            printf("%d failed\n", test_failures);
+        } else {
+            printf("ok\n");
         }
         total_failures += test_failures;
     }

@@ -45,6 +45,8 @@ typedef struct tfs_token_s {
     int              is_standalone:1;
     int              is_local:1;
 
+    int              is_aligned:1;
+
     char             text[100];
 } tfs_token_t;
 
