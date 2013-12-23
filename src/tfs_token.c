@@ -8,10 +8,9 @@
 #include "tfs_token.h"
 
 tfs_token_array_t *tfs_init_token_array(int count) {
-    size_t len = sizeof(tfs_token_array_t) + count * sizeof(tfs_token_t);
-    tfs_token_array_t *new_array = malloc(len);
-    memset(new_array, 0, len);
+    tfs_token_array_t *new_array = calloc(1, sizeof(tfs_token_array_t));
     new_array->capacity = count;
+    new_array->tokens = calloc(count, sizeof(tfs_token_t));
     return new_array;
 }
 
@@ -19,7 +18,7 @@ tfs_token_t *tfs_append_token(tfs_token_array_t *token_array) {
     tfs_token_t *new_token = NULL;
     if (token_array->count == token_array->capacity) {
         token_array->capacity *= 2;
-        token_array = realloc(token_array, sizeof(tfs_token_array_t) + token_array->capacity * sizeof(tfs_token_t));
+        token_array->tokens = realloc(token_array->tokens, token_array->capacity * sizeof(tfs_token_t));
     }
     new_token = &token_array->tokens[token_array->count];
 
@@ -29,6 +28,7 @@ tfs_token_t *tfs_append_token(tfs_token_array_t *token_array) {
 }
 
 void tfs_free_token_array(tfs_token_array_t *token_array) {
+    free(token_array->tokens);
     free(token_array);
 }
 

@@ -12,9 +12,9 @@ tfs_format_e test_output_formats[] = { TFS_EXCEL, TFS_STATA, TFS_UTS35 };
 typedef struct tfs_test_s {
     char            name[50];
 
-    char            excel[30];
-    char            stata[30];
-    char            uts35[30];
+    char            excel[40];
+    char            stata[40];
+    char            uts35[40];
     unsigned short  mask;
 } tfs_test_t;
 
@@ -362,6 +362,54 @@ tfs_test_t all_tests[] = {
         .stata = "NN/DD/YY",
         .uts35 = "MM/dd/yy",
         .mask = TFS_MONTH | TFS_DAY | TFS_YEAR
+    },
+
+    {
+        .name = "MM/DD/YYYY",
+        .excel = "mm/dd/yyyy",
+        .stata = "NN/DD/ccYY",
+        .uts35 = "MM/dd/y",
+        .mask = TFS_MONTH | TFS_DAY | TFS_YEAR
+    },
+
+    {
+        .name = "Hour, minute, second",
+        .excel = "h:mm:ss AM/PM",
+        .stata = "hh:MM:SS_AM",
+        .uts35 = "h:mm:ss a",
+        .mask = TFS_HOUR | TFS_MINUTE | TFS_SECOND | TFS_PERIOD
+    },
+
+    {
+        .name = "Date at 24-hour time",
+        .excel = "mm/dd/yyyy \"at\" h:mm:ss",
+        .stata = "NN/DD/ccYY_!a!t_hH:MM:SS",
+        .uts35 = "MM/dd/y 'at' H:mm:ss",
+        .mask = TFS_MONTH | TFS_DAY | TFS_YEAR | TFS_HOUR | TFS_MINUTE | TFS_SECOND
+    },
+
+    {
+        .name = "String literal",
+        .excel = "\"hello\"",
+        .stata = "!h!e!l!l!o",
+        .uts35 = "'hello'",
+        .mask = 0
+    },
+
+    {
+        .name = "String literal with single-quote",
+        .excel = "\"Hello,\" \"O\"'\"Malley\"",
+        .stata = "!H!e!l!l!o,_!O!'!M!a!l!l!e!y",
+        .uts35 = "'Hello', 'O''Malley'",
+        .mask = 0
+    },
+
+    {
+        .name = "String literal with double-quote",
+        .excel = "\"\\\"Yikes\"!\"\\\"\"",
+        .stata = "!\"!Y!i!k!e!s!!!\"",
+        .uts35 = "\"'Yikes'!\"",
+        .mask = 0
     }
 };
 

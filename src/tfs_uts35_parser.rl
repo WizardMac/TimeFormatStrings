@@ -38,6 +38,12 @@ int tfs_parse_uts35_format_string_internal(const u_char *bytes, size_t len,
            }
        }
 
+       action handle_single_quote {
+           if (handle_literal_cb) {
+               handle_literal_cb("''''", 4, user_ctx);
+           }
+       }
+
        era = [G]{1,5};
 
        year = [y]{1,5} | [Y]{1,5} | [u]{1,5} | [U]{1,5};
@@ -68,11 +74,13 @@ int tfs_parse_uts35_format_string_internal(const u_char *bytes, size_t len,
 
        code = (era | year | quarter | month | week | day | week_day | period | hour | minute | second | fractional_second | millisecond) >start_string %handle_code; 
 
-       display_characters = ( ascii - alpha - ['] | "''" )+ >start_string %handle_literal;
+       quoted_string = ("'" ( "''" | [^'] )+  "'") >start_string %handle_literal;
 
-       quoted_string = ("'" ( "''" | [^'] )*  "'") >start_string %handle_literal;
+       display_characters = ( ascii - alpha - ['] )+ >start_string %handle_literal;
 
-       main := (code | display_characters | quoted_string | time_zone )**;
+       single_quote = "''" %handle_single_quote;
+
+       main := (code | display_characters | quoted_string | single_quote | time_zone )**;
 
         write init;
         write exec;
@@ -80,7 +88,7 @@ int tfs_parse_uts35_format_string_internal(const u_char *bytes, size_t len,
 
     if (cs < %%{ write first_final; }%%) {
         printf("Error parsing UTS35 format string around col #%ld (%c)", 
-                (long)(p + 1), *p);
+                (long)(p + 1 - bytes), *p);
         return 1;
     }
 

@@ -51,10 +51,10 @@ typedef struct tfs_token_s {
 } tfs_token_t;
 
 typedef struct tfs_token_array_s {
-    int         count;
-    int         capacity;
+    int          count;
+    int          capacity;
 
-    tfs_token_t tokens[0];
+    tfs_token_t *tokens;
 } tfs_token_array_t;
 
 typedef struct tfs_token_lookup_s {

@@ -120,6 +120,7 @@ tfs_token_array_t *tfs_excel_parse(const char *bytes, int *outError) {
         if (!token->is_literal) {
             if (token->time_unit == TFS_HOUR && has_ampm) {
                 token->relative_to = TFS_PERIOD;
+                token->start_at_one = 1;
             }
             if (token->time_unit == TFS_MONTH && last_unit == TFS_HOUR) {
                 token->time_unit = TFS_MINUTE;
@@ -147,11 +148,29 @@ tfs_token_array_t *tfs_excel_parse(const char *bytes, int *outError) {
 
 static char *format_token(char *outbuf, tfs_token_t *token) {
     char *p = outbuf;
-    char *match = tfs_match_token(excel_tokens, sizeof(excel_tokens)/sizeof(excel_tokens[0]), token);
-    if (match) {
-        p = stpcpy(p, match);
+    if (token->time_unit == TFS_MINUTE) {
+        if (token->style == TFS_NUMBER) {
+            p = stpcpy(p, "m");
+        } else if (token->style == TFS_2DIGIT) {
+            p = stpcpy(p, "mm");
+        } else {
+            p = NULL;
+        }
+    } else if (token->time_unit == TFS_HOUR) {
+        if (token->style == TFS_NUMBER) {
+            p = stpcpy(p, "h");
+        } else if (token->style == TFS_2DIGIT) {
+            p = stpcpy(p, "hh");
+        } else {
+            p = NULL;
+        }
     } else {
-        p = NULL;
+        char *match = tfs_match_token(excel_tokens, sizeof(excel_tokens)/sizeof(excel_tokens[0]), token);
+        if (match) {
+            p = stpcpy(p, match);
+        } else {
+            p = NULL;
+        }
     }
     return p;
 }
@@ -162,6 +181,7 @@ int tfs_excel_generate(char *format, tfs_token_array_t *token_array) {
     const char *display_chars = "$-+/():!^&'~{}<>= ";
     int is_quoting = 0;
     int error = 0;
+    int previous_time_unit = 0;
     for (i=0; i<token_array->count; i++) {
         tfs_token_t *token = &token_array->tokens[i];
         if (token->is_literal) {
@@ -197,6 +217,7 @@ int tfs_excel_generate(char *format, tfs_token_array_t *token_array) {
                 error = TFS_CANT_REPRESENT;
                 break;
             }
+            previous_time_unit = token->time_unit;
         }
     }
     if (is_quoting) {

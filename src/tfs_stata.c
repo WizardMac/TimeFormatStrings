@@ -184,6 +184,8 @@ int tfs_stata_generate(char *format, tfs_token_array_t *token_array) {
             }
         }
     }
-    *out++ = '\0';
+    if (out)
+        *out++ = '\0';
+
     return error;
 }

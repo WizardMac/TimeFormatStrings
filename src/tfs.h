@@ -2,17 +2,15 @@
 typedef enum {
     TFS_EXCEL,
     TFS_STATA,
-    TFS_UTS35,
-    TFS_DJANGO,
-    TFS_STRFTIME
+    TFS_UTS35
 } tfs_format_e;
 
-enum {
+typedef enum {
     TFS_UNKNOWN_FORMAT = 1,
     TFS_PARSE_ERROR,
     TFS_MORE_BUFFER_PLEASE,
     TFS_CANT_REPRESENT
-};
+} tfs_error_e;
 
 typedef enum {
     TFS_FRACTIONAL_SECOND = 0x0001,
