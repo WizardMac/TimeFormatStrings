@@ -357,6 +357,30 @@ tfs_test_t all_tests[] = {
     },
 
     {
+        .name = "Seconds to 1 decimal place",
+        .excel = "s.0",
+        .stata = "ss.s",
+        .uts35 = "s.S",
+        .mask = TFS_SECOND | TFS_FRACTIONAL_SECOND
+    },
+
+    {
+        .name = "Seconds to 2 decimal places",
+        .excel = "s.00",
+        .stata = "ss.ss",
+        .uts35 = "s.SS",
+        .mask = TFS_SECOND | TFS_FRACTIONAL_SECOND
+    },
+
+    {
+        .name = "Seconds to 3 decimal places",
+        .excel = "s.000",
+        .stata = "ss.sss",
+        .uts35 = "s.SSS",
+        .mask = TFS_SECOND | TFS_FRACTIONAL_SECOND
+    },
+
+    {
         .name = "MM/DD/YY",
         .excel = "mm/dd/yy",
         .stata = "NN/DD/YY",

@@ -220,16 +220,35 @@ tfs_token_array_t *tfs_uts35_parse(const char *bytes, int *outError) {
         return NULL;
     }
 
+    int i;
+    for (i=0; i<token_array->count-1; i++) {
+        tfs_token_t *token1 = &token_array->tokens[i];
+        tfs_token_t *token2 = &token_array->tokens[i+1];
+        if (token1->is_literal && token1->text[0] == '.' && token1->text[1] == '\0' &&
+                token2->time_unit == TFS_FRACTIONAL_SECOND) {
+            token1->text[0] = '\0';
+            token2->add_dots = 1;
+        }
+    }
+
     return token_array;
 }
 
 static char *format_token(char *outbuf, tfs_token_t *token) {
     char *p = outbuf;
-    char *match = tfs_match_token(uts35_tokens, sizeof(uts35_tokens)/sizeof(uts35_tokens[0]), token);
-    if (match) {
-        p = stpcpy(p, match);
+    if (token->time_unit == TFS_FRACTIONAL_SECOND && token->add_dots) {
+        p = stpcpy(p, ".");
+        size_t len = token->truncate_len;
+        while (len--) {
+            p = stpcpy(p, "S");
+        }
     } else {
-        p = NULL;
+        char *match = tfs_match_token(uts35_tokens, sizeof(uts35_tokens)/sizeof(uts35_tokens[0]), token);
+        if (match) {
+            p = stpcpy(p, match);
+        } else {
+            p = NULL;
+        }
     }
     return p;
 }

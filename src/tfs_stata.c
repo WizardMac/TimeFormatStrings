@@ -54,6 +54,10 @@ tfs_token_lookup_t stata_tokens[] = {
     { .text = "SS",    .token = { .time_unit = TFS_SECOND, .style = TFS_2DIGIT } },
     { .text = "ss",    .token = { .time_unit = TFS_SECOND, .style = TFS_NUMBER } },
 
+    { .text = ".s",    .token = { .time_unit = TFS_FRACTIONAL_SECOND, .style = TFS_NUMBER, .truncate_len = 1, .add_dots = 1 } },
+    { .text = ".ss",   .token = { .time_unit = TFS_FRACTIONAL_SECOND, .style = TFS_NUMBER, .truncate_len = 2, .add_dots = 1 } },
+    { .text = ".sss",  .token = { .time_unit = TFS_FRACTIONAL_SECOND, .style = TFS_NUMBER, .truncate_len = 3, .add_dots = 1 } },
+
     { .text = "am",    .token = { .time_unit = TFS_PERIOD, .style = TFS_ABBREV, .lowercase = 1 } },
     { .text = "a.m.",  .token = { .time_unit = TFS_PERIOD, .style = TFS_ABBREV, .lowercase = 1, .add_dots = 1 } },
     { .text = "AM",    .token = { .time_unit = TFS_PERIOD, .style = TFS_ABBREV, .uppercase = 1 } },

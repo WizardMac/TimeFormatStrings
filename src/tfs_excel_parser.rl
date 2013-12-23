@@ -65,7 +65,7 @@ int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
 
        hour = "H"+ | "h"+;
 
-       second = "s" | "ss" ( "." decimal_digit+ )?;
+       second = ("s" | "ss") ( "." decimal_digit+ )?;
 
        am_pm = "AM/PM" | "am/pm" | "A/P" | "a/p";
 

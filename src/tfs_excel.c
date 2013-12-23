@@ -46,11 +46,35 @@ static int handle_code(const char *code, size_t len, void *ctx) {
 
     int i;
     tfs_token_t *new_token = NULL;
-    for (i=0; i<sizeof(excel_tokens)/sizeof(excel_tokens[0]); i++) {
-        if (len == strlen(excel_tokens[i].text) && strncmp(excel_tokens[i].text, code, len) == 0) {
+    if (code[0] == 's') {
+        size_t fractional_len = 0;
+        new_token = tfs_append_token(tokens);
+        new_token->time_unit = TFS_SECOND;
+        if (len > 1 && code[1] == 's') {
+            new_token->style = TFS_2DIGIT;
+            if (len > 3 && code[2] == '.') {
+                fractional_len = len - 3;
+            }
+        } else {
+            new_token->style = TFS_NUMBER;
+            if (len > 2 && code[1] == '.') {
+                fractional_len = len - 2;
+            }
+        }
+        if (fractional_len) {
             new_token = tfs_append_token(tokens);
-            memcpy(new_token, &excel_tokens[i].token, sizeof(tfs_token_t));
-            break;
+            new_token->time_unit = TFS_FRACTIONAL_SECOND;
+            new_token->style = TFS_NUMBER;
+            new_token->truncate_len = fractional_len;
+            new_token->add_dots = 1;
+        }
+    } else {
+        for (i=0; i<sizeof(excel_tokens)/sizeof(excel_tokens[0]); i++) {
+            if (len == strlen(excel_tokens[i].text) && strncmp(excel_tokens[i].text, code, len) == 0) {
+                new_token = tfs_append_token(tokens);
+                memcpy(new_token, &excel_tokens[i].token, sizeof(tfs_token_t));
+                break;
+            }
         }
     }
 
@@ -163,6 +187,14 @@ static char *format_token(char *outbuf, tfs_token_t *token) {
             p = stpcpy(p, "hh");
         } else {
             p = NULL;
+        }
+    } else if (token->time_unit == TFS_FRACTIONAL_SECOND) {
+        if (token->add_dots) {
+            p = stpcpy(p, ".");
+        }
+        size_t len = token->truncate_len;
+        while (len--) {
+            p = stpcpy(p, "0");
         }
     } else {
         char *match = tfs_match_token(excel_tokens, sizeof(excel_tokens)/sizeof(excel_tokens[0]), token);
