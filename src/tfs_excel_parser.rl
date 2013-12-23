@@ -69,7 +69,7 @@ int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
 
        second = ("s" | "ss") ( "." decimal_digit+ )?;
 
-       am_pm = "AM/PM" | "am/pm" | "A/P" | "a/p";
+       am_pm = "AM/PM" | "am/pm" | "A/P" | "a/p" | "AM" | "am" | "A" | "a" | "PM" | "pm" | "P" | "p";
 
        date_time = ( year | month | day | hour | second | am_pm ) >start_code %handle_code;
 

@@ -68,6 +68,12 @@ static int handle_code(const char *code, size_t len, void *ctx) {
             new_token->truncate_len = fractional_len;
             new_token->add_dots = 1;
         }
+    } else if ((code[0] == 'A' || code[0] == 'P' || code[0] == 'a' || code[0] == 'p') && len < 3) {
+        new_token = tfs_append_token(tokens);
+        new_token->time_unit = TFS_PERIOD;
+        new_token->style = len == 2 ? TFS_ABBREV : TFS_NARROW;
+        new_token->uppercase = (code[0] == 'A' || code[0] == 'P');
+        new_token->lowercase = (code[0] == 'a' || code[0] == 'p');
     } else {
         for (i=0; i<sizeof(excel_tokens)/sizeof(excel_tokens[0]); i++) {
             if (len == strlen(excel_tokens[i].text) && strncmp(excel_tokens[i].text, code, len) == 0) {
