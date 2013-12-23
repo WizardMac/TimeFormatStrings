@@ -6,6 +6,8 @@
 #include "tfs_token.h"
 #include "tfs_stata_parser.h"
 
+/* See http://www.stata.com/help.cgi?datetime_display_formats */
+
 %%{
     machine stata_format;
     write data;

@@ -4,6 +4,8 @@
 #include "tfs.h"
 #include "tfs_excel_parser.h"
 
+/* See http://office.microsoft.com/en-us/excel-help/text-function-HP010062580.aspx */
+
 %%{
     machine excel_format;
     write data;
