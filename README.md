@@ -9,9 +9,9 @@ Example usage:
     #include "tfs.h"
     
     char result[100];
-    int error = tfs_convert("HH:mm", TFS_EXCEL, result, TFS_UTS35);
+    int error = tfs_convert("mm/dd/yyyy", TFS_EXCEL, result, TFS_UTS35);
     if (error == 0) {
-        printf("%s\n", result);
+        printf("%s\n", result); /* prints "MM/dd/y" */
     }
 
 It is up to the developer to ensure the output buffer is large enough to hold
