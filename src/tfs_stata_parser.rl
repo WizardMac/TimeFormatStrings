@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "tfs.h"
+#include "tfs_internal.h"
 #include "tfs_token.h"
 #include "tfs_stata_parser.h"
 

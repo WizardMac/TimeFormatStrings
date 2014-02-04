@@ -4,6 +4,7 @@
 #include <sys/types.h>
 
 #include "tfs.h"
+#include "tfs_internal.h"
 #include "tfs_uts35_parser.h"
 
 /* See http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns */

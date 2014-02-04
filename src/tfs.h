@@ -29,8 +29,5 @@ typedef enum {
     TFS_ERA               = 0x2000
 } tfs_time_unit_e;
 
-
-typedef int (*tfs_handle_string_callback)(const char *str, size_t len, void *ctx);
-
-int tfs_field_mask(const char *inbuf, tfs_format_e infmt, unsigned short *mask);
-int tfs_convert(const char *inbuf, tfs_format_e infmt, char *outbuf, tfs_format_e outfmt);
+tfs_error_e tfs_field_mask(const char *inbuf, tfs_format_e infmt, unsigned short *mask);
+tfs_error_e tfs_convert(const char *inbuf, tfs_format_e infmt, char *outbuf, tfs_format_e outfmt);

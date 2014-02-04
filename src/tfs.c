@@ -39,7 +39,7 @@ static int generate_string(char *outbuf, tfs_format_e outfmt, tfs_token_array_t 
     return TFS_UNKNOWN_FORMAT;
 }
 
-int tfs_field_mask(const char *inbuf, tfs_format_e infmt, unsigned short *outMask) {
+tfs_error_e tfs_field_mask(const char *inbuf, tfs_format_e infmt, unsigned short *outMask) {
     unsigned short mask = 0;
     int i;
     int error = 0;
@@ -58,7 +58,7 @@ int tfs_field_mask(const char *inbuf, tfs_format_e infmt, unsigned short *outMas
     return error;
 }
 
-int tfs_convert(const char *inbuf, tfs_format_e infmt, char *outbuf, tfs_format_e outfmt) {
+tfs_error_e tfs_convert(const char *inbuf, tfs_format_e infmt, char *outbuf, tfs_format_e outfmt) {
     int error = 0;
     tfs_token_array_t *tokens = parse_string(inbuf, infmt, &error);
     if (tokens == NULL) {
