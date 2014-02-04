@@ -1,7 +1,7 @@
 TimeFormatStrings
 --
 
-This library can read and write time format strings in three formats: Excel
+This C library can read and write time format strings in three formats: Excel
 (`TFS_EXCEL`), Stata (`TFS_STATA`), and Unicode (`TFS_UTS35`).
 
 Example usage:
