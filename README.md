@@ -6,6 +6,8 @@ This C library can read and write time format strings in three formats: Excel
 
 Example usage:
 
+    #include "tfs.h"
+    
     char result[100];
     int error = tfs_convert("HH:mm", TFS_EXCEL, result, TFS_UTS35);
     if (error == 0) {
