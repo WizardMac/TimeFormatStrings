@@ -5913,11 +5913,7 @@ case 92:
 #line 90 "src/tfs_uts35_parser.rl"
 
 
-    if (cs < 
-#line 5918 "src/tfs_uts35_parser.c"
-7
-#line 92 "src/tfs_uts35_parser.rl"
-) {
+    if (cs < 7) {
         printf("Error parsing UTS35 format string around col #%ld (%c)", 
                 (long)(p + 1 - bytes), *p);
         return 1;

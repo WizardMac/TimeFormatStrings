@@ -6860,11 +6860,7 @@ case 88:
 #line 103 "src/tfs_excel_parser.rl"
 
 
-    if (cs < 
-#line 6865 "src/tfs_excel_parser.c"
-89
-#line 105 "src/tfs_excel_parser.rl"
-) {
+    if (cs < 89) {
         printf("Error parsing Excel format string '%s' around col #%ld (%c)",
             bytes, (long)(p - bytes + 1), *p);
         return 1;

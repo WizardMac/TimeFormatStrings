@@ -1901,11 +1901,7 @@ case 47:
 #line 82 "src/tfs_stata_parser.rl"
 
 
-    if (cs < 
-#line 1906 "src/tfs_stata_parser.c"
-36
-#line 84 "src/tfs_stata_parser.rl"
-) {
+    if (cs < 36) {
         printf("Error parsing Stata format string '%s' around col #%ld (%c)", 
                 p, (long)(p - bytes + 1), *p);
         return 1;
