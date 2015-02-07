@@ -6,7 +6,6 @@
 
 #include "tfs.h"
 #include "tfs_internal.h"
-#include "tfs_token.h"
 #include "tfs_uts35_parser.h"
 
 static tfs_token_lookup_t uts35_tokens[] = {

@@ -5,7 +5,6 @@
 
 #include "tfs.h"
 #include "tfs_internal.h"
-#include "tfs_token.h"
 #include "tfs_stata.h"
 #include "tfs_stata_parser.h"
 
@@ -98,14 +97,14 @@ static int handle_literal(const char *literal, size_t len, void *ctx) {
 
 tfs_token_array_t *tfs_stata_parse(const char *bytes, int *outError) {
     tfs_token_array_t *token_array = tfs_init_token_array(10);
-    int error = 0;
+    tfs_error_e error = TFS_OK;
     size_t len = strlen(bytes);
     int i;
 
     error = tfs_parse_stata_format_string_internal((const u_char *)bytes, len,
         &handle_literal, &handle_code, token_array);
 
-    if (error) {
+    if (error != TFS_OK) {
         *outError = error;
         tfs_free_token_array(token_array);
         return NULL;
@@ -161,9 +160,9 @@ static char *format_token(char *outbuf, tfs_token_t *token) {
     return p;
 }
 
-int tfs_stata_generate(char *format, tfs_token_array_t *token_array) {
+tfs_error_e tfs_stata_generate(char *format, tfs_token_array_t *token_array) {
     int i;
-    int error = 0;
+    tfs_error_e error = TFS_OK;
     char *out = format;
     const char *display_chars = ".,:-/\\";
     for (i=0; i<token_array->count; i++) {

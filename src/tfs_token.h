@@ -6,7 +6,8 @@ typedef enum {
     TFS_SHORT,
     TFS_ABBREV,
     TFS_LONG,
-    TFS_FULL
+    TFS_FULL,
+    TFS_ROMAN
 } tfs_style_e;
 
 typedef enum {

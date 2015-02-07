@@ -4,7 +4,6 @@
 
 #include "tfs.h"
 #include "tfs_internal.h"
-#include "tfs_token.h"
 #include "tfs_stata_parser.h"
 
 /* See http://www.stata.com/help.cgi?datetime_display_formats */
@@ -14,7 +13,7 @@
     write data;
 }%%
 
-int tfs_parse_stata_format_string_internal(const u_char *bytes, size_t len,
+tfs_error_e tfs_parse_stata_format_string_internal(const u_char *bytes, size_t len,
         tfs_handle_string_callback handle_literal_cb,
         tfs_handle_string_callback handle_code_cb, void *user_ctx) {
     u_char *p = (u_char *)bytes;
@@ -84,8 +83,8 @@ int tfs_parse_stata_format_string_internal(const u_char *bytes, size_t len,
     if (cs < %%{ write first_final; }%%) {
         printf("Error parsing Stata format string '%s' around col #%ld (%c)", 
                 p, (long)(p - bytes + 1), *p);
-        return 1;
+        return TFS_PARSE_ERROR;
     }
 
-    return 0;
+    return TFS_OK;
 }

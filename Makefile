@@ -12,7 +12,7 @@ all:
 	[ -x $(RAGEL) ] && $(RAGEL) src/tfs_excel_parser.rl -G2
 	[ -x $(RAGEL) ] && $(RAGEL) src/tfs_stata_parser.rl -G2
 	[ -x $(RAGEL) ] && $(RAGEL) src/tfs_uts35_parser.rl -G2
-	$(CC) -Os src/*.c -dynamiclib -o $(DYLIB) -Wall -Werror -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -mmacosx-version-min=$(MIN_OSX)
+	$(CC) -Os src/*.c -dynamiclib -o $(DYLIB) -pedantic -Wall -Werror -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -mmacosx-version-min=$(MIN_OSX)
 
 install: all
 	@mkdir -p $(PREFIX)/lib

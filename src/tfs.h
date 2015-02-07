@@ -2,10 +2,13 @@
 typedef enum {
     TFS_EXCEL,
     TFS_STATA,
-    TFS_UTS35
+    TFS_UTS35,
+    TFS_SAS,
+    TFS_SPSS
 } tfs_format_e;
 
 typedef enum {
+    TFS_OK = 0,
     TFS_UNKNOWN_FORMAT = 1,
     TFS_PARSE_ERROR,
     TFS_MORE_BUFFER_PLEASE,

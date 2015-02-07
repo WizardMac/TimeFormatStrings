@@ -3,10 +3,12 @@
 #include <string.h>
 
 #include "tfs.h"
-#include "tfs_token.h"
+#include "tfs_internal.h"
 #include "tfs_excel.h"
 #include "tfs_uts35.h"
 #include "tfs_stata.h"
+#include "tfs_spss.h"
+#include "tfs_sas.h"
 
 static tfs_token_array_t *parse_string(const char *inbuf, tfs_format_e infmt, int *outError) {
     if (infmt == TFS_EXCEL) {
@@ -17,6 +19,12 @@ static tfs_token_array_t *parse_string(const char *inbuf, tfs_format_e infmt, in
     }
     if (infmt == TFS_STATA) {
         return tfs_stata_parse(inbuf, outError);
+    }
+    if (infmt == TFS_SAS) {
+        return tfs_sas_parse(inbuf, outError);
+    }
+    if (infmt == TFS_SPSS) {
+        return tfs_spss_parse(inbuf, outError);
     }
 
     if (outError)
