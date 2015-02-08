@@ -41,6 +41,19 @@ tfs_token_array_t *tfs_sas_parse(const char *bytes, int *outError) {
         } else {
             token = append_year(token_array, TFS_CENTURY, TFS_2DIGIT);
         }
+    } else if (strcmp(bytes, "DATETIME") == 0) {
+        token = append_day(token_array, TFS_MONTH, TFS_2DIGIT);
+        token = append_month(token_array, TFS_ABBREV);
+        token->uppercase = 1;
+        token = append_year(token_array, TFS_ERA, TFS_NUMBER);
+
+        token = append_literal_char(token_array, ' ');
+
+        token = append_hour(token_array, TFS_PERIOD, TFS_2DIGIT);
+        token = append_literal_char(token_array, ':');
+        token = append_minute(token_array, TFS_HOUR, TFS_2DIGIT);
+        token = append_literal_char(token_array, ':');
+        token = append_second(token_array, TFS_MINUTE, TFS_2DIGIT);
     } else if (strcmp(bytes, "DAY") == 0) {
         token = append_day(token_array, TFS_MONTH, TFS_NUMBER);
     } else if (strncmp(bytes, "DDMMYY", sizeof("DDMMYY")-1) == 0) {
