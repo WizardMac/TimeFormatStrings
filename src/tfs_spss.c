@@ -47,7 +47,7 @@ tfs_token_array_t *tfs_spss_parse(const char *bytes, int *outError) {
         token = append_day(token_array, TFS_YEAR, TFS_NUMBER);
         token->pad_len = 3;
         token->pad_char = '0';
-    } else if (strncasecmp(bytes, "ADATE", sizeof("ADATE")-1) == 0) {
+    } else if (strncasecmp(bytes, "SDATE", sizeof("SDATE")-1) == 0) {
         token = append_year(token_array, TFS_ERA, TFS_NUMBER);
         token = append_literal_char(token_array, '/');
         token = append_month(token_array, TFS_2DIGIT);
