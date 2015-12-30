@@ -74,7 +74,7 @@ int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
 
        date_time = ( year | month | day | hour | second | am_pm ) >start_code %handle_code;
 
-       color = "[" alpha+ "]";
+       color = "[" ( alpha+ | ( "$-" digit+ ) ) "]";
 
        comparison_operator = "=" | ">" | "<" | ">=" | "<=" | "<>";
 
