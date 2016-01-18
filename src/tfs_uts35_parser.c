@@ -5914,7 +5914,7 @@ case 92:
 
 
     if (cs < 7) {
-        printf("Error parsing UTS35 format string around col #%ld (%c)", 
+        printf("Error parsing UTS35 format string around col #%ld (%c)\n", 
                 (long)(p + 1 - bytes), *p);
         return 1;
     }

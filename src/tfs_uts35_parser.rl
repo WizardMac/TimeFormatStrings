@@ -90,7 +90,7 @@ int tfs_parse_uts35_format_string_internal(const u_char *bytes, size_t len,
     }%%
 
     if (cs < %%{ write first_final; }%%) {
-        printf("Error parsing UTS35 format string around col #%ld (%c)", 
+        printf("Error parsing UTS35 format string around col #%ld (%c)\n", 
                 (long)(p + 1 - bytes), *p);
         return 1;
     }

@@ -81,7 +81,7 @@ tfs_error_e tfs_parse_stata_format_string_internal(const u_char *bytes, size_t l
     }%%
 
     if (cs < %%{ write first_final; }%%) {
-        printf("Error parsing Stata format string '%s' around col #%ld (%c)", 
+        printf("Error parsing Stata format string '%s' around col #%ld (%c)\n", 
                 p, (long)(p - bytes + 1), *p);
         return TFS_PARSE_ERROR;
     }

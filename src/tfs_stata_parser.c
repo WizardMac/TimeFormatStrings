@@ -1901,7 +1901,7 @@ case 47:
 
 
     if (cs < 36) {
-        printf("Error parsing Stata format string '%s' around col #%ld (%c)", 
+        printf("Error parsing Stata format string '%s' around col #%ld (%c)\n", 
                 p, (long)(p - bytes + 1), *p);
         return TFS_PARSE_ERROR;
     }
