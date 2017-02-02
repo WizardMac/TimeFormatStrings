@@ -1,16 +1,5 @@
 
 typedef enum {
-    TFS_NUMBER,
-    TFS_2DIGIT,
-    TFS_NARROW,
-    TFS_SHORT,
-    TFS_ABBREV,
-    TFS_LONG,
-    TFS_FULL,
-    TFS_ROMAN
-} tfs_style_e;
-
-typedef enum {
     TFS_ISO_WEEK_NUMBERING_YEAR = 1,
     TFS_DAY_OF_WEEK_IN_MONTH,
     TFS_CYCLIC_YEAR,

@@ -66,6 +66,28 @@ tfs_error_e tfs_field_mask(const char *inbuf, tfs_format_e infmt, unsigned short
     return error;
 }
 
+tfs_error_e tfs_field_style(const char *inbuf, tfs_format_e infmt, tfs_time_unit_e time_unit, tfs_style_e *outStyle) {
+    tfs_style_e style = TFS_NONE;
+    int i;
+    int error = 0;
+    tfs_token_array_t *token_array = parse_string(inbuf, infmt, &error);
+    if (token_array == NULL)
+        return error;
+
+    for (i=0; i<token_array->count; i++) {
+        if (token_array->tokens[i].time_unit == time_unit) {
+            style = token_array->tokens[i].style;
+            break;
+        }
+    }
+
+    tfs_free_token_array(token_array);
+
+    *outStyle = style;
+
+    return error;
+}
+
 tfs_error_e tfs_convert(const char *inbuf, tfs_format_e infmt, char *outbuf, tfs_format_e outfmt) {
     int error = 0;
     tfs_token_array_t *tokens = parse_string(inbuf, infmt, &error);
