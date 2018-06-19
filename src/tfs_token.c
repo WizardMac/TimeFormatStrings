@@ -19,6 +19,8 @@ tfs_token_t *tfs_append_token(tfs_token_array_t *token_array) {
     if (token_array->count == token_array->capacity) {
         token_array->capacity *= 2;
         token_array->tokens = realloc(token_array->tokens, token_array->capacity * sizeof(tfs_token_t));
+        memset(&token_array->tokens[token_array->count], 0,
+                (token_array->capacity - token_array->count) * sizeof(tfs_token_t));
     }
     new_token = &token_array->tokens[token_array->count];
 
