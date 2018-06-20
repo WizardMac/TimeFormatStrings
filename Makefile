@@ -9,9 +9,9 @@ MIN_OSX=10.10
 
 all:
 	@mkdir -p obj
-	[ -x $(RAGEL) ] && $(RAGEL) src/tfs_excel_parser.rl -G2
-	[ -x $(RAGEL) ] && $(RAGEL) src/tfs_stata_parser.rl -G2
-	[ -x $(RAGEL) ] && $(RAGEL) src/tfs_uts35_parser.rl -G2
+	if [ -x $(RAGEL) ]; then $(RAGEL) src/tfs_excel_parser.rl -G2; fi
+	if [ -x $(RAGEL) ]; then $(RAGEL) src/tfs_stata_parser.rl -G2; fi
+	if [ -x $(RAGEL) ]; then $(RAGEL) src/tfs_uts35_parser.rl -G2; fi
 	$(CC) -Os src/*.c -dynamiclib -o $(DYLIB) -pedantic -Wall -Werror -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -mmacosx-version-min=$(MIN_OSX)
 
 install: all

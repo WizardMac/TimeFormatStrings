@@ -138,9 +138,9 @@ st1:
 		goto _test_eof1;
 case 1:
 #line 141 "src/tfs_stata_parser.c"
-	if ( (*p) <= -1 )
-		goto st0;
-	goto tr0;
+	if ( 0 <= (*p) )
+		goto tr0;
+	goto st0;
 tr0:
 #line 28 "src/tfs_stata_parser.rl"
 	{
