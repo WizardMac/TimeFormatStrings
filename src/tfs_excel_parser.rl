@@ -12,14 +12,15 @@
     write data nofinal noerror;
 }%%
 
-int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
+int tfs_parse_excel_format_string_internal(
+        const unsigned char *bytes, size_t len,
         tfs_handle_string_callback handle_literal_cb,
         tfs_handle_string_callback handle_code_cb, void *user_ctx) {
-    u_char *p = (u_char *)bytes;
-    u_char *pe = (u_char *)bytes + len;
-    u_char *str_start = NULL;
+    unsigned char *p = (unsigned char *)bytes;
+    unsigned char *pe = (unsigned char *)bytes + len;
+    unsigned char *str_start = NULL;
 
-    u_char *eof = pe;
+    unsigned char *eof = pe;
 
     int cs;
 

@@ -27,15 +27,15 @@ typedef struct tfs_token_s {
     int              truncate_direction;
     int              pad_direction;
 
-    int              lowercase:1;
-    int              uppercase:1;
-    int              add_dots:1;
+    unsigned int     lowercase:1;
+    unsigned int     uppercase:1;
+    unsigned int     add_dots:1;
 
-    int              start_at_one:1;
-    int              is_standalone:1;
-    int              is_local:1;
+    unsigned int     start_at_one:1;
+    unsigned int     is_standalone:1;
+    unsigned int     is_local:1;
 
-    int              is_aligned:1;
+    unsigned int     is_aligned:1;
 
     char             text[100];
 } tfs_token_t;

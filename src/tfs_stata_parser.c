@@ -20,31 +20,32 @@ static const int stata_format_en_main = 36;
 #line 14 "src/tfs_stata_parser.rl"
 
 
-tfs_error_e tfs_parse_stata_format_string_internal(const u_char *bytes, size_t len,
+tfs_error_e tfs_parse_stata_format_string_internal(
+        const unsigned char *bytes, size_t len,
         tfs_handle_string_callback handle_literal_cb,
         tfs_handle_string_callback handle_code_cb, void *user_ctx) {
-    u_char *p = (u_char *)bytes;
-    u_char *pe = (u_char *)bytes + len;
-    u_char *str_start = NULL;
+    unsigned char *p = (unsigned char *)bytes;
+    unsigned char *pe = (unsigned char *)bytes + len;
+    unsigned char *str_start = NULL;
 
-    u_char *eof = pe;
+    unsigned char *eof = pe;
 
     int cs;
 
    
-#line 36 "src/tfs_stata_parser.c"
+#line 37 "src/tfs_stata_parser.c"
 	{
 	cs = stata_format_start;
 	}
 
-#line 41 "src/tfs_stata_parser.c"
+#line 42 "src/tfs_stata_parser.c"
 	{
 	if ( p == pe )
 		goto _test_eof;
 	switch ( cs )
 	{
 tr45:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
@@ -52,7 +53,7 @@ tr45:
        }
 	goto st36;
 tr72:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
@@ -60,7 +61,7 @@ tr72:
        }
 	goto st36;
 tr100:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
@@ -71,7 +72,7 @@ st36:
 	if ( ++p == pe )
 		goto _test_eof36;
 case 36:
-#line 75 "src/tfs_stata_parser.c"
+#line 76 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 33: goto st1;
 		case 43: goto st36;
@@ -108,7 +109,7 @@ st0:
 cs = 0;
 	goto _out;
 tr44:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
@@ -116,7 +117,7 @@ tr44:
        }
 	goto st1;
 tr71:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
@@ -124,7 +125,7 @@ tr71:
        }
 	goto st1;
 tr99:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
@@ -135,48 +136,48 @@ st1:
 	if ( ++p == pe )
 		goto _test_eof1;
 case 1:
-#line 139 "src/tfs_stata_parser.c"
+#line 140 "src/tfs_stata_parser.c"
 	if ( (*p) <= -1 )
 		goto st0;
 	goto tr0;
 tr0:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st37;
 tr46:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st37;
 tr73:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st37;
 tr101:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -185,7 +186,7 @@ st37:
 	if ( ++p == pe )
 		goto _test_eof37;
 case 37:
-#line 189 "src/tfs_stata_parser.c"
+#line 190 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 33: goto tr44;
 		case 43: goto tr45;
@@ -219,43 +220,43 @@ case 37:
 		goto tr46;
 	goto st0;
 tr21:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st38;
 tr47:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st38;
 tr74:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st38;
 tr102:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -264,7 +265,7 @@ st38:
 	if ( ++p == pe )
 		goto _test_eof38;
 case 38:
-#line 268 "src/tfs_stata_parser.c"
+#line 269 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 33: goto tr44;
 		case 43: goto tr45;
@@ -298,43 +299,43 @@ case 38:
 		goto tr46;
 	goto st0;
 tr22:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st2;
 tr48:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st2;
 tr75:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st2;
 tr103:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -343,7 +344,7 @@ st2:
 	if ( ++p == pe )
 		goto _test_eof2;
 case 2:
-#line 347 "src/tfs_stata_parser.c"
+#line 348 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 46: goto st3;
 		case 77: goto st39;
@@ -364,43 +365,43 @@ case 4:
 		goto st39;
 	goto st0;
 tr40:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st39;
 tr66:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st39;
 tr93:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st39;
 tr121:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -409,7 +410,7 @@ st39:
 	if ( ++p == pe )
 		goto _test_eof39;
 case 39:
-#line 413 "src/tfs_stata_parser.c"
+#line 414 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 33: goto tr71;
 		case 43: goto tr72;
@@ -443,43 +444,43 @@ case 39:
 		goto tr73;
 	goto st0;
 tr23:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st5;
 tr49:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st5;
 tr76:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st5;
 tr104:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -488,48 +489,48 @@ st5:
 	if ( ++p == pe )
 		goto _test_eof5;
 case 5:
-#line 492 "src/tfs_stata_parser.c"
+#line 493 "src/tfs_stata_parser.c"
 	if ( (*p) == 67 )
 		goto st39;
 	goto st0;
 tr24:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st6;
 tr50:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st6;
 tr77:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st6;
 tr105:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -538,7 +539,7 @@ st6:
 	if ( ++p == pe )
 		goto _test_eof6;
 case 6:
-#line 542 "src/tfs_stata_parser.c"
+#line 543 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 65: goto st7;
 		case 68: goto st39;
@@ -617,43 +618,43 @@ case 40:
 		goto tr73;
 	goto st0;
 tr25:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st12;
 tr51:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st12;
 tr78:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st12;
 tr106:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -662,50 +663,50 @@ st12:
 	if ( ++p == pe )
 		goto _test_eof12;
 case 12:
-#line 666 "src/tfs_stata_parser.c"
+#line 667 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 72: goto st39;
 		case 104: goto st39;
 	}
 	goto st0;
 tr26:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st13;
 tr52:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st13;
 tr79:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st13;
 tr107:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -714,7 +715,7 @@ st13:
 	if ( ++p == pe )
 		goto _test_eof13;
 case 13:
-#line 718 "src/tfs_stata_parser.c"
+#line 719 "src/tfs_stata_parser.c"
 	if ( (*p) == 74 )
 		goto st14;
 	goto st0;
@@ -726,43 +727,43 @@ case 14:
 		goto st39;
 	goto st0;
 tr27:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st15;
 tr53:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st15;
 tr80:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st15;
 tr108:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -771,7 +772,7 @@ st15:
 	if ( ++p == pe )
 		goto _test_eof15;
 case 15:
-#line 775 "src/tfs_stata_parser.c"
+#line 776 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 77: goto st39;
 		case 111: goto st16;
@@ -822,43 +823,43 @@ case 41:
 		goto tr73;
 	goto st0;
 tr28:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st17;
 tr54:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st17;
 tr81:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st17;
 tr109:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -867,48 +868,48 @@ st17:
 	if ( ++p == pe )
 		goto _test_eof17;
 case 17:
-#line 871 "src/tfs_stata_parser.c"
+#line 872 "src/tfs_stata_parser.c"
 	if ( (*p) == 78 )
 		goto st39;
 	goto st0;
 tr29:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st18;
 tr55:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st18;
 tr82:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st18;
 tr110:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -917,48 +918,48 @@ st18:
 	if ( ++p == pe )
 		goto _test_eof18;
 case 18:
-#line 921 "src/tfs_stata_parser.c"
+#line 922 "src/tfs_stata_parser.c"
 	if ( (*p) == 83 )
 		goto st39;
 	goto st0;
 tr30:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st19;
 tr56:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st19;
 tr83:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st19;
 tr111:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -967,48 +968,48 @@ st19:
 	if ( ++p == pe )
 		goto _test_eof19;
 case 19:
-#line 971 "src/tfs_stata_parser.c"
+#line 972 "src/tfs_stata_parser.c"
 	if ( (*p) == 87 )
 		goto st39;
 	goto st0;
 tr31:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st20;
 tr57:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st20;
 tr84:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st20;
 tr112:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -1017,12 +1018,12 @@ st20:
 	if ( ++p == pe )
 		goto _test_eof20;
 case 20:
-#line 1021 "src/tfs_stata_parser.c"
+#line 1022 "src/tfs_stata_parser.c"
 	if ( (*p) == 89 )
 		goto st39;
 	goto st0;
 tr58:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
@@ -1030,7 +1031,7 @@ tr58:
        }
 	goto st42;
 tr85:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
@@ -1038,7 +1039,7 @@ tr85:
        }
 	goto st42;
 tr113:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
@@ -1049,7 +1050,7 @@ st42:
 	if ( ++p == pe )
 		goto _test_eof42;
 case 42:
-#line 1053 "src/tfs_stata_parser.c"
+#line 1054 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 33: goto tr99;
 		case 43: goto tr100;
@@ -1083,43 +1084,43 @@ case 42:
 		goto tr101;
 	goto st0;
 tr33:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st21;
 tr59:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st21;
 tr86:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st21;
 tr114:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -1128,7 +1129,7 @@ st21:
 	if ( ++p == pe )
 		goto _test_eof21;
 case 21:
-#line 1132 "src/tfs_stata_parser.c"
+#line 1133 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 46: goto st22;
 		case 109: goto st39;
@@ -1142,43 +1143,43 @@ case 22:
 		goto st4;
 	goto st0;
 tr34:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st23;
 tr60:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st23;
 tr87:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st23;
 tr115:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -1187,48 +1188,48 @@ st23:
 	if ( ++p == pe )
 		goto _test_eof23;
 case 23:
-#line 1191 "src/tfs_stata_parser.c"
+#line 1192 "src/tfs_stata_parser.c"
 	if ( (*p) == 99 )
 		goto st39;
 	goto st0;
 tr35:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st24;
 tr61:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st24;
 tr88:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st24;
 tr116:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -1237,7 +1238,7 @@ st24:
 	if ( ++p == pe )
 		goto _test_eof24;
 case 24:
-#line 1241 "src/tfs_stata_parser.c"
+#line 1242 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 97: goto st43;
 		case 100: goto st39;
@@ -1280,43 +1281,43 @@ case 43:
 		goto tr73;
 	goto st0;
 tr36:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st44;
 tr62:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st44;
 tr89:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st44;
 tr117:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -1325,7 +1326,7 @@ st44:
 	if ( ++p == pe )
 		goto _test_eof44;
 case 44:
-#line 1329 "src/tfs_stata_parser.c"
+#line 1330 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 33: goto tr71;
 		case 43: goto tr72;
@@ -1359,43 +1360,43 @@ case 44:
 		goto tr73;
 	goto st0;
 tr37:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st25;
 tr63:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st25;
 tr90:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st25;
 tr118:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -1404,7 +1405,7 @@ st25:
 	if ( ++p == pe )
 		goto _test_eof25;
 case 25:
-#line 1408 "src/tfs_stata_parser.c"
+#line 1409 "src/tfs_stata_parser.c"
 	if ( (*p) == 106 )
 		goto st26;
 	goto st0;
@@ -1416,43 +1417,43 @@ case 26:
 		goto st39;
 	goto st0;
 tr38:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st27;
 tr64:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st27;
 tr91:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st27;
 tr119:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -1461,50 +1462,50 @@ st27:
 	if ( ++p == pe )
 		goto _test_eof27;
 case 27:
-#line 1465 "src/tfs_stata_parser.c"
+#line 1466 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 109: goto st39;
 		case 111: goto st16;
 	}
 	goto st0;
 tr39:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st28;
 tr65:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st28;
 tr92:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st28;
 tr120:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -1513,48 +1514,48 @@ st28:
 	if ( ++p == pe )
 		goto _test_eof28;
 case 28:
-#line 1517 "src/tfs_stata_parser.c"
+#line 1518 "src/tfs_stata_parser.c"
 	if ( (*p) == 110 )
 		goto st39;
 	goto st0;
 tr41:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st29;
 tr67:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st29;
 tr94:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st29;
 tr122:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -1563,48 +1564,48 @@ st29:
 	if ( ++p == pe )
 		goto _test_eof29;
 case 29:
-#line 1567 "src/tfs_stata_parser.c"
+#line 1568 "src/tfs_stata_parser.c"
 	if ( (*p) == 115 )
 		goto st39;
 	goto st0;
 tr42:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st30;
 tr68:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st30;
 tr95:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st30;
 tr123:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -1613,48 +1614,48 @@ st30:
 	if ( ++p == pe )
 		goto _test_eof30;
 case 30:
-#line 1617 "src/tfs_stata_parser.c"
+#line 1618 "src/tfs_stata_parser.c"
 	if ( (*p) == 119 )
 		goto st39;
 	goto st0;
 tr43:
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st31;
 tr69:
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st31;
 tr96:
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
 	goto st31;
 tr124:
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
-#line 28 "src/tfs_stata_parser.rl"
+#line 29 "src/tfs_stata_parser.rl"
 	{
            str_start = p;
        }
@@ -1663,7 +1664,7 @@ st31:
 	if ( ++p == pe )
 		goto _test_eof31;
 case 31:
-#line 1667 "src/tfs_stata_parser.c"
+#line 1668 "src/tfs_stata_parser.c"
 	if ( (*p) == 121 )
 		goto st39;
 	goto st0;
@@ -1864,7 +1865,7 @@ case 47:
 	case 45: 
 	case 46: 
 	case 47: 
-#line 31 "src/tfs_stata_parser.rl"
+#line 32 "src/tfs_stata_parser.rl"
 	{
            if (handle_code_cb) {
                handle_code_cb((char *)str_start, p - str_start, user_ctx);
@@ -1873,7 +1874,7 @@ case 47:
 	break;
 	case 37: 
 	case 38: 
-#line 37 "src/tfs_stata_parser.rl"
+#line 38 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb((char *)str_start, p - str_start, user_ctx);
@@ -1881,21 +1882,21 @@ case 47:
        }
 	break;
 	case 42: 
-#line 43 "src/tfs_stata_parser.rl"
+#line 44 "src/tfs_stata_parser.rl"
 	{
            if (handle_literal_cb) {
                handle_literal_cb(" ", 1, user_ctx);
            }
        }
 	break;
-#line 1892 "src/tfs_stata_parser.c"
+#line 1893 "src/tfs_stata_parser.c"
 	}
 	}
 
 	_out: {}
 	}
 
-#line 81 "src/tfs_stata_parser.rl"
+#line 82 "src/tfs_stata_parser.rl"
 
 
     /* suppress warning */
