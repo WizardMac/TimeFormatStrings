@@ -14,7 +14,8 @@ libtfs_la_SOURCES = \
 	src/tfs_uts35.c \
 	src/tfs_uts35_parser.c
 
-libtfs_la_CFLAGS = -D_GNU_SOURCE -Wall @EXTRA_WARNINGS@ -Werror -pedantic-errors -std=c99 @SANITIZERS@
+libtfs_la_CFLAGS = -g -D_GNU_SOURCE -Wall @EXTRA_WARNINGS@ -Werror -pedantic-errors -std=c99 @SANITIZERS@
+libtfs_la_LDFLAGS = @SANITIZERS@
 
 if HAVE_RAGEL
 .rl.c:
@@ -39,9 +40,57 @@ noinst_HEADERS = \
 check_PROGRAMS = \
 	tfs_test
 
-tfs_test_SOURCES = test/tfs_test.c
+tfs_test_SOURCES = src/test/tfs_test.c
 
 tfs_test_LDADD = libtfs.la
 tfs_test_CFLAGS = -Wall -Werror -pedantic-errors -std=c99 -Isrc
 
 TESTS = tfs_test
+
+if HAVE_FUZZER
+noinst_PROGRAMS = \
+	fuzz_format_excel \
+	fuzz_format_posix \
+	fuzz_format_sas \
+	fuzz_format_spss \
+	fuzz_format_stata \
+	fuzz_format_uts35
+
+noinst_HEADERS += src/fuzz/fuzz_format.h
+
+fuzz_format_excel_SOURCES = \
+	src/fuzz/fuzz_format.c \
+	src/fuzz/fuzz_format_excel.c
+fuzz_format_excel_LDADD = libtfs.la -lstdc++ -lFuzzer
+fuzz_format_excel_CFLAGS = -g -Wall @EXTRA_WARNINGS@ -Werror -pedantic-errors -std=c99 @SANITIZERS@
+
+fuzz_format_posix_SOURCES = \
+	src/fuzz/fuzz_format.c \
+	src/fuzz/fuzz_format_posix.c
+fuzz_format_posix_LDADD = libtfs.la -lstdc++ -lFuzzer
+fuzz_format_posix_CFLAGS = -g -Wall @EXTRA_WARNINGS@ -Werror -pedantic-errors -std=c99 @SANITIZERS@
+
+fuzz_format_sas_SOURCES = \
+	src/fuzz/fuzz_format.c \
+	src/fuzz/fuzz_format_sas.c
+fuzz_format_sas_LDADD = libtfs.la -lstdc++ -lFuzzer
+fuzz_format_sas_CFLAGS = -g -Wall @EXTRA_WARNINGS@ -Werror -pedantic-errors -std=c99 @SANITIZERS@
+
+fuzz_format_spss_SOURCES = \
+	src/fuzz/fuzz_format.c \
+	src/fuzz/fuzz_format_spss.c
+fuzz_format_spss_LDADD = libtfs.la -lstdc++ -lFuzzer
+fuzz_format_spss_CFLAGS = -g -Wall @EXTRA_WARNINGS@ -Werror -pedantic-errors -std=c99 @SANITIZERS@
+
+fuzz_format_stata_SOURCES = \
+	src/fuzz/fuzz_format.c \
+	src/fuzz/fuzz_format_stata.c
+fuzz_format_stata_LDADD = libtfs.la -lstdc++ -lFuzzer
+fuzz_format_stata_CFLAGS = -g -Wall @EXTRA_WARNINGS@ -Werror -pedantic-errors -std=c99 @SANITIZERS@
+
+fuzz_format_uts35_SOURCES = \
+	src/fuzz/fuzz_format.c \
+	src/fuzz/fuzz_format_uts35.c
+fuzz_format_uts35_LDADD = libtfs.la -lstdc++ -lFuzzer
+fuzz_format_uts35_CFLAGS = -g -Wall @EXTRA_WARNINGS@ -Werror -pedantic-errors -std=c99 @SANITIZERS@
+endif

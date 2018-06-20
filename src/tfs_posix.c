@@ -85,7 +85,7 @@ tfs_error_e tfs_posix_generate(char *format, size_t format_len, tfs_token_array_
     return error;
 }
 
-tfs_token_array_t *tfs_posix_parse(const char *bytes, int *outError) {
+tfs_token_array_t *tfs_posix_parse(const char *bytes, tfs_handle_string_callback handle_error, tfs_error_e *outError) {
     tfs_token_array_t *tokens = tfs_init_token_array(10);
     tfs_token_t *new_token = NULL;
     int literal_len = 0;
@@ -95,6 +95,8 @@ tfs_token_array_t *tfs_posix_parse(const char *bytes, int *outError) {
             if (literal_len) {
                 new_token = tfs_append_token(tokens);
                 new_token->is_literal = 1;
+                if (literal_len > sizeof(new_token->text))
+                    literal_len = sizeof(new_token->text);
                 memcpy(new_token->text, p-literal_len, literal_len);
                 literal_len = 0;
             }
@@ -161,6 +163,11 @@ tfs_token_array_t *tfs_posix_parse(const char *bytes, int *outError) {
                     }
                 }
                 if (i == sizeof(posix_tokens)/sizeof(posix_tokens[0])) {
+                    if (handle_error) {
+                        char error_buf[1024];
+                        snprintf(error_buf, sizeof(error_buf), "Unrecognized percent code: %c", *p);
+                        handle_error(error_buf, sizeof(error_buf), tokens);
+                    }
                     *outError = TFS_PARSE_ERROR;
                     tfs_free_token_array(tokens);
                     return NULL;
@@ -174,6 +181,8 @@ tfs_token_array_t *tfs_posix_parse(const char *bytes, int *outError) {
     if (literal_len) {
         new_token = tfs_append_token(tokens);
         new_token->is_literal = 1;
+        if (literal_len > sizeof(new_token->text))
+            literal_len = sizeof(new_token->text);
         memcpy(new_token->text, p-literal_len, literal_len);
     }
     return tokens;

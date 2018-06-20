@@ -18,6 +18,9 @@ AC_ARG_VAR([RAGELFLAGS], [Ragel generator flags])
 AC_PATH_PROG([RAGEL], [ragel], [true])
 AM_CONDITIONAL([HAVE_RAGEL], test "$RAGEL" != "true")
 
+AC_CHECK_LIB([Fuzzer], [__libfuzzer_is_present], [true], [false], [-lstdc++])
+AM_CONDITIONAL([HAVE_FUZZER], test "$ac_cv_lib_Fuzzer___libfuzzer_is_present" = yes)
+
 AC_OUTPUT([Makefile])
 
 AC_MSG_RESULT([

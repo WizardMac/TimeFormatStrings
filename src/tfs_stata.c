@@ -94,15 +94,16 @@ static int handle_literal(const char *literal, size_t len, void *ctx) {
     return 0;
 }
 
-tfs_token_array_t *tfs_stata_parse(const char *bytes, int *outError) {
+tfs_token_array_t *tfs_stata_parse(const char *bytes, tfs_handle_string_callback handle_error, tfs_error_e *outError) {
     tfs_token_array_t *token_array = tfs_init_token_array(10);
     tfs_error_e error = TFS_OK;
     size_t len = strlen(bytes);
     int i;
+    tfs_parse_ctx_t ctx = {
+        .handle_code = &handle_code, .handle_literal = &handle_literal,
+        .handle_error = handle_error, .user_ctx = token_array };
 
-    error = tfs_parse_stata_format_string_internal(
-            (const unsigned char *)bytes, len,
-            &handle_literal, &handle_code, token_array);
+    error = tfs_parse_stata_format_string_internal((const unsigned char *)bytes, len, &ctx);
 
     if (error != TFS_OK) {
         *outError = error;

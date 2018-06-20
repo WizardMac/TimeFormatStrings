@@ -15,8 +15,7 @@
 
 tfs_error_e tfs_parse_stata_format_string_internal(
         const unsigned char *bytes, size_t len,
-        tfs_handle_string_callback handle_literal_cb,
-        tfs_handle_string_callback handle_code_cb, void *user_ctx) {
+        tfs_parse_ctx_t *ctx) {
     unsigned char *p = (unsigned char *)bytes;
     unsigned char *pe = (unsigned char *)bytes + len;
     unsigned char *str_start = NULL;
@@ -30,20 +29,20 @@ tfs_error_e tfs_parse_stata_format_string_internal(
            str_start = fpc;
        }
        action handle_code {
-           if (handle_code_cb) {
-               handle_code_cb((char *)str_start, fpc - str_start, user_ctx);
+           if (ctx->handle_code) {
+               ctx->handle_code((char *)str_start, fpc - str_start, ctx->user_ctx);
            }
        }
 
        action handle_literal {
-           if (handle_literal_cb) {
-               handle_literal_cb((char *)str_start, fpc - str_start, user_ctx);
+           if (ctx->handle_literal) {
+               ctx->handle_literal((char *)str_start, fpc - str_start, ctx->user_ctx);
            }
        }
 
        action handle_space{
-           if (handle_literal_cb) {
-               handle_literal_cb(" ", 1, user_ctx);
+           if (ctx->handle_literal) {
+               ctx->handle_literal(" ", 1, ctx->user_ctx);
            }
        }
 
@@ -85,8 +84,12 @@ tfs_error_e tfs_parse_stata_format_string_internal(
     (void)stata_format_en_main;
 
     if (cs < %%{ write first_final; }%%) {
-        printf("Error parsing Stata format string '%s' around col #%ld (%c)\n", 
-                p, (long)(p - bytes + 1), *p);
+        if (ctx->handle_error) {
+            char buf[1024];
+            snprintf(buf, sizeof(buf), "Error parsing Stata format string '%s' around col #%ld (%c)\n", 
+                    p, (long)(p - bytes + 1), *p);
+            ctx->handle_error(buf, sizeof(buf), ctx->user_ctx);
+        }
         return TFS_PARSE_ERROR;
     }
 

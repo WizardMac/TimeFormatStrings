@@ -11,24 +11,30 @@
 #include "tfs_sas.h"
 #include "tfs_posix.h"
 
-static tfs_token_array_t *parse_string(const char *inbuf, tfs_format_e infmt, int *outError) {
+static int print_error(const char *str, size_t len, void *ctx) {
+    fprintf(stderr, "%s\n", str);
+    return 0;
+}
+
+static tfs_token_array_t *parse_string(const char *inbuf, tfs_format_e infmt,
+        tfs_handle_string_callback handle_error, tfs_error_e *outError) {
     if (infmt == TFS_EXCEL) {
-        return tfs_excel_parse(inbuf, outError);
+        return tfs_excel_parse(inbuf, handle_error, outError);
     }
     if (infmt == TFS_POSIX) {
-        return tfs_posix_parse(inbuf, outError);
+        return tfs_posix_parse(inbuf, handle_error, outError);
     }
     if (infmt == TFS_SAS) {
-        return tfs_sas_parse(inbuf, outError);
+        return tfs_sas_parse(inbuf, handle_error, outError);
     }
     if (infmt == TFS_SPSS) {
-        return tfs_spss_parse(inbuf, outError);
+        return tfs_spss_parse(inbuf, handle_error, outError);
     }
     if (infmt == TFS_STATA) {
-        return tfs_stata_parse(inbuf, outError);
+        return tfs_stata_parse(inbuf, handle_error, outError);
     }
     if (infmt == TFS_UTS35) {
-        return tfs_uts35_parse(inbuf, outError);
+        return tfs_uts35_parse(inbuf, handle_error, outError);
     }
 
     if (outError)
@@ -54,11 +60,21 @@ static int generate_string(char *outbuf, size_t outbuf_len, tfs_format_e outfmt,
     return TFS_UNKNOWN_FORMAT;
 }
 
+tfs_error_e tfs_validate(const char *inbuf, tfs_format_e infmt) {
+    tfs_error_e error = TFS_OK;
+    tfs_token_array_t *token_array = parse_string(inbuf, infmt, NULL, &error);
+
+    if (token_array)
+        tfs_free_token_array(token_array);
+
+    return error;
+}
+
 tfs_error_e tfs_field_mask(const char *inbuf, tfs_format_e infmt, unsigned short *outMask) {
     unsigned short mask = 0;
     int i;
-    int error = 0;
-    tfs_token_array_t *token_array = parse_string(inbuf, infmt, &error);
+    tfs_error_e error = TFS_OK;
+    tfs_token_array_t *token_array = parse_string(inbuf, infmt, &print_error, &error);
     if (token_array == NULL)
         return error;
 
@@ -76,8 +92,8 @@ tfs_error_e tfs_field_mask(const char *inbuf, tfs_format_e infmt, unsigned short
 tfs_error_e tfs_field_style(const char *inbuf, tfs_format_e infmt, tfs_time_unit_e time_unit, tfs_style_e *outStyle) {
     tfs_style_e style = TFS_NONE;
     int i;
-    int error = 0;
-    tfs_token_array_t *token_array = parse_string(inbuf, infmt, &error);
+    tfs_error_e error = TFS_OK;
+    tfs_token_array_t *token_array = parse_string(inbuf, infmt, &print_error, &error);
     if (token_array == NULL)
         return error;
 
@@ -96,8 +112,8 @@ tfs_error_e tfs_field_style(const char *inbuf, tfs_format_e infmt, tfs_time_unit
 }
 
 tfs_error_e tfs_convert(const char *inbuf, tfs_format_e infmt, char *outbuf, tfs_format_e outfmt, size_t outbuf_len) {
-    int error = 0;
-    tfs_token_array_t *tokens = parse_string(inbuf, infmt, &error);
+    tfs_error_e error = TFS_OK;
+    tfs_token_array_t *tokens = parse_string(inbuf, infmt, &print_error, &error);
     if (tokens == NULL) {
         return error;
     }

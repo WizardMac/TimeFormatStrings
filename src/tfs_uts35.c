@@ -178,6 +178,7 @@ static int handle_literal(const char *literal, size_t len, void *ctx) {
     int in_i = 0, out_i = 0;
     int was_quote = 0;
     tfs_token_t *new_token = tfs_append_token(tokens);
+    int out_len = sizeof(new_token->text);
     new_token->is_literal = 1;
     char *out_text = new_token->text;
 
@@ -187,7 +188,7 @@ static int handle_literal(const char *literal, size_t len, void *ctx) {
     }
 
     /* TODO bounds check */
-    while (in_i < len) {
+    while (in_i < len && out_i < out_len) {
         if (literal[in_i] == '\'') {
             if (was_quote) {
                 out_text[out_i++] = literal[in_i];
@@ -201,19 +202,22 @@ static int handle_literal(const char *literal, size_t len, void *ctx) {
         }
         in_i++;
     }
-    out_text[out_i] = '\0';
+
+    if (out_i < out_len)
+        out_text[out_i++] = '\0';
 
     return 0;
 }
 
-tfs_token_array_t *tfs_uts35_parse(const char *bytes, int *outError) {
+tfs_token_array_t *tfs_uts35_parse(const char *bytes, tfs_handle_string_callback handle_error, tfs_error_e *outError) {
     tfs_token_array_t *token_array = tfs_init_token_array(10);
     int error = 0;
     size_t len = strlen(bytes);
+    tfs_parse_ctx_t ctx = {
+        .handle_literal = &handle_literal, .handle_code = &handle_code,
+        .handle_error = handle_error, .user_ctx = token_array };
 
-    error = tfs_parse_uts35_format_string_internal(
-            (const unsigned char *)bytes, len,
-            &handle_literal, &handle_code, token_array);
+    error = tfs_parse_uts35_format_string_internal((const unsigned char *)bytes, len, &ctx);
 
     if (error) {
         *outError = error;

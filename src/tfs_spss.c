@@ -7,7 +7,7 @@
 #include "tfs_internal.h"
 #include "tfs_spss.h"
 
-tfs_token_array_t *tfs_spss_parse(const char *bytes, int *outError) {
+tfs_token_array_t *tfs_spss_parse(const char *bytes, tfs_handle_string_callback handle_error, tfs_error_e *outError) {
     tfs_token_array_t *token_array = tfs_init_token_array(10);
     tfs_token_t *token = NULL;
     if (strncasecmp(bytes, "DATETIME", sizeof("DATETIME")-1) == 0) {
@@ -67,12 +67,17 @@ tfs_token_array_t *tfs_spss_parse(const char *bytes, int *outError) {
         token = append_year(token_array, TFS_ERA, TFS_NUMBER);
         token->modifier = TFS_ISO_WEEK_NUMBERING_YEAR;
     }
+
     if (token == NULL) {
+        if (handle_error) {
+            char error_buf[1024];
+            snprintf(error_buf, sizeof(error_buf), "Unrecognized SPSS format: %s", bytes);
+            handle_error(error_buf, sizeof(error_buf), token_array);
+        }
         *outError = TFS_PARSE_ERROR;
         tfs_free_token_array(token_array);
         return NULL;
     }
-
 
     return token_array;
 }
