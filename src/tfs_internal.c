@@ -8,6 +8,7 @@
 tfs_token_t *append_ampm(tfs_token_array_t *token_array, tfs_style_e style) {
     tfs_token_t *token = tfs_append_token(token_array);
     token->time_unit = TFS_PERIOD;
+    token->relative_to = TFS_DAY;
     token->style = style;
 
     return token;
@@ -61,6 +62,7 @@ tfs_token_t *append_week(tfs_token_array_t *token_array, tfs_time_unit_e relativ
 tfs_token_t *append_month(tfs_token_array_t *token_array, tfs_style_e style) {
     tfs_token_t *token = tfs_append_token(token_array);
     token->time_unit = TFS_MONTH;
+    token->relative_to = TFS_YEAR;
     token->style = style;
 
     return token;
@@ -69,6 +71,7 @@ tfs_token_t *append_month(tfs_token_array_t *token_array, tfs_style_e style) {
 tfs_token_t *append_quarter(tfs_token_array_t *token_array, tfs_style_e style) {
     tfs_token_t *token = tfs_append_token(token_array);
     token->time_unit = TFS_QUARTER;
+    token->relative_to = TFS_YEAR;
     token->style = style;
 
     return token;

@@ -1,10 +1,16 @@
 
+
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
 typedef enum {
     TFS_EXCEL,
     TFS_STATA,
     TFS_UTS35,
     TFS_SAS,
-    TFS_SPSS
+    TFS_SPSS,
+    TFS_POSIX
 } tfs_format_e;
 
 typedef enum {
@@ -47,3 +53,7 @@ typedef enum {
 tfs_error_e tfs_field_mask(const char *inbuf, tfs_format_e infmt, unsigned short *mask);
 tfs_error_e tfs_field_style(const char *inbuf, tfs_format_e infmt, tfs_time_unit_e time_unit, tfs_style_e *style);
 tfs_error_e tfs_convert(const char *inbuf, tfs_format_e infmt, char *outbuf, tfs_format_e outfmt);
+
+#if defined(__cplusplus)
+}
+#endif

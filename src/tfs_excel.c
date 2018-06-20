@@ -18,27 +18,27 @@ static tfs_token_lookup_t excel_tokens[] = {
     { .text = "yy",    .token = { .time_unit = TFS_YEAR, .relative_to = TFS_CENTURY, .style = TFS_2DIGIT } },
     { .text = "yyyy",  .token = { .time_unit = TFS_YEAR, .relative_to = TFS_ERA, .style = TFS_NUMBER } },
 
-    { .text = "m",     .token = { .time_unit = TFS_MONTH, .style = TFS_NUMBER } },
-    { .text = "mm",    .token = { .time_unit = TFS_MONTH, .style = TFS_2DIGIT } },
-    { .text = "mmm",   .token = { .time_unit = TFS_MONTH, .style = TFS_ABBREV } },
-    { .text = "mmmm",  .token = { .time_unit = TFS_MONTH, .style = TFS_FULL } },
-    { .text = "mmmmm", .token = { .time_unit = TFS_MONTH, .style = TFS_NARROW } },
+    { .text = "m",     .token = { .time_unit = TFS_MONTH, .relative_to = TFS_YEAR, .style = TFS_NUMBER } },
+    { .text = "mm",    .token = { .time_unit = TFS_MONTH, .relative_to = TFS_YEAR, .style = TFS_2DIGIT } },
+    { .text = "mmm",   .token = { .time_unit = TFS_MONTH, .relative_to = TFS_YEAR, .style = TFS_ABBREV } },
+    { .text = "mmmm",  .token = { .time_unit = TFS_MONTH, .relative_to = TFS_YEAR, .style = TFS_FULL } },
+    { .text = "mmmmm", .token = { .time_unit = TFS_MONTH, .relative_to = TFS_YEAR, .style = TFS_NARROW } },
 
     { .text = "d",     .token = { .time_unit = TFS_DAY, .relative_to = TFS_MONTH, .style = TFS_NUMBER } },
     { .text = "dd",    .token = { .time_unit = TFS_DAY, .relative_to = TFS_MONTH, .style = TFS_2DIGIT } },
     { .text = "ddd",   .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK,  .style = TFS_ABBREV } },
     { .text = "dddd",  .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK,  .style = TFS_FULL } },
 
-    { .text = "AM/PM", .token = { .time_unit = TFS_PERIOD, .style = TFS_ABBREV, .uppercase = 1 } },
-    { .text = "am/pm", .token = { .time_unit = TFS_PERIOD, .style = TFS_ABBREV, .lowercase = 1 } },
-    { .text = "A/P",   .token = { .time_unit = TFS_PERIOD, .style = TFS_NARROW, .uppercase = 1 } },
-    { .text = "a/p",   .token = { .time_unit = TFS_PERIOD, .style = TFS_NARROW, .lowercase = 1 } },
+    { .text = "AM/PM", .token = { .time_unit = TFS_PERIOD, .relative_to = TFS_DAY, .style = TFS_ABBREV, .uppercase = 1 } },
+    { .text = "am/pm", .token = { .time_unit = TFS_PERIOD, .relative_to = TFS_DAY, .style = TFS_ABBREV, .lowercase = 1 } },
+    { .text = "A/P",   .token = { .time_unit = TFS_PERIOD, .relative_to = TFS_DAY, .style = TFS_NARROW, .uppercase = 1 } },
+    { .text = "a/p",   .token = { .time_unit = TFS_PERIOD, .relative_to = TFS_DAY, .style = TFS_NARROW, .lowercase = 1 } },
 
     { .text = "h",     .token = { .time_unit = TFS_HOUR, .relative_to = TFS_DAY, .style = TFS_NUMBER } },
     { .text = "hh",    .token = { .time_unit = TFS_HOUR, .relative_to = TFS_DAY, .style = TFS_2DIGIT } },
 
-    { .text = "s",     .token = { .time_unit = TFS_SECOND, .style = TFS_NUMBER } },
-    { .text = "ss",    .token = { .time_unit = TFS_SECOND, .style = TFS_2DIGIT } }
+    { .text = "s",     .token = { .time_unit = TFS_SECOND, .relative_to = TFS_MINUTE, .style = TFS_NUMBER } },
+    { .text = "ss",    .token = { .time_unit = TFS_SECOND, .relative_to = TFS_MINUTE, .style = TFS_2DIGIT } }
 };
 
 static int handle_code(const char *code, size_t len, void *ctx) {
@@ -50,6 +50,7 @@ static int handle_code(const char *code, size_t len, void *ctx) {
         size_t fractional_len = 0;
         new_token = tfs_append_token(tokens);
         new_token->time_unit = TFS_SECOND;
+        new_token->relative_to = TFS_MINUTE;
         if (len > 1 && code[1] == 's') {
             new_token->style = TFS_2DIGIT;
             if (len > 3 && code[2] == '.') {
@@ -71,6 +72,7 @@ static int handle_code(const char *code, size_t len, void *ctx) {
     } else if ((code[0] == 'A' || code[0] == 'P' || code[0] == 'a' || code[0] == 'p') && len < 3) {
         new_token = tfs_append_token(tokens);
         new_token->time_unit = TFS_PERIOD;
+        new_token->relative_to = TFS_DAY;
         new_token->style = len == 2 ? TFS_ABBREV : TFS_NARROW;
         new_token->uppercase = (code[0] == 'A' || code[0] == 'P');
         new_token->lowercase = (code[0] == 'a' || code[0] == 'p');
@@ -154,6 +156,7 @@ tfs_token_array_t *tfs_excel_parse(const char *bytes, int *outError) {
             }
             if (token->time_unit == TFS_MONTH && last_unit == TFS_HOUR) {
                 token->time_unit = TFS_MINUTE;
+                token->relative_to = TFS_HOUR;
             }
             last_unit = token->time_unit;
         }
@@ -167,6 +170,7 @@ tfs_token_array_t *tfs_excel_parse(const char *bytes, int *outError) {
         if (!token->is_literal) {
             if (token->time_unit == TFS_MONTH && last_unit == TFS_SECOND) {
                 token->time_unit = TFS_MINUTE;
+                token->relative_to = TFS_HOUR;
             }
 
             last_unit = token->time_unit;

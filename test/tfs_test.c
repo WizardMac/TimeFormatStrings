@@ -6,13 +6,14 @@
 
 #include "tfs.h"
 
-tfs_format_e test_input_formats[] = { TFS_EXCEL, TFS_STATA, TFS_UTS35 };
-tfs_format_e test_output_formats[] = { TFS_EXCEL, TFS_STATA, TFS_UTS35 };
+tfs_format_e test_input_formats[] = { TFS_EXCEL, TFS_POSIX, TFS_STATA, TFS_UTS35 };
+tfs_format_e test_output_formats[] = { TFS_EXCEL, TFS_POSIX, TFS_STATA, TFS_UTS35 };
 
 typedef struct tfs_test_s {
     char            name[50];
 
     char            excel[40];
+    char            posix[40];
     char            stata[40];
     char            uts35[40];
     unsigned short  mask;
@@ -43,6 +44,7 @@ tfs_test_t all_tests[] = {
     {
         .name = "Century (zero-padded)",
         .stata = "CC",
+        .posix = "%C",
         .mask = TFS_CENTURY
     },
 
@@ -51,6 +53,7 @@ tfs_test_t all_tests[] = {
         .excel = "yyyy",
         .stata = "ccYY",
         .uts35 = "y",
+        .posix = "%Y",
         .mask = TFS_YEAR
     },
     {
@@ -69,11 +72,13 @@ tfs_test_t all_tests[] = {
         .excel = "yy",
         .stata = "YY",
         .uts35 = "yy",
+        .posix = "%y",
         .mask = TFS_YEAR
     },
     {
         .name = "Week-numbering year",
         .uts35 = "Y",
+        .posix = "%G",
         .mask = TFS_YEAR
     },
     {
@@ -122,6 +127,7 @@ tfs_test_t all_tests[] = {
         .excel = "mm",
         .stata = "NN",
         .uts35 = "MM",
+        .posix = "%m",
         .mask = TFS_MONTH
     },
     {
@@ -129,6 +135,7 @@ tfs_test_t all_tests[] = {
         .excel = "mmm",
         .stata = "Mon",
         .uts35 = "MMM",
+        .posix = "%b",
         .mask = TFS_MONTH
     },
     {
@@ -136,6 +143,7 @@ tfs_test_t all_tests[] = {
         .excel = "mmmm",
         .stata = "Month",
         .uts35 = "MMMM",
+        .posix = "%B",
         .mask = TFS_MONTH
     },
     {
@@ -176,6 +184,7 @@ tfs_test_t all_tests[] = {
         .excel = "d",
         .stata = "dd",
         .uts35 = "d",
+        .posix = "%e",
         .mask = TFS_DAY
     },
     {
@@ -183,6 +192,7 @@ tfs_test_t all_tests[] = {
         .excel = "dd",
         .stata = "DD",
         .uts35 = "dd",
+        .posix = "%d",
         .mask = TFS_DAY
     },
     {
@@ -190,6 +200,7 @@ tfs_test_t all_tests[] = {
         .excel = "ddd",
         .stata = "Day",
         .uts35 = "EEE",
+        .posix = "%a",
         .mask = TFS_DAY
     },
     {
@@ -223,6 +234,7 @@ tfs_test_t all_tests[] = {
         .excel = "dddd",
         .stata = "Dayname",
         .uts35 = "EEEE",
+        .posix = "%A",
         .mask = TFS_DAY
     },
     {
@@ -235,6 +247,7 @@ tfs_test_t all_tests[] = {
         .name = "Day of year (zero-padded)",
         .stata = "JJJ",
         .uts35 = "DDD",
+        .posix = "%j",
         .mask = TFS_DAY
     },
     {
@@ -252,6 +265,7 @@ tfs_test_t all_tests[] = {
         .uts35 = "a",
         .stata = "AM",
         .excel = "AM/PM",
+        .posix = "%p",
         .mask = TFS_PERIOD
     },
     {
@@ -285,6 +299,7 @@ tfs_test_t all_tests[] = {
         .name = "Hour [1-12]",
         .uts35 = "h",
         .stata = "hh",
+        .posix = "%l",
         .mask = TFS_HOUR
     },
 
@@ -292,6 +307,7 @@ tfs_test_t all_tests[] = {
         .name = "Hour [01-12]",
         .uts35 = "hh",
         .stata = "Hh",
+        .posix = "%I",
         .mask = TFS_HOUR
     },
     {
@@ -309,6 +325,7 @@ tfs_test_t all_tests[] = {
         .uts35 = "H",
         .stata = "hH",
         .excel = "h",
+        .posix = "%k",
         .mask = TFS_HOUR
     },
     {
@@ -316,6 +333,7 @@ tfs_test_t all_tests[] = {
         .uts35 = "HH",
         .stata = "HH",
         .excel = "hh",
+        .posix = "%H",
         .mask = TFS_HOUR
     },
     {
@@ -339,6 +357,7 @@ tfs_test_t all_tests[] = {
         .name = "Minute (zero-padded)",
         .stata = "MM",
         .uts35 = "mm",
+        .posix = "%M",
         .mask = TFS_MINUTE
     },
     {
@@ -353,6 +372,7 @@ tfs_test_t all_tests[] = {
         .excel = "ss",
         .stata = "SS",
         .uts35 = "ss",
+        .posix = "%S",
         .mask = TFS_SECOND
     },
 
@@ -385,6 +405,7 @@ tfs_test_t all_tests[] = {
         .excel = "mm/dd/yy",
         .stata = "NN/DD/YY",
         .uts35 = "MM/dd/yy",
+        .posix = "%m/%d/%y",
         .mask = TFS_MONTH | TFS_DAY | TFS_YEAR
     },
 
@@ -393,14 +414,16 @@ tfs_test_t all_tests[] = {
         .excel = "mm/dd/yyyy",
         .stata = "NN/DD/ccYY",
         .uts35 = "MM/dd/y",
+        .posix = "%m/%d/%Y",
         .mask = TFS_MONTH | TFS_DAY | TFS_YEAR
     },
 
     {
-        .name = "Hour, minute, second",
+        .name = "Hour, minute, second, period",
         .excel = "h:mm:ss AM/PM",
         .stata = "hh:MM:SS_AM",
         .uts35 = "h:mm:ss a",
+        .posix = "%l:%M:%S %p",
         .mask = TFS_HOUR | TFS_MINUTE | TFS_SECOND | TFS_PERIOD
     },
 
@@ -409,6 +432,7 @@ tfs_test_t all_tests[] = {
         .excel = "mm/dd/yyyy \"at\" h:mm:ss",
         .stata = "NN/DD/ccYY_!a!t_hH:MM:SS",
         .uts35 = "MM/dd/y 'at' H:mm:ss",
+        .posix = "%m/%d/%Y at %k:%M:%S",
         .mask = TFS_MONTH | TFS_DAY | TFS_YEAR | TFS_HOUR | TFS_MINUTE | TFS_SECOND
     },
 
@@ -417,6 +441,16 @@ tfs_test_t all_tests[] = {
         .excel = "\"hello\"",
         .stata = "!h!e!l!l!o",
         .uts35 = "'hello'",
+        .posix = "hello",
+        .mask = 0
+    },
+
+    {
+        .name = "String literal with percent sign",
+        .excel = "\"100%\"!",
+        .stata = "!1!0!0!%!!",
+        .uts35 = "100%!",
+        .posix = "100%%!",
         .mask = 0
     },
 
@@ -425,6 +459,7 @@ tfs_test_t all_tests[] = {
         .excel = "\"Hello,\" \"O\"'\"Malley\"",
         .stata = "!H!e!l!l!o,_!O!'!M!a!l!l!e!y",
         .uts35 = "'Hello', 'O''Malley'",
+        .posix = "Hello, O'Malley",
         .mask = 0
     },
 
@@ -433,6 +468,7 @@ tfs_test_t all_tests[] = {
         .excel = "\"\\\"Yikes\"!\"\\\"\"",
         .stata = "!\"!Y!i!k!e!s!!!\"",
         .uts35 = "\"'Yikes'!\"",
+        .posix = "\"Yikes!\"",
         .mask = 0
     }
 };
@@ -455,6 +491,8 @@ int main(int argc, char *argv[]) {
             input_format = test_input_formats[j];
             if (input_format == TFS_EXCEL) {
                 buf1 = test->excel;
+            } else if (input_format == TFS_POSIX) {
+                buf1 = test->posix;
             } else if (input_format == TFS_STATA) {
                 buf1 = test->stata;
             } else {
@@ -477,6 +515,8 @@ int main(int argc, char *argv[]) {
                 output_format = test_output_formats[k];
                 if (output_format == TFS_EXCEL) {
                     buf2 = test->excel;
+                } else if (output_format == TFS_POSIX) {
+                    buf2 = test->posix;
                 } else if (output_format == TFS_STATA) {
                     buf2 = test->stata;
                 } else {
@@ -490,7 +530,7 @@ int main(int argc, char *argv[]) {
                 error = tfs_convert(buf1, input_format, tmp, output_format);
 
                 if (error) {
-                    printf("Error converting %s: %d\n", buf1, error);
+                    printf("Error converting \"%s\" (%d->%d): %d\n", buf1, input_format, output_format, error);
                     test_failures++;
                 } else if (strcmp(buf2, tmp) != 0) {
                     printf("Bad conversion for '%s'. Expected: '%s' Got: '%s'\n", buf1, buf2, tmp);

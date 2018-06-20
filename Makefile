@@ -3,7 +3,7 @@ CC=cc
 PREFIX=/usr/local
 RAGEL=/usr/local/bin/ragel
 DYLIB=obj/libtfs.dylib
-MIN_OSX=10.9
+MIN_OSX=10.10
 
 .PHONY: test
 

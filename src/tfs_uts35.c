@@ -42,21 +42,21 @@ static tfs_token_lookup_t uts35_tokens[] = {
     { .text = "UUUU",  .token = { .time_unit = TFS_YEAR, .style = TFS_FULL,   .modifier = TFS_CYCLIC_YEAR } },
     { .text = "UUUUU", .token = { .time_unit = TFS_YEAR, .style = TFS_NARROW, .modifier = TFS_CYCLIC_YEAR } },
 
-    { .text = "Q",     .token = { .time_unit = TFS_QUARTER, .style = TFS_NUMBER } },
-    { .text = "QQ",    .token = { .time_unit = TFS_QUARTER, .style = TFS_2DIGIT } },
-    { .text = "QQQ",   .token = { .time_unit = TFS_QUARTER, .style = TFS_ABBREV } },
-    { .text = "QQQQ",  .token = { .time_unit = TFS_QUARTER, .style = TFS_FULL } },
+    { .text = "Q",     .token = { .time_unit = TFS_QUARTER, .relative_to = TFS_YEAR, .style = TFS_NUMBER } },
+    { .text = "QQ",    .token = { .time_unit = TFS_QUARTER, .relative_to = TFS_YEAR, .style = TFS_2DIGIT } },
+    { .text = "QQQ",   .token = { .time_unit = TFS_QUARTER, .relative_to = TFS_YEAR, .style = TFS_ABBREV } },
+    { .text = "QQQQ",  .token = { .time_unit = TFS_QUARTER, .relative_to = TFS_YEAR, .style = TFS_FULL } },
 
     { .text = "q",     .token = { .time_unit = TFS_QUARTER, .style = TFS_NUMBER, .is_standalone = 1 } },
     { .text = "qq",    .token = { .time_unit = TFS_QUARTER, .style = TFS_2DIGIT, .is_standalone = 1 } },
     { .text = "qqq",   .token = { .time_unit = TFS_QUARTER, .style = TFS_ABBREV, .is_standalone = 1 } },
     { .text = "qqqq",  .token = { .time_unit = TFS_QUARTER, .style = TFS_FULL,   .is_standalone = 1 } },
 
-    { .text = "M",     .token = { .time_unit = TFS_MONTH, .style = TFS_NUMBER } },
-    { .text = "MM",    .token = { .time_unit = TFS_MONTH, .style = TFS_2DIGIT } },
-    { .text = "MMM",   .token = { .time_unit = TFS_MONTH, .style = TFS_ABBREV } },
-    { .text = "MMMM",  .token = { .time_unit = TFS_MONTH, .style = TFS_FULL   } },
-    { .text = "MMMMM", .token = { .time_unit = TFS_MONTH, .style = TFS_NARROW } },
+    { .text = "M",     .token = { .time_unit = TFS_MONTH, .relative_to = TFS_YEAR, .style = TFS_NUMBER } },
+    { .text = "MM",    .token = { .time_unit = TFS_MONTH, .relative_to = TFS_YEAR, .style = TFS_2DIGIT } },
+    { .text = "MMM",   .token = { .time_unit = TFS_MONTH, .relative_to = TFS_YEAR, .style = TFS_ABBREV } },
+    { .text = "MMMM",  .token = { .time_unit = TFS_MONTH, .relative_to = TFS_YEAR, .style = TFS_FULL   } },
+    { .text = "MMMMM", .token = { .time_unit = TFS_MONTH, .relative_to = TFS_YEAR, .style = TFS_NARROW } },
 
     { .text = "L",     .token = { .time_unit = TFS_MONTH, .style = TFS_NUMBER, .is_standalone = 1 } },
     { .text = "LL",    .token = { .time_unit = TFS_MONTH, .style = TFS_2DIGIT, .is_standalone = 1 } },
@@ -113,7 +113,7 @@ static tfs_token_lookup_t uts35_tokens[] = {
     { .text = "ccccc", .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NARROW, .is_standalone = 1 } },
     { .text = "cccccc",.token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_SHORT, .is_standalone = 1 } },
 
-    { .text = "a",     .token = { .time_unit = TFS_PERIOD, .style = TFS_ABBREV, .uppercase = 1 } },
+    { .text = "a",     .token = { .time_unit = TFS_PERIOD, .relative_to = TFS_DAY, .style = TFS_ABBREV, .uppercase = 1 } },
 
     { .text = "h",     .token = { .time_unit = TFS_HOUR, .relative_to = TFS_PERIOD, .style = TFS_NUMBER, .start_at_one = 1 } },
     { .text = "hh",    .token = { .time_unit = TFS_HOUR, .relative_to = TFS_PERIOD, .style = TFS_2DIGIT, .start_at_one = 1 } },
@@ -124,11 +124,11 @@ static tfs_token_lookup_t uts35_tokens[] = {
     { .text = "k",     .token = { .time_unit = TFS_HOUR, .relative_to = TFS_DAY, .style = TFS_NUMBER, .start_at_one = 1 } },
     { .text = "kk",    .token = { .time_unit = TFS_HOUR, .relative_to = TFS_DAY, .style = TFS_2DIGIT, .start_at_one = 1 } },
 
-    { .text = "m",     .token = { .time_unit = TFS_MINUTE, .style = TFS_NUMBER } },
-    { .text = "mm",    .token = { .time_unit = TFS_MINUTE, .style = TFS_2DIGIT } },
+    { .text = "m",     .token = { .time_unit = TFS_MINUTE, .relative_to = TFS_HOUR, .style = TFS_NUMBER } },
+    { .text = "mm",    .token = { .time_unit = TFS_MINUTE, .relative_to = TFS_HOUR, .style = TFS_2DIGIT } },
 
-    { .text = "s",     .token = { .time_unit = TFS_SECOND, .style = TFS_NUMBER } },
-    { .text = "ss",    .token = { .time_unit = TFS_SECOND, .style = TFS_2DIGIT } },
+    { .text = "s",     .token = { .time_unit = TFS_SECOND, .relative_to = TFS_MINUTE, .style = TFS_NUMBER } },
+    { .text = "ss",    .token = { .time_unit = TFS_SECOND, .relative_to = TFS_MINUTE, .style = TFS_2DIGIT } },
 
     { .text = "S",     .token = { .time_unit = TFS_FRACTIONAL_SECOND, .style = TFS_NUMBER, .truncate_len = 1 } },
     { .text = "SS",    .token = { .time_unit = TFS_FRACTIONAL_SECOND, .style = TFS_NUMBER, .truncate_len = 2 } },

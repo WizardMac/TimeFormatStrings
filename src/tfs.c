@@ -9,22 +9,26 @@
 #include "tfs_stata.h"
 #include "tfs_spss.h"
 #include "tfs_sas.h"
+#include "tfs_posix.h"
 
 static tfs_token_array_t *parse_string(const char *inbuf, tfs_format_e infmt, int *outError) {
     if (infmt == TFS_EXCEL) {
         return tfs_excel_parse(inbuf, outError);
     }
-    if (infmt == TFS_UTS35) {
-        return tfs_uts35_parse(inbuf, outError);
-    }
-    if (infmt == TFS_STATA) {
-        return tfs_stata_parse(inbuf, outError);
+    if (infmt == TFS_POSIX) {
+        return tfs_posix_parse(inbuf, outError);
     }
     if (infmt == TFS_SAS) {
         return tfs_sas_parse(inbuf, outError);
     }
     if (infmt == TFS_SPSS) {
         return tfs_spss_parse(inbuf, outError);
+    }
+    if (infmt == TFS_STATA) {
+        return tfs_stata_parse(inbuf, outError);
+    }
+    if (infmt == TFS_UTS35) {
+        return tfs_uts35_parse(inbuf, outError);
     }
 
     if (outError)
@@ -37,11 +41,14 @@ static int generate_string(char *outbuf, tfs_format_e outfmt, tfs_token_array_t 
     if (outfmt == TFS_EXCEL) {
         return tfs_excel_generate(outbuf, tokens);
     }
-    if (outfmt == TFS_UTS35) {
-        return tfs_uts35_generate(outbuf, tokens);
+    if (outfmt == TFS_POSIX) {
+        return tfs_posix_generate(outbuf, tokens);
     }
     if (outfmt == TFS_STATA) {
         return tfs_stata_generate(outbuf, tokens);
+    }
+    if (outfmt == TFS_UTS35) {
+        return tfs_uts35_generate(outbuf, tokens);
     }
 
     return TFS_UNKNOWN_FORMAT;
