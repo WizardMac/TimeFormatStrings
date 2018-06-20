@@ -127,22 +127,23 @@ tfs_token_array_t *tfs_stata_parse(const char *bytes, int *outError) {
     return token_array;
 }
 
-static char *format_token(char *outbuf, tfs_token_t *token) {
+static char *format_token(char *outbuf, size_t outbuf_len, tfs_token_t *token) {
     char *p = outbuf;
+    char *last = outbuf + outbuf_len;
     if (token->time_unit == TFS_YEAR) {
         if (token->relative_to == TFS_CENTURY) {
             if (token->style == TFS_NUMBER) {
-                p = stpcpy(p, "yy");
+                p = stpncpy(p, "yy", last - p);
             } else if (token->style == TFS_2DIGIT) {
-                p = stpcpy(p, "YY");
+                p = stpncpy(p, "YY", last - p);
             } else {
                 p = NULL;
             }
         } else if (token->style == TFS_NUMBER) {
             if (token->pad_len == 4 && token->pad_char == '0') {
-                p = stpcpy(p, "CCYY");
+                p = stpncpy(p, "CCYY", last - p);
             } else {
-                p = stpcpy(p, "ccYY");
+                p = stpncpy(p, "ccYY", last - p);
             }
         } else {
             p = NULL;
@@ -150,7 +151,7 @@ static char *format_token(char *outbuf, tfs_token_t *token) {
     } else if (token->time_unit) {
         char *match = tfs_match_token(stata_tokens, sizeof(stata_tokens)/sizeof(stata_tokens[0]), token);
         if (match) {
-            p = stpcpy(p, match);
+            p = stpncpy(p, match, last - p);
         } else {
             p = NULL;
         }
@@ -159,35 +160,37 @@ static char *format_token(char *outbuf, tfs_token_t *token) {
     return p;
 }
 
-tfs_error_e tfs_stata_generate(char *format, tfs_token_array_t *token_array) {
+tfs_error_e tfs_stata_generate(char *format, size_t format_len, tfs_token_array_t *token_array) {
     int i;
     tfs_error_e error = TFS_OK;
     char *out = format;
+    char *last = format + format_len;
     const char *display_chars = ".,:-/\\";
     for (i=0; i<token_array->count; i++) {
         tfs_token_t *token = &token_array->tokens[i];
         if (token->is_literal) {
             char *in = token->text;
-            while (*in) {
+            while (*in && out < last) {
                 if (*in == ' ') {
                     *out++ = '_';
                 } else if (strchr(display_chars, *in) != NULL) {
                     *out++ = *in;
                 } else {
                     *out++ = '!';
-                    *out++ = *in;
+                    if (out < last)
+                        *out++ = *in;
                 }
                 in++;
             }
         } else {
-            out = format_token(out, token);
+            out = format_token(out, last - out, token);
             if (out == NULL) {
                 error = TFS_CANT_REPRESENT;
                 break;
             }
         }
     }
-    if (out)
+    if (out < last)
         *out++ = '\0';
 
     return error;

@@ -37,18 +37,18 @@ static tfs_token_array_t *parse_string(const char *inbuf, tfs_format_e infmt, in
     return NULL;
 }
 
-static int generate_string(char *outbuf, tfs_format_e outfmt, tfs_token_array_t *tokens) {
+static int generate_string(char *outbuf, size_t outbuf_len, tfs_format_e outfmt, tfs_token_array_t *tokens) {
     if (outfmt == TFS_EXCEL) {
-        return tfs_excel_generate(outbuf, tokens);
+        return tfs_excel_generate(outbuf, outbuf_len, tokens);
     }
     if (outfmt == TFS_POSIX) {
-        return tfs_posix_generate(outbuf, tokens);
+        return tfs_posix_generate(outbuf, outbuf_len, tokens);
     }
     if (outfmt == TFS_STATA) {
-        return tfs_stata_generate(outbuf, tokens);
+        return tfs_stata_generate(outbuf, outbuf_len, tokens);
     }
     if (outfmt == TFS_UTS35) {
-        return tfs_uts35_generate(outbuf, tokens);
+        return tfs_uts35_generate(outbuf, outbuf_len, tokens);
     }
 
     return TFS_UNKNOWN_FORMAT;
@@ -95,14 +95,14 @@ tfs_error_e tfs_field_style(const char *inbuf, tfs_format_e infmt, tfs_time_unit
     return error;
 }
 
-tfs_error_e tfs_convert(const char *inbuf, tfs_format_e infmt, char *outbuf, tfs_format_e outfmt) {
+tfs_error_e tfs_convert(const char *inbuf, tfs_format_e infmt, char *outbuf, tfs_format_e outfmt, size_t outbuf_len) {
     int error = 0;
     tfs_token_array_t *tokens = parse_string(inbuf, infmt, &error);
     if (tokens == NULL) {
         return error;
     }
 
-    error = generate_string(outbuf, outfmt, tokens);
+    error = generate_string(outbuf, outbuf_len, outfmt, tokens);
 
     tfs_free_token_array(tokens);
 

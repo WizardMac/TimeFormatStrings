@@ -234,18 +234,19 @@ tfs_token_array_t *tfs_uts35_parse(const char *bytes, int *outError) {
     return token_array;
 }
 
-static char *format_token(char *outbuf, tfs_token_t *token) {
+static char *format_token(char *outbuf, size_t outbuf_len, tfs_token_t *token) {
     char *p = outbuf;
+    char *last = outbuf + outbuf_len;
     if (token->time_unit == TFS_FRACTIONAL_SECOND && token->add_dots) {
-        p = stpcpy(p, ".");
+        p = stpncpy(p, ".", last - p);
         size_t len = token->truncate_len;
         while (len--) {
-            p = stpcpy(p, "S");
+            p = stpncpy(p, "S", last - p);
         }
     } else {
         char *match = tfs_match_token(uts35_tokens, sizeof(uts35_tokens)/sizeof(uts35_tokens[0]), token);
         if (match) {
-            p = stpcpy(p, match);
+            p = stpncpy(p, match, outbuf_len);
         } else {
             p = NULL;
         }
@@ -253,16 +254,17 @@ static char *format_token(char *outbuf, tfs_token_t *token) {
     return p;
 }
 
-int tfs_uts35_generate(char *format, tfs_token_array_t *token_array) {
+int tfs_uts35_generate(char *format, size_t format_len, tfs_token_array_t *token_array) {
     int i;
     char *out = format;
+    char *last = format + format_len;
     int is_quoting = 0;
     int error = 0;
     for (i=0; i<token_array->count; i++) {
         tfs_token_t *token = &token_array->tokens[i];
         if (token->is_literal) {
             char *in = token->text;
-            while (*in) {
+            while (*in && out < last) {
                 if (is_quoting) {
                     if (*in == '\'') {
                         *out++ = '\'';
@@ -270,13 +272,15 @@ int tfs_uts35_generate(char *format, tfs_token_array_t *token_array) {
                         *out++ = '\'';
                         is_quoting = 0;
                     }
-                    *out++ = *in;
+                    if (out < last)
+                        *out++ = *in;
                 } else {
                     if ((*in >= 'a' && *in <= 'z') || (*in >= 'A' && *in <= 'Z')) {
                         *out++ = '\'';
                         is_quoting = 1;
                     }
-                    *out++ = *in;
+                    if (out < last)
+                        *out++ = *in;
                 }
                 in++;
             }
@@ -285,15 +289,19 @@ int tfs_uts35_generate(char *format, tfs_token_array_t *token_array) {
                 *out++ = '\'';
                 is_quoting = 0;
             }
-            out = format_token(out, token);
+            out = format_token(out, last - out, token);
             if (out == NULL) {
                 error = TFS_CANT_REPRESENT;
                 break;
             }
         }
+        if (out == last)
+            break;
     }
-    if (is_quoting) {
+    if (is_quoting && out < last) {
         *out++ = '\'';
     }
+    if (out < last)
+        *out++ = '\0';
     return error;
 }

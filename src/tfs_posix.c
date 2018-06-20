@@ -33,49 +33,55 @@ tfs_token_lookup_t posix_tokens[] = {
     { .text = "%y", .token = { .time_unit = TFS_YEAR, .relative_to = TFS_CENTURY, .style = TFS_2DIGIT } },
 };
 
-static char *format_token(char *outbuf, tfs_token_t *token) {
+static char *format_token(char *outbuf, size_t outbuf_len, tfs_token_t *token) {
     char *p = outbuf;
     char *match = tfs_match_token(posix_tokens, sizeof(posix_tokens)/sizeof(posix_tokens[0]), token);
     if (match) {
-        p = stpcpy(p, match);
+        p = stpncpy(p, match, outbuf_len);
     } else {
         p = NULL;
     }
     return p;
 }
 
-tfs_error_e tfs_posix_generate(char *format, tfs_token_array_t *token_array) {
+tfs_error_e tfs_posix_generate(char *format, size_t format_len, tfs_token_array_t *token_array) {
     int i;
     tfs_error_e error = TFS_OK;
     char *out = format;
+    char *last = format + format_len;
+    size_t out_len = format_len;
     for (i=0; i<token_array->count; i++) {
         tfs_token_t *token = &token_array->tokens[i];
         if (token->is_literal) {
             char *in = token->text;
-            while (*in) {
-                if (*in == '%') {
+            while (*in && out < last) {
+                if (*in == '%' || *in == '\n' || *in == '\t') {
                     *out++ = '%';
-                    *out++ = *in;
-                } else if (*in == '\n') {
-                    *out++ = '%';
-                    *out++ = 'n';
-                } else if (*in == '\t') {
-                    *out++ = '%';
-                    *out++ = 't';
+                    if (out < last) {
+                        if (*in == '\n') {
+                            *out++ = 'n';
+                        } else if (*in == '\t') {
+                            *out++ = 't';
+                        } else {
+                            *out++ = *in;
+                        }
+                    }
                 } else {
                     *out++ = *in;
                 }
                 in++;
             }
         } else if (token->time_unit) {
-            out = format_token(out, token);
+            out = format_token(out, last - out, token);
             if (out == NULL) {
                 error = TFS_CANT_REPRESENT;
                 break;
             }
         }
+        if (out == last)
+            break;
     }
-    if (out)
+    if (out < last)
         *out++ = '\0';
     return error;
 }

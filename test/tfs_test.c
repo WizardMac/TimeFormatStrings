@@ -527,7 +527,7 @@ int main(int argc, char *argv[]) {
 
                 memset(tmp, 0, sizeof(tmp));
 
-                error = tfs_convert(buf1, input_format, tmp, output_format);
+                error = tfs_convert(buf1, input_format, tmp, output_format, sizeof(tmp));
 
                 if (error) {
                     printf("Error converting \"%s\" (%d->%d): %d\n", buf1, input_format, output_format, error);

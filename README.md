@@ -14,12 +14,13 @@ Example usage:
     #include "tfs.h"
     
     char result[100];
-    int error = tfs_convert("mm/dd/yyyy", TFS_EXCEL, result, TFS_UTS35);
-    if (error == 0) {
+    tfs_error_e error = tfs_convert("mm/dd/yyyy", TFS_EXCEL,
+                                    result, TFS_UTS35, sizeof(result));
+    if (error == TFS_OK) {
         printf("%s\n", result); /* prints "MM/dd/y" */
     }
 
-It is up to the developer to ensure the output buffer is large enough to hold
-the result.
+The POSIX format can be fed to `strftime` and `strptime` in order to present
+and parse specific time values.
 
 Type "make" to build the library and "make test" to run the test suite.
