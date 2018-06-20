@@ -1,8 +1,10 @@
+[![Travis CI build status](https://travis-ci.org/WizardMac/TimeFormatStrings.svg?branch=master)](https://travis-ci.org/WizardMac/TimeFormatStrings)
 TimeFormatStrings
 --
 
-This handy C library can read and write time format strings in three formats:
-Excel (`TFS_EXCEL`), Stata (`TFS_STATA`), and Unicode (`TFS_UTS35`).
+This handy C library can read and write time format strings in four formats:
+Excel (`TFS_EXCEL`), POSIX (`TFS_POSIX`), Stata (`TFS_STATA`), and Unicode
+(`TFS_UTS35`).
 
 It can also read, but not write, format strings in SAS format (`TFS_SAS`) and
 SPSS format (`TFS_SPSS`).
