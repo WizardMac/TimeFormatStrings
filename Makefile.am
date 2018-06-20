@@ -14,7 +14,7 @@ libtfs_la_SOURCES = \
 	src/tfs_uts35.c \
 	src/tfs_uts35_parser.c
 
-libtfs_la_CFLAGS = -Wall @EXTRA_WARNINGS@ -Werror -pedantic-errors -std=c99 @SANITIZERS@
+libtfs_la_CFLAGS = -D_GNU_SOURCE -Wall @EXTRA_WARNINGS@ -Werror -pedantic-errors -std=c99 @SANITIZERS@
 
 if HAVE_RAGEL
 .rl.c:

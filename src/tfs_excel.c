@@ -226,7 +226,6 @@ int tfs_excel_generate(char *format, size_t format_len, tfs_token_array_t *token
     const char *display_chars = "$-+/():!^&'~{}<>= ";
     int is_quoting = 0;
     int error = 0;
-    int previous_time_unit = 0;
     for (i=0; i<token_array->count; i++) {
         tfs_token_t *token = &token_array->tokens[i];
         if (token->is_literal) {
@@ -264,7 +263,6 @@ int tfs_excel_generate(char *format, size_t format_len, tfs_token_array_t *token
                 error = TFS_CANT_REPRESENT;
                 break;
             }
-            previous_time_unit = token->time_unit;
         }
         if (out == last)
             break;
