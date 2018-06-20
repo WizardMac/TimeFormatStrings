@@ -100,8 +100,9 @@ tfs_token_array_t *tfs_stata_parse(const char *bytes, int *outError) {
     size_t len = strlen(bytes);
     int i;
 
-    error = tfs_parse_stata_format_string_internal((const u_char *)bytes, len,
-        &handle_literal, &handle_code, token_array);
+    error = tfs_parse_stata_format_string_internal(
+            (const unsigned char *)bytes, len,
+            &handle_literal, &handle_code, token_array);
 
     if (error != TFS_OK) {
         *outError = error;
