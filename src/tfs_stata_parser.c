@@ -13,8 +13,6 @@
 
 #line 15 "src/tfs_stata_parser.c"
 static const int stata_format_start = 36;
-static const int stata_format_first_final = 36;
-static const int stata_format_error = 0;
 
 static const int stata_format_en_main = 36;
 
@@ -34,12 +32,12 @@ tfs_error_e tfs_parse_stata_format_string_internal(const u_char *bytes, size_t l
     int cs;
 
    
-#line 38 "src/tfs_stata_parser.c"
+#line 36 "src/tfs_stata_parser.c"
 	{
 	cs = stata_format_start;
 	}
 
-#line 43 "src/tfs_stata_parser.c"
+#line 41 "src/tfs_stata_parser.c"
 	{
 	if ( p == pe )
 		goto _test_eof;
@@ -73,7 +71,7 @@ st36:
 	if ( ++p == pe )
 		goto _test_eof36;
 case 36:
-#line 77 "src/tfs_stata_parser.c"
+#line 75 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 33: goto st1;
 		case 43: goto st36;
@@ -137,7 +135,7 @@ st1:
 	if ( ++p == pe )
 		goto _test_eof1;
 case 1:
-#line 141 "src/tfs_stata_parser.c"
+#line 139 "src/tfs_stata_parser.c"
 	if ( (*p) <= -1 )
 		goto st0;
 	goto tr0;
@@ -187,7 +185,7 @@ st37:
 	if ( ++p == pe )
 		goto _test_eof37;
 case 37:
-#line 191 "src/tfs_stata_parser.c"
+#line 189 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 33: goto tr44;
 		case 43: goto tr45;
@@ -266,7 +264,7 @@ st38:
 	if ( ++p == pe )
 		goto _test_eof38;
 case 38:
-#line 270 "src/tfs_stata_parser.c"
+#line 268 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 33: goto tr44;
 		case 43: goto tr45;
@@ -345,7 +343,7 @@ st2:
 	if ( ++p == pe )
 		goto _test_eof2;
 case 2:
-#line 349 "src/tfs_stata_parser.c"
+#line 347 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 46: goto st3;
 		case 77: goto st39;
@@ -411,7 +409,7 @@ st39:
 	if ( ++p == pe )
 		goto _test_eof39;
 case 39:
-#line 415 "src/tfs_stata_parser.c"
+#line 413 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 33: goto tr71;
 		case 43: goto tr72;
@@ -490,7 +488,7 @@ st5:
 	if ( ++p == pe )
 		goto _test_eof5;
 case 5:
-#line 494 "src/tfs_stata_parser.c"
+#line 492 "src/tfs_stata_parser.c"
 	if ( (*p) == 67 )
 		goto st39;
 	goto st0;
@@ -540,7 +538,7 @@ st6:
 	if ( ++p == pe )
 		goto _test_eof6;
 case 6:
-#line 544 "src/tfs_stata_parser.c"
+#line 542 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 65: goto st7;
 		case 68: goto st39;
@@ -664,7 +662,7 @@ st12:
 	if ( ++p == pe )
 		goto _test_eof12;
 case 12:
-#line 668 "src/tfs_stata_parser.c"
+#line 666 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 72: goto st39;
 		case 104: goto st39;
@@ -716,7 +714,7 @@ st13:
 	if ( ++p == pe )
 		goto _test_eof13;
 case 13:
-#line 720 "src/tfs_stata_parser.c"
+#line 718 "src/tfs_stata_parser.c"
 	if ( (*p) == 74 )
 		goto st14;
 	goto st0;
@@ -773,7 +771,7 @@ st15:
 	if ( ++p == pe )
 		goto _test_eof15;
 case 15:
-#line 777 "src/tfs_stata_parser.c"
+#line 775 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 77: goto st39;
 		case 111: goto st16;
@@ -869,7 +867,7 @@ st17:
 	if ( ++p == pe )
 		goto _test_eof17;
 case 17:
-#line 873 "src/tfs_stata_parser.c"
+#line 871 "src/tfs_stata_parser.c"
 	if ( (*p) == 78 )
 		goto st39;
 	goto st0;
@@ -919,7 +917,7 @@ st18:
 	if ( ++p == pe )
 		goto _test_eof18;
 case 18:
-#line 923 "src/tfs_stata_parser.c"
+#line 921 "src/tfs_stata_parser.c"
 	if ( (*p) == 83 )
 		goto st39;
 	goto st0;
@@ -969,7 +967,7 @@ st19:
 	if ( ++p == pe )
 		goto _test_eof19;
 case 19:
-#line 973 "src/tfs_stata_parser.c"
+#line 971 "src/tfs_stata_parser.c"
 	if ( (*p) == 87 )
 		goto st39;
 	goto st0;
@@ -1019,7 +1017,7 @@ st20:
 	if ( ++p == pe )
 		goto _test_eof20;
 case 20:
-#line 1023 "src/tfs_stata_parser.c"
+#line 1021 "src/tfs_stata_parser.c"
 	if ( (*p) == 89 )
 		goto st39;
 	goto st0;
@@ -1051,7 +1049,7 @@ st42:
 	if ( ++p == pe )
 		goto _test_eof42;
 case 42:
-#line 1055 "src/tfs_stata_parser.c"
+#line 1053 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 33: goto tr99;
 		case 43: goto tr100;
@@ -1130,7 +1128,7 @@ st21:
 	if ( ++p == pe )
 		goto _test_eof21;
 case 21:
-#line 1134 "src/tfs_stata_parser.c"
+#line 1132 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 46: goto st22;
 		case 109: goto st39;
@@ -1189,7 +1187,7 @@ st23:
 	if ( ++p == pe )
 		goto _test_eof23;
 case 23:
-#line 1193 "src/tfs_stata_parser.c"
+#line 1191 "src/tfs_stata_parser.c"
 	if ( (*p) == 99 )
 		goto st39;
 	goto st0;
@@ -1239,7 +1237,7 @@ st24:
 	if ( ++p == pe )
 		goto _test_eof24;
 case 24:
-#line 1243 "src/tfs_stata_parser.c"
+#line 1241 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 97: goto st43;
 		case 100: goto st39;
@@ -1327,7 +1325,7 @@ st44:
 	if ( ++p == pe )
 		goto _test_eof44;
 case 44:
-#line 1331 "src/tfs_stata_parser.c"
+#line 1329 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 33: goto tr71;
 		case 43: goto tr72;
@@ -1406,7 +1404,7 @@ st25:
 	if ( ++p == pe )
 		goto _test_eof25;
 case 25:
-#line 1410 "src/tfs_stata_parser.c"
+#line 1408 "src/tfs_stata_parser.c"
 	if ( (*p) == 106 )
 		goto st26;
 	goto st0;
@@ -1463,7 +1461,7 @@ st27:
 	if ( ++p == pe )
 		goto _test_eof27;
 case 27:
-#line 1467 "src/tfs_stata_parser.c"
+#line 1465 "src/tfs_stata_parser.c"
 	switch( (*p) ) {
 		case 109: goto st39;
 		case 111: goto st16;
@@ -1515,7 +1513,7 @@ st28:
 	if ( ++p == pe )
 		goto _test_eof28;
 case 28:
-#line 1519 "src/tfs_stata_parser.c"
+#line 1517 "src/tfs_stata_parser.c"
 	if ( (*p) == 110 )
 		goto st39;
 	goto st0;
@@ -1565,7 +1563,7 @@ st29:
 	if ( ++p == pe )
 		goto _test_eof29;
 case 29:
-#line 1569 "src/tfs_stata_parser.c"
+#line 1567 "src/tfs_stata_parser.c"
 	if ( (*p) == 115 )
 		goto st39;
 	goto st0;
@@ -1615,7 +1613,7 @@ st30:
 	if ( ++p == pe )
 		goto _test_eof30;
 case 30:
-#line 1619 "src/tfs_stata_parser.c"
+#line 1617 "src/tfs_stata_parser.c"
 	if ( (*p) == 119 )
 		goto st39;
 	goto st0;
@@ -1665,7 +1663,7 @@ st31:
 	if ( ++p == pe )
 		goto _test_eof31;
 case 31:
-#line 1669 "src/tfs_stata_parser.c"
+#line 1667 "src/tfs_stata_parser.c"
 	if ( (*p) == 121 )
 		goto st39;
 	goto st0;
@@ -1890,7 +1888,7 @@ case 47:
            }
        }
 	break;
-#line 1894 "src/tfs_stata_parser.c"
+#line 1892 "src/tfs_stata_parser.c"
 	}
 	}
 
@@ -1899,6 +1897,9 @@ case 47:
 
 #line 81 "src/tfs_stata_parser.rl"
 
+
+    /* suppress warning */
+    (void)stata_format_en_main;
 
     if (cs < 36) {
         printf("Error parsing Stata format string '%s' around col #%ld (%c)\n", 

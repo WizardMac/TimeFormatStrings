@@ -9,7 +9,7 @@
 
 %%{
     machine excel_format;
-    write data;
+    write data nofinal noerror;
 }%%
 
 int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
@@ -101,6 +101,9 @@ int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
         write init;
         write exec;
    }%%
+
+    /* suppress warning */
+   (void)excel_format_en_main;
 
     if (cs < %%{ write first_final; }%%) {
         printf("Error parsing Excel format string '%s' around col #%ld (%c)\n",

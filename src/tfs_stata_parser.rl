@@ -10,7 +10,7 @@
 
 %%{
     machine stata_format;
-    write data;
+    write data nofinal noerror;
 }%%
 
 tfs_error_e tfs_parse_stata_format_string_internal(const u_char *bytes, size_t len,
@@ -79,6 +79,9 @@ tfs_error_e tfs_parse_stata_format_string_internal(const u_char *bytes, size_t l
         write init;
         write exec;
     }%%
+
+    /* suppress warning */
+    (void)stata_format_en_main;
 
     if (cs < %%{ write first_final; }%%) {
         printf("Error parsing Stata format string '%s' around col #%ld (%c)\n", 

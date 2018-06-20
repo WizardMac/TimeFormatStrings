@@ -11,7 +11,7 @@
 
 %%{
     machine uts35_format;
-    write data;
+    write data nofinal noerror;
 }%%
 
 int tfs_parse_uts35_format_string_internal(const u_char *bytes, size_t len,
@@ -88,6 +88,8 @@ int tfs_parse_uts35_format_string_internal(const u_char *bytes, size_t len,
         write init;
         write exec;
     }%%
+
+    (void)uts35_format_en_main;
 
     if (cs < %%{ write first_final; }%%) {
         printf("Error parsing UTS35 format string around col #%ld (%c)\n", 

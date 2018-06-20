@@ -6,6 +6,13 @@ LT_INIT([disable-static])
 
 AC_PROG_CC
 
+AC_ARG_ENABLE([sanitizers], AS_HELP_STRING([--enable-sanitizers], [Enable address sanitizing]),
+    [SANITIZERS="-fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound -fsanitize-coverage=trace-pc-guard,indirect-calls,trace-cmp"], [SANITIZERS=""])
+AC_SUBST([SANITIZERS])
+
+EXTRA_WARNINGS="-Wno-tautological-constant-out-of-range-compare"
+AC_SUBST([EXTRA_WARNINGS])
+
 AC_ARG_VAR([RAGEL], [Ragel generator command])
 AC_ARG_VAR([RAGELFLAGS], [Ragel generator flags])
 AC_PATH_PROG([RAGEL], [ragel], [true])

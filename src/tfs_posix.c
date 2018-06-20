@@ -49,7 +49,6 @@ tfs_error_e tfs_posix_generate(char *format, size_t format_len, tfs_token_array_
     tfs_error_e error = TFS_OK;
     char *out = format;
     char *last = format + format_len;
-    size_t out_len = format_len;
     for (i=0; i<token_array->count; i++) {
         tfs_token_t *token = &token_array->tokens[i];
         if (token->is_literal) {

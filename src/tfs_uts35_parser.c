@@ -14,8 +14,6 @@
 
 #line 16 "src/tfs_uts35_parser.c"
 static const int uts35_format_start = 7;
-static const int uts35_format_first_final = 7;
-static const int uts35_format_error = 0;
 
 static const int uts35_format_en_main = 7;
 
@@ -35,12 +33,12 @@ int tfs_parse_uts35_format_string_internal(const u_char *bytes, size_t len,
     int cs;
 
    
-#line 39 "src/tfs_uts35_parser.c"
+#line 37 "src/tfs_uts35_parser.c"
 	{
 	cs = uts35_format_start;
 	}
 
-#line 44 "src/tfs_uts35_parser.c"
+#line 42 "src/tfs_uts35_parser.c"
 	{
 	if ( p == pe )
 		goto _test_eof;
@@ -74,7 +72,7 @@ st7:
 	if ( ++p == pe )
 		goto _test_eof7;
 case 7:
-#line 78 "src/tfs_uts35_parser.c"
+#line 76 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr8;
 		case 65: goto tr9;
@@ -171,7 +169,7 @@ st8:
 	if ( ++p == pe )
 		goto _test_eof8;
 case 8:
-#line 175 "src/tfs_uts35_parser.c"
+#line 173 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr37;
 		case 65: goto tr38;
@@ -253,7 +251,7 @@ st1:
 	if ( ++p == pe )
 		goto _test_eof1;
 case 1:
-#line 257 "src/tfs_uts35_parser.c"
+#line 255 "src/tfs_uts35_parser.c"
 	if ( (*p) == 39 )
 		goto st92;
 	goto st2;
@@ -361,7 +359,7 @@ st10:
 	if ( ++p == pe )
 		goto _test_eof10;
 case 10:
-#line 365 "src/tfs_uts35_parser.c"
+#line 363 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto st11;
@@ -761,7 +759,7 @@ st17:
 	if ( ++p == pe )
 		goto _test_eof17;
 case 17:
-#line 765 "src/tfs_uts35_parser.c"
+#line 763 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -855,7 +853,7 @@ st18:
 	if ( ++p == pe )
 		goto _test_eof18;
 case 18:
-#line 859 "src/tfs_uts35_parser.c"
+#line 857 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -1000,7 +998,7 @@ st20:
 	if ( ++p == pe )
 		goto _test_eof20;
 case 20:
-#line 1004 "src/tfs_uts35_parser.c"
+#line 1002 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -1298,7 +1296,7 @@ st25:
 	if ( ++p == pe )
 		goto _test_eof25;
 case 25:
-#line 1302 "src/tfs_uts35_parser.c"
+#line 1300 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -1545,7 +1543,7 @@ st29:
 	if ( ++p == pe )
 		goto _test_eof29;
 case 29:
-#line 1549 "src/tfs_uts35_parser.c"
+#line 1547 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -1639,7 +1637,7 @@ st30:
 	if ( ++p == pe )
 		goto _test_eof30;
 case 30:
-#line 1643 "src/tfs_uts35_parser.c"
+#line 1641 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -1733,7 +1731,7 @@ st31:
 	if ( ++p == pe )
 		goto _test_eof31;
 case 31:
-#line 1737 "src/tfs_uts35_parser.c"
+#line 1735 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -1980,7 +1978,7 @@ st35:
 	if ( ++p == pe )
 		goto _test_eof35;
 case 35:
-#line 1984 "src/tfs_uts35_parser.c"
+#line 1982 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -2209,7 +2207,7 @@ st39:
 	if ( ++p == pe )
 		goto _test_eof39;
 case 39:
-#line 2213 "src/tfs_uts35_parser.c"
+#line 2211 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr8;
 		case 65: goto tr9;
@@ -2317,7 +2315,7 @@ st40:
 	if ( ++p == pe )
 		goto _test_eof40;
 case 40:
-#line 2321 "src/tfs_uts35_parser.c"
+#line 2319 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -2513,7 +2511,7 @@ st43:
 	if ( ++p == pe )
 		goto _test_eof43;
 case 43:
-#line 2517 "src/tfs_uts35_parser.c"
+#line 2515 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -2913,7 +2911,7 @@ st50:
 	if ( ++p == pe )
 		goto _test_eof50;
 case 50:
-#line 2917 "src/tfs_uts35_parser.c"
+#line 2915 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -3160,7 +3158,7 @@ st54:
 	if ( ++p == pe )
 		goto _test_eof54;
 case 54:
-#line 3164 "src/tfs_uts35_parser.c"
+#line 3162 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -3407,7 +3405,7 @@ st58:
 	if ( ++p == pe )
 		goto _test_eof58;
 case 58:
-#line 3411 "src/tfs_uts35_parser.c"
+#line 3409 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -3705,7 +3703,7 @@ st63:
 	if ( ++p == pe )
 		goto _test_eof63;
 case 63:
-#line 3709 "src/tfs_uts35_parser.c"
+#line 3707 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -3799,7 +3797,7 @@ st64:
 	if ( ++p == pe )
 		goto _test_eof64;
 case 64:
-#line 3803 "src/tfs_uts35_parser.c"
+#line 3801 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -4097,7 +4095,7 @@ st69:
 	if ( ++p == pe )
 		goto _test_eof69;
 case 69:
-#line 4101 "src/tfs_uts35_parser.c"
+#line 4099 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -4446,7 +4444,7 @@ st75:
 	if ( ++p == pe )
 		goto _test_eof75;
 case 75:
-#line 4450 "src/tfs_uts35_parser.c"
+#line 4448 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -4540,7 +4538,7 @@ st76:
 	if ( ++p == pe )
 		goto _test_eof76;
 case 76:
-#line 4544 "src/tfs_uts35_parser.c"
+#line 4542 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -4634,7 +4632,7 @@ st77:
 	if ( ++p == pe )
 		goto _test_eof77;
 case 77:
-#line 4638 "src/tfs_uts35_parser.c"
+#line 4636 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -4728,7 +4726,7 @@ st78:
 	if ( ++p == pe )
 		goto _test_eof78;
 case 78:
-#line 4732 "src/tfs_uts35_parser.c"
+#line 4730 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -4924,7 +4922,7 @@ st81:
 	if ( ++p == pe )
 		goto _test_eof81;
 case 81:
-#line 4928 "src/tfs_uts35_parser.c"
+#line 4926 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -5018,7 +5016,7 @@ st82:
 	if ( ++p == pe )
 		goto _test_eof82;
 case 82:
-#line 5022 "src/tfs_uts35_parser.c"
+#line 5020 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -5247,7 +5245,7 @@ st86:
 	if ( ++p == pe )
 		goto _test_eof86;
 case 86:
-#line 5251 "src/tfs_uts35_parser.c"
+#line 5249 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr8;
 		case 65: goto tr9;
@@ -5355,7 +5353,7 @@ st87:
 	if ( ++p == pe )
 		goto _test_eof87;
 case 87:
-#line 5359 "src/tfs_uts35_parser.c"
+#line 5357 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -5449,7 +5447,7 @@ st88:
 	if ( ++p == pe )
 		goto _test_eof88;
 case 88:
-#line 5453 "src/tfs_uts35_parser.c"
+#line 5451 "src/tfs_uts35_parser.c"
 	switch( (*p) ) {
 		case 39: goto tr68;
 		case 65: goto tr103;
@@ -5903,7 +5901,7 @@ case 92:
            }
        }
 	break;
-#line 5907 "src/tfs_uts35_parser.c"
+#line 5905 "src/tfs_uts35_parser.c"
 	}
 	}
 
@@ -5912,6 +5910,8 @@ case 92:
 
 #line 90 "src/tfs_uts35_parser.rl"
 
+
+    (void)uts35_format_en_main;
 
     if (cs < 7) {
         printf("Error parsing UTS35 format string around col #%ld (%c)\n", 

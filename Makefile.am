@@ -14,7 +14,7 @@ libtfs_la_SOURCES = \
 	src/tfs_uts35.c \
 	src/tfs_uts35_parser.c
 
-libtfs_la_CFLAGS = -Wall -Werror -pedantic-errors -std=c99
+libtfs_la_CFLAGS = -Wall @EXTRA_WARNINGS@ -Werror -pedantic-errors -std=c99 @SANITIZERS@
 
 if HAVE_RAGEL
 .rl.c:
@@ -39,7 +39,9 @@ noinst_HEADERS = \
 check_PROGRAMS = \
 	tfs_test
 
+tfs_test_SOURCES = test/tfs_test.c
+
 tfs_test_LDADD = libtfs.la
-tfs_test_CFLAGS = -Wall -Werror -pedantic-errors -std=c99
+tfs_test_CFLAGS = -Wall -Werror -pedantic-errors -std=c99 -Isrc
 
 TESTS = tfs_test

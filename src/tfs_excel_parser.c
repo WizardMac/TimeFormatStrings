@@ -12,8 +12,6 @@
 
 #line 14 "src/tfs_excel_parser.c"
 static const int excel_format_start = 101;
-static const int excel_format_first_final = 101;
-static const int excel_format_error = 0;
 
 static const int excel_format_en_main = 101;
 
@@ -33,12 +31,12 @@ int tfs_parse_excel_format_string_internal(const u_char *bytes, size_t len,
     int cs;
 
    
-#line 37 "src/tfs_excel_parser.c"
+#line 35 "src/tfs_excel_parser.c"
 	{
 	cs = excel_format_start;
 	}
 
-#line 42 "src/tfs_excel_parser.c"
+#line 40 "src/tfs_excel_parser.c"
 	{
 	if ( p == pe )
 		goto _test_eof;
@@ -123,7 +121,7 @@ st102:
 	if ( ++p == pe )
 		goto _test_eof102;
 case 102:
-#line 127 "src/tfs_excel_parser.c"
+#line 125 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr100;
 		case 35: goto tr101;
@@ -199,7 +197,7 @@ st1:
 	if ( ++p == pe )
 		goto _test_eof1;
 case 1:
-#line 203 "src/tfs_excel_parser.c"
+#line 201 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto st102;
 		case 92: goto st2;
@@ -232,7 +230,7 @@ st103:
 	if ( ++p == pe )
 		goto _test_eof103;
 case 103:
-#line 236 "src/tfs_excel_parser.c"
+#line 234 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr81;
 		case 35: goto st103;
@@ -294,7 +292,7 @@ st3:
 	if ( ++p == pe )
 		goto _test_eof3;
 case 3:
-#line 298 "src/tfs_excel_parser.c"
+#line 296 "src/tfs_excel_parser.c"
 	goto st103;
 tr103:
 #line 41 "src/tfs_excel_parser.rl"
@@ -316,7 +314,7 @@ st104:
 	if ( ++p == pe )
 		goto _test_eof104;
 case 104:
-#line 320 "src/tfs_excel_parser.c"
+#line 318 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr120;
 		case 35: goto st106;
@@ -392,7 +390,7 @@ st105:
 	if ( ++p == pe )
 		goto _test_eof105;
 case 105:
-#line 396 "src/tfs_excel_parser.c"
+#line 394 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr139;
 		case 35: goto tr140;
@@ -468,7 +466,7 @@ st4:
 	if ( ++p == pe )
 		goto _test_eof4;
 case 4:
-#line 472 "src/tfs_excel_parser.c"
+#line 470 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto st105;
 		case 92: goto st5;
@@ -501,7 +499,7 @@ st106:
 	if ( ++p == pe )
 		goto _test_eof106;
 case 106:
-#line 505 "src/tfs_excel_parser.c"
+#line 503 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr120;
 		case 35: goto st106;
@@ -563,7 +561,7 @@ st6:
 	if ( ++p == pe )
 		goto _test_eof6;
 case 6:
-#line 567 "src/tfs_excel_parser.c"
+#line 565 "src/tfs_excel_parser.c"
 	goto st106;
 tr142:
 #line 41 "src/tfs_excel_parser.rl"
@@ -585,7 +583,7 @@ st107:
 	if ( ++p == pe )
 		goto _test_eof107;
 case 107:
-#line 589 "src/tfs_excel_parser.c"
+#line 587 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr159;
 		case 35: goto st109;
@@ -661,7 +659,7 @@ st108:
 	if ( ++p == pe )
 		goto _test_eof108;
 case 108:
-#line 665 "src/tfs_excel_parser.c"
+#line 663 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr178;
 		case 35: goto tr179;
@@ -737,7 +735,7 @@ st7:
 	if ( ++p == pe )
 		goto _test_eof7;
 case 7:
-#line 741 "src/tfs_excel_parser.c"
+#line 739 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto st108;
 		case 92: goto st8;
@@ -770,7 +768,7 @@ st109:
 	if ( ++p == pe )
 		goto _test_eof109;
 case 109:
-#line 774 "src/tfs_excel_parser.c"
+#line 772 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr159;
 		case 35: goto st109;
@@ -832,7 +830,7 @@ st9:
 	if ( ++p == pe )
 		goto _test_eof9;
 case 9:
-#line 836 "src/tfs_excel_parser.c"
+#line 834 "src/tfs_excel_parser.c"
 	goto st109;
 tr181:
 #line 41 "src/tfs_excel_parser.rl"
@@ -854,7 +852,7 @@ st110:
 	if ( ++p == pe )
 		goto _test_eof110;
 case 110:
-#line 858 "src/tfs_excel_parser.c"
+#line 856 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr198;
 		case 35: goto st112;
@@ -930,7 +928,7 @@ st111:
 	if ( ++p == pe )
 		goto _test_eof111;
 case 111:
-#line 934 "src/tfs_excel_parser.c"
+#line 932 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr216;
 		case 35: goto tr217;
@@ -1006,7 +1004,7 @@ st10:
 	if ( ++p == pe )
 		goto _test_eof10;
 case 10:
-#line 1010 "src/tfs_excel_parser.c"
+#line 1008 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto st111;
 		case 92: goto st11;
@@ -1039,7 +1037,7 @@ st112:
 	if ( ++p == pe )
 		goto _test_eof112;
 case 112:
-#line 1043 "src/tfs_excel_parser.c"
+#line 1041 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr198;
 		case 35: goto st112;
@@ -1101,7 +1099,7 @@ st12:
 	if ( ++p == pe )
 		goto _test_eof12;
 case 12:
-#line 1105 "src/tfs_excel_parser.c"
+#line 1103 "src/tfs_excel_parser.c"
 	goto st112;
 tr200:
 #line 31 "src/tfs_excel_parser.rl"
@@ -1137,7 +1135,7 @@ st113:
 	if ( ++p == pe )
 		goto _test_eof113;
 case 113:
-#line 1141 "src/tfs_excel_parser.c"
+#line 1139 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr236;
 		case 35: goto tr237;
@@ -1267,7 +1265,7 @@ st115:
 	if ( ++p == pe )
 		goto _test_eof115;
 case 115:
-#line 1271 "src/tfs_excel_parser.c"
+#line 1269 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr236;
 		case 35: goto tr237;
@@ -1329,7 +1327,7 @@ st14:
 	if ( ++p == pe )
 		goto _test_eof14;
 case 14:
-#line 1333 "src/tfs_excel_parser.c"
+#line 1331 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 43: goto st112;
 		case 45: goto st112;
@@ -1369,7 +1367,7 @@ st116:
 	if ( ++p == pe )
 		goto _test_eof116;
 case 116:
-#line 1373 "src/tfs_excel_parser.c"
+#line 1371 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr236;
 		case 35: goto tr237;
@@ -1445,7 +1443,7 @@ st117:
 	if ( ++p == pe )
 		goto _test_eof117;
 case 117:
-#line 1449 "src/tfs_excel_parser.c"
+#line 1447 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr236;
 		case 35: goto tr237;
@@ -1521,7 +1519,7 @@ st118:
 	if ( ++p == pe )
 		goto _test_eof118;
 case 118:
-#line 1525 "src/tfs_excel_parser.c"
+#line 1523 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr236;
 		case 35: goto tr237;
@@ -1583,7 +1581,7 @@ st15:
 	if ( ++p == pe )
 		goto _test_eof15;
 case 15:
-#line 1587 "src/tfs_excel_parser.c"
+#line 1585 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 60: goto st16;
 		case 61: goto st21;
@@ -1683,7 +1681,7 @@ st23:
 	if ( ++p == pe )
 		goto _test_eof23;
 case 23:
-#line 1687 "src/tfs_excel_parser.c"
+#line 1685 "src/tfs_excel_parser.c"
 	goto tr25;
 tr208:
 #line 31 "src/tfs_excel_parser.rl"
@@ -1719,7 +1717,7 @@ st119:
 	if ( ++p == pe )
 		goto _test_eof119;
 case 119:
-#line 1723 "src/tfs_excel_parser.c"
+#line 1721 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr236;
 		case 35: goto tr237;
@@ -1804,7 +1802,7 @@ st120:
 	if ( ++p == pe )
 		goto _test_eof120;
 case 120:
-#line 1808 "src/tfs_excel_parser.c"
+#line 1806 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr236;
 		case 35: goto tr237;
@@ -1880,7 +1878,7 @@ st121:
 	if ( ++p == pe )
 		goto _test_eof121;
 case 121:
-#line 1884 "src/tfs_excel_parser.c"
+#line 1882 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr236;
 		case 35: goto tr237;
@@ -1956,7 +1954,7 @@ st122:
 	if ( ++p == pe )
 		goto _test_eof122;
 case 122:
-#line 1960 "src/tfs_excel_parser.c"
+#line 1958 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr236;
 		case 35: goto tr237;
@@ -2032,7 +2030,7 @@ st123:
 	if ( ++p == pe )
 		goto _test_eof123;
 case 123:
-#line 2036 "src/tfs_excel_parser.c"
+#line 2034 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr236;
 		case 35: goto tr237;
@@ -2108,7 +2106,7 @@ st124:
 	if ( ++p == pe )
 		goto _test_eof124;
 case 124:
-#line 2112 "src/tfs_excel_parser.c"
+#line 2110 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr236;
 		case 35: goto tr237;
@@ -2239,7 +2237,7 @@ st126:
 	if ( ++p == pe )
 		goto _test_eof126;
 case 126:
-#line 2243 "src/tfs_excel_parser.c"
+#line 2241 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr236;
 		case 35: goto tr237;
@@ -2545,7 +2543,7 @@ st130:
 	if ( ++p == pe )
 		goto _test_eof130;
 case 130:
-#line 2549 "src/tfs_excel_parser.c"
+#line 2547 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr270;
 		case 35: goto tr271;
@@ -2675,7 +2673,7 @@ st132:
 	if ( ++p == pe )
 		goto _test_eof132;
 case 132:
-#line 2679 "src/tfs_excel_parser.c"
+#line 2677 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr270;
 		case 35: goto tr271;
@@ -2737,7 +2735,7 @@ st36:
 	if ( ++p == pe )
 		goto _test_eof36;
 case 36:
-#line 2741 "src/tfs_excel_parser.c"
+#line 2739 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 43: goto st109;
 		case 45: goto st109;
@@ -2777,7 +2775,7 @@ st133:
 	if ( ++p == pe )
 		goto _test_eof133;
 case 133:
-#line 2781 "src/tfs_excel_parser.c"
+#line 2779 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr270;
 		case 35: goto tr271;
@@ -2853,7 +2851,7 @@ st134:
 	if ( ++p == pe )
 		goto _test_eof134;
 case 134:
-#line 2857 "src/tfs_excel_parser.c"
+#line 2855 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr270;
 		case 35: goto tr271;
@@ -2929,7 +2927,7 @@ st135:
 	if ( ++p == pe )
 		goto _test_eof135;
 case 135:
-#line 2933 "src/tfs_excel_parser.c"
+#line 2931 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr270;
 		case 35: goto tr271;
@@ -2991,7 +2989,7 @@ st37:
 	if ( ++p == pe )
 		goto _test_eof37;
 case 37:
-#line 2995 "src/tfs_excel_parser.c"
+#line 2993 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 60: goto st38;
 		case 61: goto st43;
@@ -3091,7 +3089,7 @@ st45:
 	if ( ++p == pe )
 		goto _test_eof45;
 case 45:
-#line 3095 "src/tfs_excel_parser.c"
+#line 3093 "src/tfs_excel_parser.c"
 	goto tr41;
 tr170:
 #line 31 "src/tfs_excel_parser.rl"
@@ -3127,7 +3125,7 @@ st136:
 	if ( ++p == pe )
 		goto _test_eof136;
 case 136:
-#line 3131 "src/tfs_excel_parser.c"
+#line 3129 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr270;
 		case 35: goto tr271;
@@ -3212,7 +3210,7 @@ st137:
 	if ( ++p == pe )
 		goto _test_eof137;
 case 137:
-#line 3216 "src/tfs_excel_parser.c"
+#line 3214 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr270;
 		case 35: goto tr271;
@@ -3288,7 +3286,7 @@ st138:
 	if ( ++p == pe )
 		goto _test_eof138;
 case 138:
-#line 3292 "src/tfs_excel_parser.c"
+#line 3290 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr270;
 		case 35: goto tr271;
@@ -3364,7 +3362,7 @@ st139:
 	if ( ++p == pe )
 		goto _test_eof139;
 case 139:
-#line 3368 "src/tfs_excel_parser.c"
+#line 3366 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr270;
 		case 35: goto tr271;
@@ -3440,7 +3438,7 @@ st140:
 	if ( ++p == pe )
 		goto _test_eof140;
 case 140:
-#line 3444 "src/tfs_excel_parser.c"
+#line 3442 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr270;
 		case 35: goto tr271;
@@ -3516,7 +3514,7 @@ st141:
 	if ( ++p == pe )
 		goto _test_eof141;
 case 141:
-#line 3520 "src/tfs_excel_parser.c"
+#line 3518 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr270;
 		case 35: goto tr271;
@@ -3647,7 +3645,7 @@ st143:
 	if ( ++p == pe )
 		goto _test_eof143;
 case 143:
-#line 3651 "src/tfs_excel_parser.c"
+#line 3649 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr270;
 		case 35: goto tr271;
@@ -3953,7 +3951,7 @@ st147:
 	if ( ++p == pe )
 		goto _test_eof147;
 case 147:
-#line 3957 "src/tfs_excel_parser.c"
+#line 3955 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr305;
 		case 35: goto tr306;
@@ -4083,7 +4081,7 @@ st149:
 	if ( ++p == pe )
 		goto _test_eof149;
 case 149:
-#line 4087 "src/tfs_excel_parser.c"
+#line 4085 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr305;
 		case 35: goto tr306;
@@ -4145,7 +4143,7 @@ st58:
 	if ( ++p == pe )
 		goto _test_eof58;
 case 58:
-#line 4149 "src/tfs_excel_parser.c"
+#line 4147 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 43: goto st106;
 		case 45: goto st106;
@@ -4185,7 +4183,7 @@ st150:
 	if ( ++p == pe )
 		goto _test_eof150;
 case 150:
-#line 4189 "src/tfs_excel_parser.c"
+#line 4187 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr305;
 		case 35: goto tr306;
@@ -4261,7 +4259,7 @@ st151:
 	if ( ++p == pe )
 		goto _test_eof151;
 case 151:
-#line 4265 "src/tfs_excel_parser.c"
+#line 4263 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr305;
 		case 35: goto tr306;
@@ -4337,7 +4335,7 @@ st152:
 	if ( ++p == pe )
 		goto _test_eof152;
 case 152:
-#line 4341 "src/tfs_excel_parser.c"
+#line 4339 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr305;
 		case 35: goto tr306;
@@ -4399,7 +4397,7 @@ st59:
 	if ( ++p == pe )
 		goto _test_eof59;
 case 59:
-#line 4403 "src/tfs_excel_parser.c"
+#line 4401 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 60: goto st60;
 		case 61: goto st65;
@@ -4499,7 +4497,7 @@ st67:
 	if ( ++p == pe )
 		goto _test_eof67;
 case 67:
-#line 4503 "src/tfs_excel_parser.c"
+#line 4501 "src/tfs_excel_parser.c"
 	goto tr57;
 tr131:
 #line 31 "src/tfs_excel_parser.rl"
@@ -4535,7 +4533,7 @@ st153:
 	if ( ++p == pe )
 		goto _test_eof153;
 case 153:
-#line 4539 "src/tfs_excel_parser.c"
+#line 4537 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr305;
 		case 35: goto tr306;
@@ -4620,7 +4618,7 @@ st154:
 	if ( ++p == pe )
 		goto _test_eof154;
 case 154:
-#line 4624 "src/tfs_excel_parser.c"
+#line 4622 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr305;
 		case 35: goto tr306;
@@ -4696,7 +4694,7 @@ st155:
 	if ( ++p == pe )
 		goto _test_eof155;
 case 155:
-#line 4700 "src/tfs_excel_parser.c"
+#line 4698 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr305;
 		case 35: goto tr306;
@@ -4772,7 +4770,7 @@ st156:
 	if ( ++p == pe )
 		goto _test_eof156;
 case 156:
-#line 4776 "src/tfs_excel_parser.c"
+#line 4774 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr305;
 		case 35: goto tr306;
@@ -4848,7 +4846,7 @@ st157:
 	if ( ++p == pe )
 		goto _test_eof157;
 case 157:
-#line 4852 "src/tfs_excel_parser.c"
+#line 4850 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr305;
 		case 35: goto tr306;
@@ -4924,7 +4922,7 @@ st158:
 	if ( ++p == pe )
 		goto _test_eof158;
 case 158:
-#line 4928 "src/tfs_excel_parser.c"
+#line 4926 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr305;
 		case 35: goto tr306;
@@ -5055,7 +5053,7 @@ st160:
 	if ( ++p == pe )
 		goto _test_eof160;
 case 160:
-#line 5059 "src/tfs_excel_parser.c"
+#line 5057 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr305;
 		case 35: goto tr306;
@@ -5361,7 +5359,7 @@ st164:
 	if ( ++p == pe )
 		goto _test_eof164;
 case 164:
-#line 5365 "src/tfs_excel_parser.c"
+#line 5363 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr340;
 		case 35: goto tr341;
@@ -5491,7 +5489,7 @@ st166:
 	if ( ++p == pe )
 		goto _test_eof166;
 case 166:
-#line 5495 "src/tfs_excel_parser.c"
+#line 5493 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr340;
 		case 35: goto tr341;
@@ -5553,7 +5551,7 @@ st80:
 	if ( ++p == pe )
 		goto _test_eof80;
 case 80:
-#line 5557 "src/tfs_excel_parser.c"
+#line 5555 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 43: goto st103;
 		case 45: goto st103;
@@ -5593,7 +5591,7 @@ st167:
 	if ( ++p == pe )
 		goto _test_eof167;
 case 167:
-#line 5597 "src/tfs_excel_parser.c"
+#line 5595 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr340;
 		case 35: goto tr341;
@@ -5669,7 +5667,7 @@ st168:
 	if ( ++p == pe )
 		goto _test_eof168;
 case 168:
-#line 5673 "src/tfs_excel_parser.c"
+#line 5671 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr340;
 		case 35: goto tr341;
@@ -5745,7 +5743,7 @@ st169:
 	if ( ++p == pe )
 		goto _test_eof169;
 case 169:
-#line 5749 "src/tfs_excel_parser.c"
+#line 5747 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr340;
 		case 35: goto tr341;
@@ -5807,7 +5805,7 @@ st81:
 	if ( ++p == pe )
 		goto _test_eof81;
 case 81:
-#line 5811 "src/tfs_excel_parser.c"
+#line 5809 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 60: goto st82;
 		case 61: goto st87;
@@ -5907,7 +5905,7 @@ st89:
 	if ( ++p == pe )
 		goto _test_eof89;
 case 89:
-#line 5911 "src/tfs_excel_parser.c"
+#line 5909 "src/tfs_excel_parser.c"
 	goto tr73;
 tr92:
 #line 31 "src/tfs_excel_parser.rl"
@@ -5943,7 +5941,7 @@ st170:
 	if ( ++p == pe )
 		goto _test_eof170;
 case 170:
-#line 5947 "src/tfs_excel_parser.c"
+#line 5945 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr340;
 		case 35: goto tr341;
@@ -6028,7 +6026,7 @@ st171:
 	if ( ++p == pe )
 		goto _test_eof171;
 case 171:
-#line 6032 "src/tfs_excel_parser.c"
+#line 6030 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr340;
 		case 35: goto tr341;
@@ -6104,7 +6102,7 @@ st172:
 	if ( ++p == pe )
 		goto _test_eof172;
 case 172:
-#line 6108 "src/tfs_excel_parser.c"
+#line 6106 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr340;
 		case 35: goto tr341;
@@ -6180,7 +6178,7 @@ st173:
 	if ( ++p == pe )
 		goto _test_eof173;
 case 173:
-#line 6184 "src/tfs_excel_parser.c"
+#line 6182 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr340;
 		case 35: goto tr341;
@@ -6256,7 +6254,7 @@ st174:
 	if ( ++p == pe )
 		goto _test_eof174;
 case 174:
-#line 6260 "src/tfs_excel_parser.c"
+#line 6258 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr340;
 		case 35: goto tr341;
@@ -6332,7 +6330,7 @@ st175:
 	if ( ++p == pe )
 		goto _test_eof175;
 case 175:
-#line 6336 "src/tfs_excel_parser.c"
+#line 6334 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr340;
 		case 35: goto tr341;
@@ -6463,7 +6461,7 @@ st177:
 	if ( ++p == pe )
 		goto _test_eof177;
 case 177:
-#line 6467 "src/tfs_excel_parser.c"
+#line 6465 "src/tfs_excel_parser.c"
 	switch( (*p) ) {
 		case 34: goto tr340;
 		case 35: goto tr341;
@@ -7006,7 +7004,7 @@ case 100:
            }
        }
 	break;
-#line 7010 "src/tfs_excel_parser.c"
+#line 7008 "src/tfs_excel_parser.c"
 	}
 	}
 
@@ -7015,6 +7013,9 @@ case 100:
 
 #line 103 "src/tfs_excel_parser.rl"
 
+
+    /* suppress warning */
+   (void)excel_format_en_main;
 
     if (cs < 101) {
         printf("Error parsing Excel format string '%s' around col #%ld (%c)\n",
