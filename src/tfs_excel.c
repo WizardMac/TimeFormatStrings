@@ -272,10 +272,12 @@ int tfs_excel_generate(char *format, size_t format_len, tfs_token_array_t *token
         if (out == last)
             break;
     }
-    if (is_quoting && out < last) {
-        *out++ = '"';
+    if (out) {
+        if (is_quoting && out < last) {
+            *out++ = '"';
+        }
+        if (out < last)
+            *out++ = '\0';
     }
-    if (out < last)
-        *out++ = '\0';
     return error;
 }
