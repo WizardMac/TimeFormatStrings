@@ -1,13 +1,31 @@
 name: build
 on: [ push, pull_request ]
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
+  linux:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         compiler: [ gcc, clang ]
-        os: [ ubuntu-latest, macos-latest ]
     steps:
+      - uses: actions/checkout@v2
+      - name: Autoconf
+        run: autoreconf -i
+      - name: Configure
+        run: ./configure
+        env:
+          CC: ${{ matrix.compiler }}
+      - name: Make
+        run: make
+      - name: Tests
+        run: make check
+  macos:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        compiler: [ gcc, clang ]
+    steps:
+      - name: Install packages
+        run: brew install automake
       - uses: actions/checkout@v2
       - name: Autoconf
         run: autoreconf -i
