@@ -1,0 +1,20 @@
+name: build
+on: [ push, pull_request ]
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        compiler: [ gcc, clang ]
+        os: [ ubuntu-latest, macos-latest ]
+    steps:
+      - name: Autoconf
+        run: autoreconf -i
+      - name: Configure
+        run: ./configure
+        env:
+          CC: ${{ matrix.compiler }}
+      - name: Make
+        run: make
+      - name: Tests
+        run: make check

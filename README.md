@@ -1,3 +1,4 @@
+[![Build status](https://github.com/WizardMac/TimeFormatStrings/workflows/build/badge.svg)](https://github.com/WizardMac/TimeFormatStrings/actions)
 [![Travis CI build status](https://travis-ci.org/WizardMac/TimeFormatStrings.svg?branch=master)](https://travis-ci.org/WizardMac/TimeFormatStrings)
 TimeFormatStrings
 --
