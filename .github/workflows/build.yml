@@ -8,6 +8,7 @@ jobs:
         compiler: [ gcc, clang ]
         os: [ ubuntu-latest, macos-latest ]
     steps:
+      - uses: actions/checkout@v2
       - name: Autoconf
         run: autoreconf -i
       - name: Configure
