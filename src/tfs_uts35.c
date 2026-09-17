@@ -136,6 +136,8 @@ static tfs_token_lookup_t uts35_tokens[] = {
     { .text = "SSSS",  .token = { .time_unit = TFS_FRACTIONAL_SECOND, .style = TFS_NUMBER, .truncate_len = 4 } },
     { .text = "SSSSS", .token = { .time_unit = TFS_FRACTIONAL_SECOND, .style = TFS_NUMBER, .truncate_len = 5 } },
     { .text = "SSSSSS",.token = { .time_unit = TFS_FRACTIONAL_SECOND, .style = TFS_NUMBER, .truncate_len = 6 } },
+    { .text = "SSSSSSS",.token = { .time_unit = TFS_FRACTIONAL_SECOND, .style = TFS_NUMBER, .truncate_len = 7 } },
+    { .text = "SSSSSSSS",.token = { .time_unit = TFS_FRACTIONAL_SECOND, .style = TFS_NUMBER, .truncate_len = 8 } },
 
     { .text = "A",     .token = { .time_unit = TFS_MILLISECOND, .relative_to = TFS_DAY, .style = TFS_NUMBER } },
     { .text = "AA",    .token = { .time_unit = TFS_MILLISECOND, .relative_to = TFS_DAY, .style = TFS_NUMBER,
@@ -151,9 +153,44 @@ static tfs_token_lookup_t uts35_tokens[] = {
     { .text = "AAAAAAA",.token = { .time_unit = TFS_MILLISECOND, .relative_to = TFS_DAY, .style = TFS_NUMBER,
                                 .pad_len = 7, .pad_char = '0' } },
     { .text = "AAAAAAAA",.token = { .time_unit = TFS_MILLISECOND, .relative_to = TFS_DAY, .style = TFS_NUMBER,
-                                .pad_len = 8, .pad_char = '0' } }
+                                .pad_len = 8, .pad_char = '0' } },
 
-    /* TODO timezones */
+    /* Time zones. Specific non-location ("PST", "Pacific Standard Time") */
+    { .text = "z",     .token = { .time_unit = TFS_TIMEZONE, .style = TFS_ABBREV } },
+    { .text = "zz",    .token = { .time_unit = TFS_TIMEZONE, .style = TFS_ABBREV } },
+    { .text = "zzz",   .token = { .time_unit = TFS_TIMEZONE, .style = TFS_ABBREV } },
+    { .text = "zzzz",  .token = { .time_unit = TFS_TIMEZONE, .style = TFS_FULL } },
+
+    /* Generic non-location ("PT", "Pacific Time") */
+    { .text = "v",     .token = { .time_unit = TFS_TIMEZONE, .style = TFS_ABBREV, .is_local = 1 } },
+    { .text = "vvvv",  .token = { .time_unit = TFS_TIMEZONE, .style = TFS_FULL, .is_local = 1 } },
+
+    /* Zone IDs and location formats ("uslax", "America/Los_Angeles", "Los Angeles", "Los Angeles Time") */
+    { .text = "V",     .token = { .time_unit = TFS_TIMEZONE, .style = TFS_SHORT, .is_standalone = 1 } },
+    { .text = "VV",    .token = { .time_unit = TFS_TIMEZONE, .style = TFS_LONG, .is_standalone = 1 } },
+    { .text = "VVV",   .token = { .time_unit = TFS_TIMEZONE, .style = TFS_ABBREV, .is_standalone = 1 } },
+    { .text = "VVVV",  .token = { .time_unit = TFS_TIMEZONE, .style = TFS_FULL, .is_standalone = 1, .is_local = 1 } },
+
+    /* Localized GMT ("GMT-8", "GMT-08:00") */
+    { .text = "O",     .token = { .time_unit = TFS_TIMEZONE, .style = TFS_SHORT } },
+    { .text = "ZZZZ",  .token = { .time_unit = TFS_TIMEZONE, .style = TFS_LONG } },
+    { .text = "OOOO",  .token = { .time_unit = TFS_TIMEZONE, .style = TFS_LONG } },
+
+    /* Numeric offsets. truncate_len distinguishes the ISO 8601 variants; uppercase marks "Z" for UTC. */
+    { .text = "x",     .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER, .truncate_len = 1 } },
+    { .text = "xx",    .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER, .truncate_len = 2 } },
+    { .text = "xxx",   .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER, .truncate_len = 3 } },
+    { .text = "xxxx",  .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER } },
+    { .text = "Z",     .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER } },
+    { .text = "ZZ",    .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER } },
+    { .text = "ZZZ",   .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER } },
+    { .text = "xxxxx", .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER, .truncate_len = 5 } },
+    { .text = "X",     .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER, .truncate_len = 1, .uppercase = 1 } },
+    { .text = "XX",    .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER, .truncate_len = 2, .uppercase = 1 } },
+    { .text = "XXX",   .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER, .truncate_len = 3, .uppercase = 1 } },
+    { .text = "XXXX",  .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER, .truncate_len = 4, .uppercase = 1 } },
+    { .text = "ZZZZZ", .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER, .truncate_len = 5, .uppercase = 1 } },
+    { .text = "XXXXX", .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER, .truncate_len = 5, .uppercase = 1 } },
 };
 
 static int handle_code(const char *code, size_t len, void *ctx) {
@@ -178,7 +215,7 @@ static int handle_literal(const char *literal, size_t len, void *ctx) {
     int in_i = 0, out_i = 0;
     int was_quote = 0;
     tfs_token_t *new_token = tfs_append_token(tokens);
-    int out_len = sizeof(new_token->text);
+    int out_len = sizeof(new_token->text) - 1;
     new_token->is_literal = 1;
     char *out_text = new_token->text;
 
@@ -187,7 +224,6 @@ static int handle_literal(const char *literal, size_t len, void *ctx) {
         len--;
     }
 
-    /* TODO bounds check */
     while (in_i < len && out_i < out_len) {
         if (literal[in_i] == '\'') {
             if (was_quote) {
@@ -203,8 +239,7 @@ static int handle_literal(const char *literal, size_t len, void *ctx) {
         in_i++;
     }
 
-    if (out_i < out_len)
-        out_text[out_i++] = '\0';
+    out_text[out_i] = '\0';
 
     return 0;
 }
@@ -283,6 +318,9 @@ int tfs_uts35_generate(char *format, size_t format_len, tfs_token_array_t *token
                     if ((*in >= 'a' && *in <= 'z') || (*in >= 'A' && *in <= 'Z')) {
                         *out++ = '\'';
                         is_quoting = 1;
+                    } else if (*in == '\'') {
+                        /* A lone apostrophe is written as a doubled apostrophe */
+                        *out++ = '\'';
                     }
                     if (out < last)
                         *out++ = *in;
@@ -303,10 +341,12 @@ int tfs_uts35_generate(char *format, size_t format_len, tfs_token_array_t *token
         if (out == last)
             break;
     }
-    if (is_quoting && out < last) {
-        *out++ = '\'';
+    if (out && is_quoting) {
+        if (out < last) {
+            *out++ = '\'';
+        } else {
+            error = TFS_MORE_BUFFER_PLEASE;
+        }
     }
-    if (out < last)
-        *out++ = '\0';
-    return error;
+    return tfs_finish_output(format, format_len, out, error);
 }

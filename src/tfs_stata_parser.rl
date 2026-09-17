@@ -10,6 +10,7 @@
 
 %%{
     machine stata_format;
+    alphtype unsigned char;
     write data nofinal noerror;
 }%%
 
@@ -50,7 +51,7 @@ tfs_error_e tfs_parse_stata_format_string_internal(
        year = "YY" | "yy";
        day_of_year = "JJJ" | "jjj";
 
-       month = [Mm] "on" "th"? | "NN" | "nn";
+       month = "M"i "on" "th"? | "NN" | "nn";
        day_of_month = "DD" | "dd";
 
        day_of_week = "DAYNAME" | "Da" ("y" "name"?)? | "da" "y"?;
@@ -74,7 +75,9 @@ tfs_error_e tfs_parse_stata_format_string_internal(
 
        underscore = "_" %handle_space;
 
-       main := (code | "!" ascii >start_string %handle_literal | display_character | underscore | "+")**;
+       utf8_char = (0x00..0x7f) | ((0xc0..0xff) (0x80..0xbf)+);
+
+       main := (code | "!" utf8_char >start_string %handle_literal | display_character | underscore | "+")**;
 
         write init;
         write exec;
@@ -87,7 +90,7 @@ tfs_error_e tfs_parse_stata_format_string_internal(
         if (ctx->handle_error) {
             char buf[1024];
             snprintf(buf, sizeof(buf), "Error parsing Stata format string '%s' around col #%ld (%c)\n", 
-                    p, (long)(p - bytes + 1), *p);
+                    bytes, (long)(p - bytes + 1), *p);
             ctx->handle_error(buf, sizeof(buf), ctx->user_ctx);
         }
         return TFS_PARSE_ERROR;

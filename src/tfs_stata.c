@@ -81,15 +81,9 @@ static int handle_code(const char *code, size_t len, void *ctx) {
 
 static int handle_literal(const char *literal, size_t len, void *ctx) {
     tfs_token_array_t *tokens = (void *)ctx;
-    int in_i = 0, out_i = 0;
     tfs_token_t *new_token = tfs_append_token(tokens);
     new_token->is_literal = 1;
-    char *out_text = new_token->text;
-
-    while (in_i < len) {
-        out_text[out_i++] = literal[in_i++];
-    }
-    out_text[out_i] = '\0';
+    tfs_copy_literal(new_token, literal, len);
 
     return 0;
 }
@@ -133,7 +127,9 @@ static char *format_token(char *outbuf, size_t outbuf_len, tfs_token_t *token) {
     char *p = outbuf;
     char *last = outbuf + outbuf_len;
     if (token->time_unit == TFS_YEAR) {
-        if (token->relative_to == TFS_CENTURY) {
+        if (token->modifier != 0) {
+            p = NULL;
+        } else if (token->relative_to == TFS_CENTURY) {
             if (token->style == TFS_NUMBER) {
                 p = stpncpy(p, "yy", last - p);
             } else if (token->style == TFS_2DIGIT) {
@@ -177,6 +173,9 @@ tfs_error_e tfs_stata_generate(char *format, size_t format_len, tfs_token_array_
                     *out++ = '_';
                 } else if (strchr(display_chars, *in) != NULL) {
                     *out++ = *in;
+                } else if (((unsigned char)*in & 0xc0) == 0x80) {
+                    /* UTF-8 continuation byte: part of the character already escaped */
+                    *out++ = *in;
                 } else {
                     *out++ = '!';
                     if (out < last)
@@ -191,9 +190,8 @@ tfs_error_e tfs_stata_generate(char *format, size_t format_len, tfs_token_array_
                 break;
             }
         }
+        if (out == last)
+            break;
     }
-    if (out < last)
-        *out++ = '\0';
-
-    return error;
+    return tfs_finish_output(format, format_len, out, error);
 }

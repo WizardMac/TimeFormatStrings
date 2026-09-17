@@ -30,16 +30,16 @@ endif
 include_HEADERS = src/tfs.h
 
 noinst_HEADERS = \
-	src/tfs_excel.h
-	src/tfs_excel_parser.h
-	src/tfs_internal.h
-	src/tfs_posix.h
-	src/tfs_sas.h
-	src/tfs_spss.h
-	src/tfs_stata.h
-	src/tfs_stata_parser.h
-	src/tfs_token.h
-	src/tfs_uts35.h
+	src/tfs_excel.h \
+	src/tfs_excel_parser.h \
+	src/tfs_internal.h \
+	src/tfs_posix.h \
+	src/tfs_sas.h \
+	src/tfs_spss.h \
+	src/tfs_stata.h \
+	src/tfs_stata_parser.h \
+	src/tfs_token.h \
+	src/tfs_uts35.h \
 	src/tfs_uts35_parser.h
 
 check_PROGRAMS = \

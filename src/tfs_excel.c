@@ -41,11 +41,51 @@ static tfs_token_lookup_t excel_tokens[] = {
     { .text = "ss",    .token = { .time_unit = TFS_SECOND, .relative_to = TFS_MINUTE, .style = TFS_2DIGIT } }
 };
 
-static int handle_code(const char *code, size_t len, void *ctx) {
+static int handle_code(const char *raw_code, size_t len, void *ctx) {
     tfs_token_array_t *tokens = (void *)ctx;
 
     int i;
     tfs_token_t *new_token = NULL;
+    char code[32];
+    int is_ampm = (raw_code[0] == 'A' || raw_code[0] == 'a' || raw_code[0] == 'P' || raw_code[0] == 'p');
+
+    /* Excel date codes are case-insensitive, except for the AM/PM variants,
+     * whose case selects the case of the output. */
+    if (len >= sizeof(code))
+        len = sizeof(code) - 1;
+    for (i=0; i<len; i++) {
+        char c = raw_code[i];
+        if (!is_ampm && c >= 'A' && c <= 'Z')
+            c += 'a' - 'A';
+        code[i] = c;
+    }
+    code[len] = '\0';
+
+    if (code[0] == '[') {
+        /* Elapsed time: [h], [hh], [mm], [ss] */
+        size_t digits = len - 2;
+        new_token = tfs_append_token(tokens);
+        new_token->time_unit = code[1] == 'h' ? TFS_HOUR : code[1] == 'm' ? TFS_MINUTE : TFS_SECOND;
+        new_token->relative_to = 0; /* elapsed: not relative to anything */
+        new_token->style = digits > 1 ? TFS_2DIGIT : TFS_NUMBER;
+        return 0;
+    }
+
+    /* Excel treats a run longer than the longest code as the longest code */
+    if (code[0] == 'y' && len == 3) {
+        len = 4;
+        code[3] = 'y';
+    } else if (code[0] == 'y' && len > 4) {
+        len = 4;
+    } else if (code[0] == 'd' && len > 4) {
+        len = 4;
+    } else if (code[0] == 'm' && len > 5) {
+        len = 5;
+    } else if (code[0] == 'h' && len > 2) {
+        len = 2;
+    }
+    code[len] = '\0';
+
     if (code[0] == 's') {
         size_t fractional_len = 0;
         new_token = tfs_append_token(tokens);
@@ -96,7 +136,7 @@ static int handle_literal(const char *literal, size_t len, void *ctx) {
     int was_slash = 0;
     tfs_token_t *new_token = tfs_append_token(tokens);
     new_token->is_literal = 1;
-    int out_len = sizeof(new_token->text);
+    int out_len = sizeof(new_token->text) - 1;
     char *out_text = new_token->text;
 
     if (literal[0] == '"') {
@@ -114,8 +154,7 @@ static int handle_literal(const char *literal, size_t len, void *ctx) {
         }
         in_i++;
     }
-    if (out_i < out_len)
-        out_text[out_i++] = '\0';
+    out_text[out_i] = '\0';
 
     return 0;
 }
@@ -186,29 +225,40 @@ tfs_token_array_t *tfs_excel_parse(const char *bytes, tfs_handle_string_callback
     return token_array;
 }
 
-static char *format_token(char *outbuf, size_t outbuf_len, tfs_token_t *token) {
+static char *format_token(char *outbuf, size_t outbuf_len, tfs_token_t *token, int has_ampm) {
     char *p = outbuf;
     char *last = outbuf + outbuf_len;
-    if (token->time_unit == TFS_MINUTE) {
-        if (token->style == TFS_NUMBER) {
-            p = stpncpy(p, "m", last - p);
-        } else if (token->style == TFS_2DIGIT) {
-            p = stpncpy(p, "mm", last - p);
+    if (token->time_unit == TFS_MINUTE || token->time_unit == TFS_HOUR ||
+            (token->time_unit == TFS_SECOND && token->relative_to == 0)) {
+        const char *code = NULL;
+        if (token->time_unit == TFS_HOUR) {
+            /* Excel shows a 12-hour clock only if AM/PM appears somewhere in the
+             * format, and has no way to show 0-11 or 1-24 clocks. */
+            if (token->relative_to == TFS_PERIOD && (!token->start_at_one || !has_ampm))
+                return NULL;
+            if (token->relative_to == TFS_DAY && token->start_at_one)
+                return NULL;
+            code = token->style == TFS_2DIGIT ? "hh" : token->style == TFS_NUMBER ? "h" : NULL;
+        } else if (token->time_unit == TFS_MINUTE) {
+            code = token->style == TFS_2DIGIT ? "mm" : token->style == TFS_NUMBER ? "m" : NULL;
         } else {
-            p = NULL;
+            code = token->style == TFS_2DIGIT ? "ss" : token->style == TFS_NUMBER ? "s" : NULL;
         }
-    } else if (token->time_unit == TFS_HOUR) {
-        if (token->style == TFS_NUMBER) {
-            p = stpncpy(p, "h", last - p);
-        } else if (token->style == TFS_2DIGIT) {
-            p = stpncpy(p, "hh", last - p);
+        if (code == NULL)
+            return NULL;
+        if (token->relative_to == 0) {
+            /* Elapsed time */
+            p = stpncpy(p, "[", last - p);
+            p = stpncpy(p, code, last - p);
+            p = stpncpy(p, "]", last - p);
         } else {
-            p = NULL;
+            p = stpncpy(p, code, last - p);
         }
     } else if (token->time_unit == TFS_FRACTIONAL_SECOND) {
-        if (token->add_dots) {
-            p = stpncpy(p, ".", last - p);
-        }
+        /* Excel only shows fractional seconds as decimals following the seconds */
+        if (!token->add_dots || token->truncate_len == 0)
+            return NULL;
+        p = stpncpy(p, ".", last - p);
         size_t len = token->truncate_len;
         while (len--) {
             p = stpncpy(p, "0", last - p);
@@ -231,22 +281,29 @@ int tfs_excel_generate(char *format, size_t format_len, tfs_token_array_t *token
     const char *display_chars = "$-+/():!^&'~{}<>= ";
     int is_quoting = 0;
     int error = 0;
+    int has_ampm = 0;
+    for (i=0; i<token_array->count; i++) {
+        tfs_token_t *token = &token_array->tokens[i];
+        if (!token->is_literal && token->time_unit == TFS_PERIOD)
+            has_ampm = 1;
+    }
     for (i=0; i<token_array->count; i++) {
         tfs_token_t *token = &token_array->tokens[i];
         if (token->is_literal) {
             char *in = token->text;
             while (*in && out < last) {
+                int is_display = (unsigned char)*in >= 0x80 || strchr(display_chars, *in) != NULL;
                 if (is_quoting) {
                     if (*in == '"') {
                         *out++ = '\\';
-                    } else if (strchr(display_chars, *in) != NULL) {
+                    } else if (is_display) {
                         *out++ = '"';
                         is_quoting = 0;
                     }
                     if (out < last)
                         *out++ = *in;
                 } else {
-                    if (strchr(display_chars, *in) == NULL) {
+                    if (!is_display) {
                         *out++ = '"';
                         if (*in == '"' && out < last) {
                             *out++ = '\\';
@@ -263,7 +320,7 @@ int tfs_excel_generate(char *format, size_t format_len, tfs_token_array_t *token
                 *out++ = '"';
                 is_quoting = 0;
             }
-            out = format_token(out, last - out, token);
+            out = format_token(out, last - out, token, has_ampm);
             if (out == NULL) {
                 error = TFS_CANT_REPRESENT;
                 break;
@@ -272,12 +329,12 @@ int tfs_excel_generate(char *format, size_t format_len, tfs_token_array_t *token
         if (out == last)
             break;
     }
-    if (out) {
-        if (is_quoting && out < last) {
+    if (out && is_quoting) {
+        if (out < last) {
             *out++ = '"';
+        } else {
+            error = TFS_MORE_BUFFER_PLEASE;
         }
-        if (out < last)
-            *out++ = '\0';
     }
-    return error;
+    return tfs_finish_output(format, format_len, out, error);
 }

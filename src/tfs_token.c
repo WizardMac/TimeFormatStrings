@@ -34,7 +34,7 @@ void tfs_free_token_array(tfs_token_array_t *token_array) {
     free(token_array);
 }
 
-char *tfs_match_token(tfs_token_lookup_t *token_table, size_t count, tfs_token_t *key) {
+static char *match_token_exact(tfs_token_lookup_t *token_table, size_t count, tfs_token_t *key) {
     int i;
     for (i=count-1; i>=0; i--) {
         tfs_token_t *candidate = &token_table[i].token;
@@ -82,4 +82,35 @@ char *tfs_match_token(tfs_token_lookup_t *token_table, size_t count, tfs_token_t
     }
 
     return NULL;
+}
+
+char *tfs_match_token(tfs_token_lookup_t *token_table, size_t count, tfs_token_t *key) {
+    char *match = match_token_exact(token_table, count, key);
+    if (match == NULL && key->time_unit == TFS_YEAR && key->style == TFS_NUMBER
+            && key->pad_len >= 4 && key->relative_to == TFS_ERA) {
+        /* A year zero-padded to four or more digits (UTS35 "yyyy") is, for any
+         * date that matters, the same as a plain full year (Excel "yyyy", POSIX "%Y"). */
+        tfs_token_t relaxed = *key;
+        relaxed.pad_len = 0;
+        relaxed.pad_char = 0;
+        match = match_token_exact(token_table, count, &relaxed);
+    }
+    if (match == NULL && (key->uppercase || key->lowercase)) {
+        /* Few formats can force the case of a month, day or AM/PM name (SAS
+         * "JAN", Stata "am"). Prefer the target's natural case to failing. */
+        tfs_token_t relaxed = *key;
+        relaxed.uppercase = 0;
+        relaxed.lowercase = 0;
+        match = match_token_exact(token_table, count, &relaxed);
+        if (match == NULL) {
+            relaxed.uppercase = 1;
+            match = match_token_exact(token_table, count, &relaxed);
+        }
+        if (match == NULL) {
+            relaxed.uppercase = 0;
+            relaxed.lowercase = 1;
+            match = match_token_exact(token_table, count, &relaxed);
+        }
+    }
+    return match;
 }

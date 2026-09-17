@@ -9,6 +9,7 @@
 
 %%{
     machine excel_format;
+    alphtype unsigned char;
     write data nofinal noerror;
 }%%
 
@@ -20,6 +21,7 @@ tfs_error_e tfs_parse_excel_format_string_internal(const unsigned char *bytes, s
     unsigned char *eof = pe;
 
     int cs;
+    int section = 0;
 
    %%{
        action start_string {
@@ -30,19 +32,25 @@ tfs_error_e tfs_parse_excel_format_string_internal(const unsigned char *bytes, s
            str_start = fpc;
        }
 
+       # Only the first section (positive numbers / dates) is turned into tokens
        action handle_code {
-           if (ctx->handle_code) {
+           if (section == 0 && ctx->handle_code) {
                ctx->handle_code((char *)str_start, fpc - str_start, ctx->user_ctx);
            }
        }
 
        action handle_literal {
-           if (ctx->handle_literal) {
+           if (section == 0 && ctx->handle_literal) {
                ctx->handle_literal((char *)str_start, fpc - str_start, ctx->user_ctx);
            }
        }
 
-       display_character = ( "$" | "-" | "+" | "/" | "(" | ")" | ":" | "!" | "^" | "&" | "'" | "~" | "{" | "}" | "<" | ">" | "=" | " " ) >start_string %handle_literal;
+       action next_section {
+           section++;
+       }
+
+       # Excel displays these characters, and anything outside ASCII, without quoting
+       display_character = ( "$" | "-" | "+" | "/" | "(" | ")" | ":" | "!" | "^" | "&" | "'" | "~" | "{" | "}" | "<" | ">" | "=" | " " | 0x80..0xff ) >start_string %handle_literal;
 
        escaped_character = "\\" any >start_string %handle_literal;
 
@@ -62,17 +70,19 @@ tfs_error_e tfs_parse_excel_format_string_internal(const unsigned char *bytes, s
 
        day = "D"+ | "d"+;
 
-       year = "y"+;
+       year = "Y"+ | "y"+;
 
        hour = "H"+ | "h"+;
 
-       second = ("s" | "ss") ( "." decimal_digit+ )?;
+       second = ("S" | "SS" | "s" | "ss") ( "." decimal_digit+ )?;
+
+       elapsed = "[" ( "H"+ | "h"+ | "M"+ | "m"+ | "S"+ | "s"+ ) "]";
 
        am_pm = "AM/PM" | "am/pm" | "A/P" | "a/p" | "AM" | "am" | "A" | "a" | "PM" | "pm" | "P" | "p";
 
-       date_time = ( year | month | day | hour | second | am_pm ) >start_code %handle_code;
+       date_time = ( year | month | day | hour | second | am_pm | elapsed ) >start_code %handle_code;
 
-       color = "[" ( alpha+ | ( "$-" alnum+ ) ) "]";
+       color = "[" ( ( alpha+ - ( "H"+ | "h"+ | "M"+ | "m"+ | "S"+ | "s"+ ) ) | ( "$-" alnum+ ) ) "]";
 
        comparison_operator = "=" | ">" | "<" | ">=" | "<=" | "<>";
 
@@ -94,7 +104,9 @@ tfs_error_e tfs_parse_excel_format_string_internal(const unsigned char *bytes, s
                condition 
                )**;
 
-       main := section ( ";" section ( ";" section ( ";" section )? )? )?;
+       section_break = ";" >next_section;
+
+       main := section ( section_break section ( section_break section ( section_break section )? )? )?;
 
         write init;
         write exec;

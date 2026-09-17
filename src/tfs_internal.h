@@ -21,3 +21,10 @@ tfs_token_t *append_quarter(tfs_token_array_t *token_array, tfs_style_e style);
 tfs_token_t *append_year(tfs_token_array_t *token_array, tfs_time_unit_e relative_to, tfs_style_e style);
 tfs_token_t *append_literal_char(tfs_token_array_t *token_array, char text);
 tfs_token_t *append_literal_string(tfs_token_array_t *token_array, char *text);
+
+/* Copy up to sizeof(token->text)-1 bytes of a literal into the token, always NUL-terminated */
+void tfs_copy_literal(tfs_token_t *token, const char *text, size_t len);
+
+/* Common tail for the generators: NUL-terminate the output and translate a
+ * NULL / exhausted cursor into the right error code. */
+tfs_error_e tfs_finish_output(char *outbuf, size_t outbuf_len, char *cursor, tfs_error_e error);

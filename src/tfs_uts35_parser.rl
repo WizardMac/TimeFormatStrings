@@ -11,6 +11,7 @@
 
 %%{
     machine uts35_format;
+    alphtype unsigned char;
     write data nofinal noerror;
 }%%
 
@@ -75,15 +76,15 @@ tfs_error_e tfs_parse_uts35_format_string_internal(
 
        time_zone = [z]{1,4} | [Z]{1,5} | "O" | "OOOO" | "v" | "vvvv" | [V]{1,4} | [X]{1,5} | [x]{1,5};
 
-       code = (era | year | quarter | month | week | day | week_day | period | hour | minute | second | fractional_second | millisecond) >start_string %handle_code; 
+       code = (era | year | quarter | month | week | day | week_day | period | hour | minute | second | fractional_second | millisecond | time_zone) >start_string %handle_code; 
 
        quoted_string = ("'" ( "''" | [^'] )+  "'") >start_string %handle_literal;
 
-       display_characters = ( ascii - alpha - ['] )+ >start_string %handle_literal;
+       display_characters = ( any - alpha - ['] )+ >start_string %handle_literal;
 
        single_quote = "''" %handle_single_quote;
 
-       main := (code | display_characters | quoted_string | single_quote | time_zone )**;
+       main := (code | display_characters | quoted_string | single_quote )**;
 
         write init;
         write exec;

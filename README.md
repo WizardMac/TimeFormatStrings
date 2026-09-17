@@ -23,4 +23,10 @@ Example usage:
 The POSIX format can be fed to `strftime` and `strptime` in order to present
 and parse specific time values.
 
+`tfs_convert` returns `TFS_PARSE_ERROR` if the input is not a valid format
+string, `TFS_CANT_REPRESENT` if the output format has no equivalent for one of
+the input's fields (for example a time zone in an Excel format), and
+`TFS_MORE_BUFFER_PLEASE` if the output does not fit. In every case the output
+buffer holds a NUL-terminated string, truncated if necessary.
+
 Type "make" to build the library and "make test" to run the test suite.

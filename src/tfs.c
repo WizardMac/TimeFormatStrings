@@ -74,7 +74,7 @@ tfs_error_e tfs_field_mask(const char *inbuf, tfs_format_e infmt, unsigned short
     unsigned short mask = 0;
     int i;
     tfs_error_e error = TFS_OK;
-    tfs_token_array_t *token_array = parse_string(inbuf, infmt, &print_error, &error);
+    tfs_token_array_t *token_array = parse_string(inbuf, infmt, NULL, &error);
     if (token_array == NULL)
         return error;
 
@@ -115,6 +115,9 @@ tfs_error_e tfs_convert(const char *inbuf, tfs_format_e infmt, char *outbuf, tfs
     tfs_error_e error = TFS_OK;
     tfs_token_array_t *tokens = parse_string(inbuf, infmt, &print_error, &error);
     if (tokens == NULL) {
+        /* Always leave a valid string behind */
+        if (outbuf_len > 0)
+            outbuf[0] = '\0';
         return error;
     }
 

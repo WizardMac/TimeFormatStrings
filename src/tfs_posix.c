@@ -31,6 +31,8 @@ tfs_token_lookup_t posix_tokens[] = {
     { .text = "%w", .token = { .time_unit = TFS_DAY, .relative_to = TFS_WEEK, .style = TFS_NUMBER } },
     { .text = "%Y", .token = { .time_unit = TFS_YEAR, .relative_to = TFS_ERA, .style = TFS_NUMBER } },
     { .text = "%y", .token = { .time_unit = TFS_YEAR, .relative_to = TFS_CENTURY, .style = TFS_2DIGIT } },
+    { .text = "%Z", .token = { .time_unit = TFS_TIMEZONE, .style = TFS_ABBREV } },
+    { .text = "%z", .token = { .time_unit = TFS_TIMEZONE, .style = TFS_NUMBER } },
 };
 
 static char *format_token(char *outbuf, size_t outbuf_len, tfs_token_t *token) {
@@ -80,9 +82,7 @@ tfs_error_e tfs_posix_generate(char *format, size_t format_len, tfs_token_array_
         if (out == last)
             break;
     }
-    if (out < last)
-        *out++ = '\0';
-    return error;
+    return tfs_finish_output(format, format_len, out, error);
 }
 
 tfs_token_array_t *tfs_posix_parse(const char *bytes, tfs_handle_string_callback handle_error, tfs_error_e *outError) {
@@ -95,9 +95,7 @@ tfs_token_array_t *tfs_posix_parse(const char *bytes, tfs_handle_string_callback
             if (literal_len) {
                 new_token = tfs_append_token(tokens);
                 new_token->is_literal = 1;
-                if (literal_len > sizeof(new_token->text))
-                    literal_len = sizeof(new_token->text);
-                memcpy(new_token->text, p-literal_len, literal_len);
+                tfs_copy_literal(new_token, p-literal_len, literal_len);
                 literal_len = 0;
             }
             p++;
@@ -117,6 +115,8 @@ tfs_token_array_t *tfs_posix_parse(const char *bytes, tfs_handle_string_callback
                 } else {
                     new_token->text[0] = *p;
                 }
+            } else if (*p == 'h') {
+                new_token = append_month(tokens, TFS_ABBREV);
             } else if (*p == 'D') {
                 new_token = append_month(tokens, TFS_2DIGIT);
                 new_token = append_literal_char(tokens, '/');
@@ -181,9 +181,7 @@ tfs_token_array_t *tfs_posix_parse(const char *bytes, tfs_handle_string_callback
     if (literal_len) {
         new_token = tfs_append_token(tokens);
         new_token->is_literal = 1;
-        if (literal_len > sizeof(new_token->text))
-            literal_len = sizeof(new_token->text);
-        memcpy(new_token->text, p-literal_len, literal_len);
+        tfs_copy_literal(new_token, p-literal_len, literal_len);
     }
     return tokens;
 }

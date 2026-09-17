@@ -35,7 +35,8 @@ typedef enum {
     TFS_HALF_YEAR         = 0x0400,
     TFS_YEAR              = 0x0800,
     TFS_CENTURY           = 0x1000,
-    TFS_ERA               = 0x2000
+    TFS_ERA               = 0x2000,
+    TFS_TIMEZONE          = 0x4000
 } tfs_time_unit_e;
 
 typedef enum {
