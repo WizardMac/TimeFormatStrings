@@ -25,7 +25,7 @@ jobs:
         compiler: [ gcc, clang ]
     steps:
       - name: Install packages
-        run: brew install automake
+        run: brew install autoconf automake libtool
       - uses: actions/checkout@v2
       - name: Autoconf
         run: autoreconf -i
